@@ -23,7 +23,7 @@
                 echo "User email already exists";
             } else {
                 //update new user in the table
-                $stmt1 = $connection->prepare("INSERT INTO user(user_email, user_firstname, user_lastname, user_title, user_pwd, user_type) VALUES (?, ?, ?, ?, ?, ?)"); 
+                $stmt1 = $connection->prepare("INSERT INTO user(user_email, user_first_name, user_last_name, user_title, user_password, user_role) VALUES (?, ?, ?, ?, ?, ?)"); 
                 $stmt1->bind_param("sssssi", $user_email, $user_firstname, $user_lastname, $user_title, $user_pwd, $user_type);
                 $stmt1->execute();
             }
@@ -55,7 +55,7 @@
             $res_id = $connection->insert_id;
 
             //insert res_id_pk into user table
-            $stmt2 = $connection->prepare("UPDATE user SET type_id = ? WHERE user_id_pk = ?");
+            $stmt2 = $connection->prepare("UPDATE user SET role_id = ? WHERE user_id_pk = ?");
             $stmt2->bind_param("ii", $res_id, $last_id);
             $stmt2->execute();
 
@@ -84,10 +84,10 @@
 
             //get council id from the council table based on council name
             // TODO fix against SQL injection
-            $sql = "SELECT council_id_pk FROM council WHERE council_name = '$user_council' ";
+            $sql = "SELECT counc_id_pk FROM council WHERE counc_name = '$user_council' ";
             $result = $connection->query($sql);
             $row = $result->fetch_assoc();
-            $council_id = $row["council_id_pk"];
+            $council_id = $row["counc_id_pk"];
 
             // Check if business name already exists
             $check = $connection->prepare("SELECT bus_id_pk FROM business WHERE bus_name = ?");
@@ -109,7 +109,7 @@
             $bus_id = $connection->insert_id;
 
             //insert bus_id_pk into user table
-            $stmt2 = $connection->prepare("UPDATE user SET type_id = ? WHERE user_id_pk = ?");
+            $stmt2 = $connection->prepare("UPDATE user SET role_id = ? WHERE user_id_pk = ?");
             $stmt2->bind_param("ii", $bus_id, $last_id);
             $stmt2->execute();
 
@@ -118,13 +118,13 @@
 
             //get council id from the council table based on council name
             // TODO fix against SQL injection
-            $sql = "SELECT council_id_pk FROM council WHERE council_name = '$user_council' ";
+            $sql = "SELECT counc_id_pk FROM council WHERE counc_name = '$user_council' ";
             $result = $connection->query($sql);
             $row = $result->fetch_assoc();
-            $council_id = $row["council_id_pk"];
+            $council_id = $row["counc_id_pk"];
 
             //insert counc_id_pk into user table
-            $stmt2 = $connection->prepare("UPDATE user SET type_id = ? WHERE user_id_pk = ?");
+            $stmt2 = $connection->prepare("UPDATE user SET role_id = ? WHERE user_id_pk = ?");
             $stmt2->bind_param("ii", $council_id, $last_id);
             $stmt2->execute();
         }

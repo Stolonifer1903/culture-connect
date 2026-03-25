@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enter your details</title>
-    <link href="css/register_user.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body onload="toggleFieldsRegisterUser('resident')">
     <!-- Gets the header from a central location -->
-    <div id="header"><?php include('templates\template_navbar.php'); ?></div>
+    <div id="header"><?php include('templates/template_navbar.php'); ?></div>
     <!--Page heading-->
     <section class = "text-left py-5" style="background-color:#ACC8A2;"><div class="container"><h1>Enter your details</h1></div></section>
     <!-- Select which user type to register as -->
@@ -184,13 +183,13 @@
                                 <option value="">Select council</option>
                                 <?php
                                     include 'include/config.php';
-                                    $sql = "SELECT council_name from council";
+                                    $sql = "SELECT counc_name from council";
                                     $result = $connection->query($sql);
                                     if (!$result) {
                                         die("Invalid query: ". $connection->error);
                                     }
                                     while($row = $result->fetch_assoc()){
-                                        echo "<option value='" . $row['council_name'] . "'>" . $row["council_name"] . "</option>";
+                                        echo "<option value='" . $row['counc_name'] . "'>" . $row["counc_name"] . "</option>";
                                     }  
                                 ?> 
                             </select>
@@ -228,7 +227,7 @@
                         </td></table>
                     </tr>
                 </table>
-                <input type= "hidden" id="user_type" name="user_type" value=''></td>
+                <input type= "hidden" id="user_type" name="user_type" value=''>
             </form>
         </div>
     </section>

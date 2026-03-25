@@ -58,12 +58,12 @@
                                 <td>" . $row["of_name"] . "</td>
                                 <td>" . $row["int_name"] . "</td>
                                 <td>" . $row["loc_name"] . "</td>
-                                <td>" . $row["of_descr"] . "</td>
+                                <td>" . $row["of_description"] . "</td>
                                 <td>" . $row["of_details"] . "</td>
                                 <td>" . $row["of_cultural_benefits"] . "</td>
                                 <td>" . $row["of_price_range_description"] . "</td>
                                 <td>
-                                    <a class='btn btn-primary btn-sm' href='/cultureconnect/include05EditOffering.php?of_id_pk=$row[of_id_pk]'>Update</button>
+                                    <a class='btn btn-primary btn-sm' href='/cultureconnect/05EditOffering.php?of_id_pk=$row[of_id_pk]'>Update</button>
                                     <a class='btn btn-danger btn-sm' href='/cultureconnect/include/deleteOffering.php?of_id_pk=$row[of_id_pk]'>Delete</a>
                                 </td>
                             </tr>";

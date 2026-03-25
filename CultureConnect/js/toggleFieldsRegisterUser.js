@@ -1,5 +1,6 @@
 
 function toggleFieldsRegisterUser(register_as) {
+    console.log("toggleFieldsRegisterUser called with: " + register_as);
     var gender = document.getElementById("gender")
     var yob = document.getElementById("birth_year")
     var interests = document.getElementById("interests")
