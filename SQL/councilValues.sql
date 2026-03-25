@@ -1,0 +1,10 @@
+INSERT INTO council VALUES ('10', 'Welwyn and Hatfield',                  'https://www.welhat.gov.uk/',         'https://www.welhat.gov.uk/contact' );
+INSERT INTO council VALUES ('1', 'Broxbourne Borough Council',           'https://www.broxbourne.gov.uk',      'https://www.broxbourne.gov.uk/contact-us');
+INSERT INTO council VALUES ('2', 'Dacorum Borough Council',              'https://www.dacorum.gov.uk',         'https://www.dacorum.gov.uk/home/do-it-online/contact-us');
+INSERT INTO council VALUES ('3', 'East Hertfordshire District Council',  'https://www.eastherts.gov.uk',       'https://www.eastherts.gov.uk/contactus');
+INSERT INTO council VALUES ('4', 'Hertsmere Borough Council',            'https://www.hertsmere.gov.uk',       'https://www.hertsmere.gov.uk/contact-us');
+INSERT INTO council VALUES ('5', 'North Hertfordshire District Council', 'https://www.north-herts.gov.uk',     'https://www.north-herts.gov.uk/contact-us');
+INSERT INTO council VALUES ('6', 'St Albans City and District Council',  'https://www.stalbans.gov.uk',        'https://www.stalbans.gov.uk/contact-us');
+INSERT INTO council VALUES ('7', 'Stevenage Borough Council',            'https://www.stevenage.gov.uk',       'https://www.stevenage.gov.uk/contact-us');
+INSERT INTO council VALUES ('8', 'Three Rivers District Council',        'https://www.threerivers.gov.uk',     'https://www.threerivers.gov.uk/contact-us');
+INSERT INTO council VALUES ('9', 'Watford Borough Council',              'https://www.watford.gov.uk',         'https://watfordbc-self.achieveservice.com/service/General_Enquiry');
