@@ -8,6 +8,11 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+    <!--Session start-->
+    <?php
+        session_start();
+        include ('include/config.php')
+    ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates\template_navbar.php'); ?></div>
     <!--Page heading-->
@@ -16,19 +21,13 @@
     <section class = "text-left py-3">
         <div style="margin-left: 100px; margin-right: 30px;"> 
             <!-- Add a new product or service -->
-            <form id="addoffering" name="addoffering" action="05EditOffering.php" method="post">
-                <table class="table" max-width=80% >
-                    <tr>
-                        <td>
-                            <label for="addOffering"></label>
-                            <input class="btn btn-success btn-sm" type="submit" value="Add a new product or service" name="addoffering">
-                        </td>
-                    </tr>
-                </table>
+            <form id="addoffering" name="addoffering" action="05EditOffering.php" method="post" style="margin-left:200px">
+                <label for="addOffering"></label>
+                <input class="btn btn-success btn-sm" type="submit" value="Add a new product or service" name="addoffering">
             </form>
             <br>
             <table class = "table" width=80% >
-                <thead style="border-bottom-width: 3px; border-bottom-color: black">
+                <thead style="border-bottom-width: 3px; border-bottom-color: white;>
                     <tr>
                         <th style="display:none">ID</th>
                         <th>Business name</th>
@@ -42,7 +41,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style="color: white; background-color: #527558;">
                     <!-- TODO: UPDATE PHP -->
                     <?php
                         include 'include/config.php';
@@ -63,7 +62,7 @@
                                 <td>" . $row["of_cultural_benefits"] . "</td>
                                 <td>" . $row["of_price_range_description"] . "</td>
                                 <td>
-                                    <a class='btn btn-primary btn-sm' href='/cultureconnect/05EditOffering.php?of_id_pk=$row[of_id_pk]'>Update</button>
+                                    <a class='btn btn-primary btn-sm' href='/cultureconnect/06ViewOffering.php?of_id_pk=$row[of_id_pk]'>Update</button>
                                     <a class='btn btn-danger btn-sm' href='/cultureconnect/include/deleteOffering.php?of_id_pk=$row[of_id_pk]'>Delete</a>
                                 </td>
                             </tr>";

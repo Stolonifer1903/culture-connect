@@ -30,13 +30,25 @@ p {
 .table {
   margin-left: auto;
   margin-right: auto;
-  --bs-table-bg: var(--light);
+  --bs-table-bg: none;
   border-style: var(--primary);
   border-radius: 10px;
   border-collapse: collapse;
   border-color: var(--light);
   width: 85%;
+
+  > :not(caption) > * > * {
+    color: inherit;
+  }
+
+  > thead{
+    color: white;
+    background-color: var(--primary);
+  }
+
 }
+
+
 
 /* Header */
 .nav-link {

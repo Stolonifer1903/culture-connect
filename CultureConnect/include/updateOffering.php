@@ -1,5 +1,5 @@
 <?php
-    var_dump($_POST);
+    //var_dump($_POST);
     //exit;
     include 'config.php';
     if (isset($_POST["submit"])){
