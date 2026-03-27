@@ -8,6 +8,10 @@
     <link href = "css/style.css" rel="stylesheet">
 </head>
 <body>
+    <?php
+        session_start();
+        include ('include/config.php')
+    ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates\template_navbar.php'); ?></div>
     <!-- Welcome message -->
@@ -30,7 +34,7 @@
     <section class="text-center py-2" >
         <div id="login" class="container">
         <h2> Log in to view our initiatives </h2>
-            <form name="admin_post" method="post" action="index.php">
+            <form name="login" method="post" action="include/login.php">
                 <table class = "table" height="140" style="width: 35%;" >
                     <tr>
                         <td >Email Address: * </td>
@@ -38,11 +42,11 @@
                     </tr>
                     <tr>
                         <td >Password: * </td>
-                        <td ><input type="password" name="admin_pass" /></td>
+                        <td ><input type="password" name="password" /></td>
                     </tr>
                     <tr>
                         <td ></td>
-                        <td><input class='btn btn-custom' style="margin-right:25px;margin-top:20px" type="submit" value="Log in"></td>
+                        <td><input class='btn btn-custom' style="margin-right:25px;margin-top:20px" type="submit" value="Log in" id="login" name="login"></td>
                     </tr>
                     <tr>
                         <td colspan="2" >
@@ -51,6 +55,17 @@
                         </td>
                 </table>
             </form>
+            <?php
+                //session_start();
+                include ('include/config.php');
+                //var_dump($_SESSION);
+                if(isset($_SESSION['error'])) {
+                    echo "<p color: red>" . $_SESSION['error'] . "</p>";
+                    unset($_SESSION['error']);
+                } else {
+                    echo "<p></p>";
+                }
+            ?>
         </div>
     </section>
     </br>
