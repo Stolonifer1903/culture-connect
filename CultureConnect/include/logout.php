@@ -1,0 +1,9 @@
+<?php
+    // Start the session
+    session_start();
+    // Destroy all session data
+    session_destroy();
+    // Redirect to index.php
+    header("Location: ../00Home.php");
+    exit;
+?>

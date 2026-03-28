@@ -9,6 +9,10 @@
 </head>
 
 <body onload="toggleFieldsRegisterUser('resident')">
+    <?php
+        session_start();
+        include ('include/config.php')
+    ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
     <!--Page heading-->
@@ -69,7 +73,23 @@
                     </tr>
                     <tr id="birth_year">
                         <td><label for="YOB">Year of birth:</label></td>
-                        <td><input type="number" id="yob" name="yob" min="1925" max="2020"></td>
+                        <td><select id="yob" name="yob">
+                            <option>Select year of birth</option>
+                        </select></td>
+                        
+                        <!-- <td><input type="date" id="yob" name="yob" min="1925" max="2020"></td> -->
+                        <script>
+                            let yy = document.getElementById('yob');
+                            let yymin = 1926;
+                            let year = 2015;
+                            while (year >= yymin) {
+                                let opt = document.createElement('option');
+                                opt.text = year;
+                                opt.value = year;
+                                yy.add(opt);
+                                year -= 1;
+                            } 
+                        </script>
                     </tr>
                     <tr id="gender">
                         <td><label>Gender:</label></td>
