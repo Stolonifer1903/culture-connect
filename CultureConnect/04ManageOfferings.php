@@ -52,18 +52,18 @@
                         }
                         while($row = $result->fetch_assoc()){
                             echo "<tr>
-                                <td style='display: none; '>" . $row["of_id_pk"] . "</td>
-                                <td>" . $row["bus_name"] . "</td>
-                                <td>" . $row["of_name"] . "</td>
-                                <td>" . $row["int_name"] . "</td>
-                                <td>" . $row["loc_name"] . "</td>
-                                <td>" . $row["of_description"] . "</td>
-                                <td>" . $row["of_details"] . "</td>
-                                <td>" . $row["of_cultural_benefits"] . "</td>
-                                <td>" . $row["of_price_range_description"] . "</td>
+                                <td style='display: none; '>" . $row["offeringIdPk"] . "</td>
+                                <td>" . $row["businessName"] . "</td>
+                                <td>" . $row["offeringName"] . "</td>
+                                <td>" . $row["interestAreaName"] . "</td>
+                                <td>" . $row["locationName"] . "</td>
+                                <td>" . $row["offeringDescription"] . "</td>
+                                <td>" . $row["offeringDetails"] . "</td>
+                                <td>" . $row["offeringCulturalBenefits"] . "</td>
+                                <td>" . $row["offeringPriceRangeDescription"] . "</td>
                                 <td>
-                                    <a class='btn btn-primary btn-sm' href='/cultureconnect/06ViewOffering.php?of_id_pk=$row[of_id_pk]'>Update</button>
-                                    <a class='btn btn-danger btn-sm' href='/cultureconnect/include/deleteOffering.php?of_id_pk=$row[of_id_pk]'>Delete</a>
+                                    <a class='btn btn-primary btn-sm' href='/cultureconnect/06ViewOffering.php?offeringIdPk=$row[offeringIdPk]'>Update</button>
+                                    <a class='btn btn-danger btn-sm' href='/cultureconnect/include/deleteOffering.php?offeringIdPk=$row[offeringIdPk]'>Delete</a>
                                 </td>
                             </tr>";
                         }  
@@ -73,6 +73,6 @@
         </div>
     </section>
     <!-- Gets the footer from a central location -->
-    <div id="footer"><?php include('templates\template_footer.php'); ?></div>
+    <div id="footer"><?php include('templates/template_footer.php'); ?></div>
 </body>
 </html>

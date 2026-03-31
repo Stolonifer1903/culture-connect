@@ -41,13 +41,13 @@
                                 <option value="">Select location</option>
                                  <?php
                                     include 'include/config.php';
-                                    $sql = "SELECT loc_name from location";
+                                    $sql = "SELECT locationName from location";
                                     $result = $connection->query($sql);
                                     if (!$result) {
                                         die("Invalid query: ". $connection->error);
                                     }
                                     while($row = $result->fetch_assoc()){
-                                        echo "<option value='" . $row['loc_name'] . "'>" . $row["loc_name"] . "</option>";
+                                        echo "<option value='" . $row['locationName'] . "'>" . $row["locationName"] . "</option>";
                                     }  
                                 ?> 
                             </select>
@@ -62,13 +62,13 @@
                                 <!--TODO: UPDATE PHP TO ONLY SHOW AVAILABLE OPTIONS-->
                                 <?php
                                     include 'include/config.php';
-                                    $sql = "SELECT int_name from interests";
+                                    $sql = "SELECT interestAreaName from interestarea";
                                     $result = $connection->query($sql);
                                     if (!$result) {
                                         die("Invalid query: ". $connection->error);
                                     }
                                     while($row = $result->fetch_assoc()){
-                                        echo "<option value='" . $row["int_name"] . "'>" . $row["int_name"] . "</option>";
+                                        echo "<option value='" . $row["interestAreaName"] . "'>" . $row["interestAreaName"] . "</option>";
                                     }  
                                 ?> 
                             </select>
@@ -123,8 +123,8 @@
                     <!-- TODO: Add PHP to update existing details -->
                     <?php
                         include 'include/config.php';
-                        if (isset($_GET["of_id_pk"])){
-                            $of_id_pk = $_GET["of_id_pk"];
+                        if (isset($_GET["offeringIdPk"])){
+                            $of_id_pk = $_GET["offeringIdPk"];
                             
 
                         }

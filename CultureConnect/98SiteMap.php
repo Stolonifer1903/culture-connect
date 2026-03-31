@@ -8,6 +8,10 @@
     <link href = "css/style.css" rel="stylesheet">
 </head>
 <body>
+    <?php
+        session_start();
+        include ('include/config.php')
+    ?>
      <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates\template_navbar.php'); ?></div>
     <!-- Header-->

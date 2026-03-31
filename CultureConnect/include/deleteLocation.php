@@ -1,15 +1,17 @@
 <?php
     include 'config.php';
-    if (isset($_GET["loc_id_pk"])){
-        $loc_id_pk = $_GET["loc_id_pk"];
-        $delete_query = "DELETE FROM council WHERE loc_id_pk = $loc_id_pk";
+    if (isset($_GET["locationIdPk"])){
+        $loc_id_pk = $_GET["locationIdPk"];
+        $delete_query = "DELETE FROM location WHERE locationIdPk = $loc_id_pk";
         $result = $connection->query($delete_query);
         if ($result) {
             echo "Location deleted";
-            header("Location: ../EditLocations.php");
+            header("Location: /cultureconnect/01EditLocations.php");
         }
         else {
             echo "Error";
         }
     }
+
+    //TODO: DECIDE ON WHAT HAPPENS TO OFFERINGS AND RESIDENTS WHOSE LOCATION IS NO LONGER VALID//
 ?>

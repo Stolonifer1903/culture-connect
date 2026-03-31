@@ -1,23 +1,24 @@
 <?php
     include 'config.php';
-    if (isset($_GET["of_id_pk"])){
-        $of_id_pk = $_GET["of_id_pk"];
+    if (isset($_GET["offeringIdPk"])){
+        $of_id_pk = $_GET["offeringIdPk"];
         //get offering info from the view_offerings view
-        $stmt = $connection->prepare("SELECT * FROM view_offerings WHERE of_id_pk = ?");
+        $stmt = $connection->prepare("SELECT * FROM view_offerings WHERE offeringIdPk = ?");
         $stmt->bind_param("i", $of_id_pk);
         $stmt->execute();
         $result = $stmt->get_result();
         
         if ($result) {
             $row = $result->fetch_assoc();
-            $bus_name = $row["bus_name"];
-            $of_name = $row["of_name"] ;
-            $int_name = $row["int_name"] ;
-            $loc_name = $row["loc_name"] ;
-            $of_description = $row["of_description"] ;
-            $of_details = $row["of_details"] ;
-            $of_cultural_benefits = $row["of_cultural_benefits"] ;
-            $of_price_range_description = $row["of_price_range_description"] ; 
+            $bus_name = $row["businessName"];
+            $of_name = $row["offeringName"] ;
+            $int_name = $row["interestAreaName"] ;
+            $loc_name = $row["locationName"] ;
+            $of_description = $row["offeringDescription"] ;
+            $of_details = $row["offeringDetails"] ;
+            $of_cultural_benefits = $row["offeringCulturalBenefits"] ;
+            $of_awards = $row["offeringAwards"] ; 
+            $of_price_range_description = $row["offeringPriceRangeDescription"] ; 
             
             // echo $bus_name;
             // echo $of_name;

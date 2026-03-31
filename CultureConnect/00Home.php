@@ -13,62 +13,90 @@
         include ('include/config.php')
     ?>
     <!-- Gets the header from a central location -->
-    <div id="header"><?php include('templates\template_navbar.php'); ?></div>
+    <div id="header"><?php include('templates/template_navbar.php'); ?></div>
+
     <!-- Welcome message -->
-    <section class="text-center py-5" style="background-color:#ACC8A2;">
+    <section class="text-center py-4" style="background-color:#3A5A40;">
         <div class="container">
-            <h1>Welcome to Culture Connect</h1>
-            <p>CultureConnect”, is a web-based cultural development initiative supported by local 
-            councils and creative industry partners. The goal of the web-based project is to 
-            develop an efficient, user-friendly digital platform that promotes local arts, culture
-            , and innovative businesses by connecting residents with cultural experiences, products,
-            and services available in their community. The platform encourages cultural participation, 
-            supports local creative SMEs, and helps councils understand which cultural offerings 
-            residents value most. By collecting community feedback through a structured voting system,
-            councils and cultural organisations can make informed decisions about funding, programming,
-            and local cultural development.</p>
+            <h1 style="color:white">Welcome to Culture Connect</h1>
+            <p style="color:white">Discover, celebrate, and shape the culture on your doorstep. <br> Your voice helps local councils and creative businesses build a thriving cultural scene that truly reflects what your community loves.</p>
         </div>
     </section>
-    </br>
-    <!-- Login box - should only be visible if session is logged in - TODO -->
-    <section class="text-center py-2" >
-        <div id="login" class="container">
-        <h2> Log in to view our initiatives </h2>
-            <form name="login" method="post" action="include/login.php">
-                <table class = "table" height="140" style="width: 35%;" >
-                    <tr>
-                        <td >Email Address: * </td>
-                        <td ><input type="text" name="email" /></td>
-                    </tr>
-                    <tr>
-                        <td >Password: * </td>
-                        <td ><input type="password" name="password" /></td>
-                    </tr>
-                    <tr>
-                        <td ></td>
-                        <td><input class='btn btn-custom' style="margin-right:25px;margin-top:20px" type="submit" value="Log in" id="login" name="login"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" >
-                            <a href="02RegisterUser.php" class='link-dark' style="margin-left: 80px;">Register</a> 
-                            <a href="99FeatureComing.html" class='link-dark' style="margin-left: 50px">Reset password</a>
-                        </td>
-                </table>
-            </form>
-            <?php
-                //session_start();
-                include ('include/config.php');
-                //var_dump($_SESSION);
-                if(isset($_SESSION['error'])) {
-                    echo "<p color: red>" . $_SESSION['error'] . "</p>";
-                    unset($_SESSION['error']);
-                } else {
-                    echo "<p></p>";
-                }
-            ?>
+
+    <!-- Banner -->
+    <div style="width:100%; height:350px; background-image: url('images/banner2.jpg'); background-size: cover;"></div>
+
+    <!-- HERO -->
+    <section class="text-center py-4" style="background-color:#ACC8A2;">
+    <div class="container">
+        <h1>Discover Local Culture</h1>
+        <p>Find art, events and businesses near you</p>
+        <button class="btn btn-custom">Explore</button>
+    </div>
+    </section>
+
+    <!-- CARDS -->
+    <section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card">
+            <div class="card-body">
+                <h5>Local Artists</h5>
+                <p>Support creatives in your area.</p>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+            <div class="card-body">
+                <h5>Events</h5>
+                <p>Discover cultural experiences.</p>
+            </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+            <div class="card-body">
+                <h5>Businesses</h5>
+                <p>Explore innovative local shops.</p>
+            </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+    </section>
+    <!-- HERO -->
+    <section class="text-center py-3" style="background-color:#ACC8A2;">
+        <div class="container">
+            <h1>Get involved</h1>
+            <p>Register your council or business here<p>
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-3">
+                    <div class="card" style="background-color:#73916E;">
+                        <div class="card-body" style="color:white;">
+                            <h5>Councils</h5>
+                            <p style="color:white;">Register your council area to showcase local offerings</p>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card" style="background-color:#73916E;">
+                        <div class="card-body" style="color:white;">
+                            <h5>Businesses</h5>
+                            <p style="color:white;">Register your business to share your products or services with the community</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-    </br>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates\template_footer.php'); ?></div>
 </body>

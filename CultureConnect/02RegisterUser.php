@@ -203,13 +203,14 @@
                                 <option value="">Select council</option>
                                 <?php
                                     include 'include/config.php';
-                                    $sql = "SELECT counc_name from council";
+                                    $sql = "SELECT councilName from council";
                                     $result = $connection->query($sql);
                                     if (!$result) {
                                         die("Invalid query: ". $connection->error);
                                     }
                                     while($row = $result->fetch_assoc()){
-                                        echo "<option value='" . $row['counc_name'] . "'>" . $row["counc_name"] . "</option>";
+                                        $name = htmlspecialchars($row['councilName'], ENT_QUOTES, 'UTF-8');
+                                        echo "<option value='" . $name . "'>" . $name . "</option>";
                                     }  
                                 ?> 
                             </select>
@@ -222,15 +223,16 @@
                                 <option value="">Select location</option>
                                  <?php
                                     include 'include/config.php';
-                                    $sql = "SELECT loc_name from location";
+                                    $sql = "SELECT locationName FROM location";
                                     $result = $connection->query($sql);
                                     if (!$result) {
-                                        die("Invalid query: ". $connection->error);
+                                        die("Invalid query: " . $connection->error);
                                     }
-                                    while($row = $result->fetch_assoc()){
-                                        echo "<option value='" . $row['loc_name'] . "'>" . $row["loc_name"] . "</option>";
-                                    }  
-                                ?> 
+                                    while ($row = $result->fetch_assoc()) {
+                                        $name = htmlspecialchars($row['locationName'], ENT_QUOTES, 'UTF-8');
+                                        echo "<option value='" . $name . "'>" . $name . "</option>";
+                                    }
+                                ?>
                             </select>
                         </td>
                     </tr>
