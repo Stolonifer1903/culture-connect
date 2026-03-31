@@ -8,10 +8,38 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+    <?php
+        session_start();
+        include ('include/config.php')
+    ?>
     <!-- Gets the header from a central location -->
-    <div id="header"><?php include('templates\template_navbar.php'); ?></div>
+    <!-- <div id="header"><?php //include('templates/template_navbar.php'); ?></div> -->
     <!-- Main content -->
-    <section class = "text-left py-5" style="background-color:#ACC8A2;"><h1 style="margin-left: 150px;">Locations</h1></section>
+    <!-- Get header based on council or admin. Show error page if other user type navigated there by accident-->
+     <?php
+        include ('include/config.php');
+        $user_role = $_SESSION['role'];
+        $role_id = $_SESSION['role_id'];
+        $text = '';
+        
+        if ($user_role == '3') {
+            $sql = "SELECT councilName FROM council WHERE councilIdPk = $role_id";
+            $result = $connection->query($sql);
+            if (!$result) {
+                die("Invalid query: ". $connection->error);
+            }
+            $row = $result->fetch_assoc();
+            $text = $row['councilName'];
+        } else if ($user_role == '4') {
+            $text = 'Admin';
+        } else {
+            // Redirect the user to error page
+            header("Location: /CultureConnect/error.php");
+            exit();
+        }
+        echo "<section class = 'text-left py-5' style='background-color:#ACC8A2;'><h1 style='margin-left: 150px;'>Locations - " . $text . "</h1></section>" 
+    ?>
+     
     <section class = "text-left py-5"style="margin-left: 150px;" > 
         <div id="locations">
             <br>
@@ -29,36 +57,48 @@
             </form>
             <br>
             <!-- Display and edit locations -->  
-            <table class = "table" style="width: 97%;">
-                <thead style="border-bottom-width: 3px; border-bottom-color: black">
-                    <tr>
-                        <th style="display: none; ">ID</th> <!-- TODO: Hide column -->
-                        <th>Council</th>
-                        <th>Location</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <table class = "table" style="width: 60%;">
                     <?php
                         include 'include/config.php';
-                        $sql = "SELECT * FROM location";
+                        $role_id = $_SESSION['role_id'];
+                        $user_role = $_SESSION['role'];
+                        if ($user_role == 3) {
+                            $sql = "SELECT * FROM location WHERE councilIdPk = $role_id";
+                            $council_header = "<th style='display: none; '>Council</th>";
+                        } else if ($user_role == 4) {
+                            $sql = "SELECT locationIdPk, councilName, locationName FROM location l, council c WHERE c.councilIdPk = l.councilIdPk";
+                            $council_header = "<th>Council</th>";
+                        } 
+                        
+                        echo    "<thead style='border-bottom-width: 3px; border-bottom-color: black'>
+                                    <tr>
+                                        <th style='display: none; '>ID</th>" 
+                                        . $council_header . 
+                                        "<th>Location</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>";
+
                         $result = $connection->query($sql);
                         if (!$result) {
                             die("Invalid query: ". $connection->error);
                         }
                         while($row = $result->fetch_assoc()){
-                            echo "<tr>
-                                <td style='display: none; '>" . $row["loc_id_pk"] . "</td>
-                                <td>" . $row["counc_id_pk"] . "</td>
-                                <td>" . $row["loc_name"] . "</td>
-                                <td>
-                                    <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#updaterModal' data-value='$row[loc_id_pk]'>Update</button>
-                                    <a class='btn btn-danger btn-sm' href='/cultureconnect/include/deleteLocation.php?loc_id_pk=$row[loc_id_pk]'>Delete</a>
-                                </td>
-                            </tr>";
+                            if ($user_role == 3) {$council_display ="<td style='display: none; '>" . $row["councilIdPk"] . "</td>";} else {$council_display ="<td>" . $row["councilName"] . "</td>";}
+                            echo    "<tr>
+                                        <td style='display: none; '>" . $row["locationIdPk"] . "</td>"
+                                        . $council_display . 
+                                        "<td>" . $row["locationName"] . "</td>
+                                        <td>
+                                            <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#updaterModal' data-value='$row[locationIdPk]'>Update</button>
+                                            <a class='btn btn-danger btn-sm' href='/cultureconnect/include/deleteLocation.php?locationIdPk=$row[locationIdPk]'>Delete</a>
+                                        </td>
+                                    </tr>
+                                </tbody> ";
                         }  
                     ?> 
-                </tbody>   
+                  
             </table>
         </div>
     </section>
@@ -71,8 +111,8 @@
       </div>
       <form id="RenameLocation" name="RenameLocation" action="include/updateLocation.php" method="post">
       <div class="modal-body">
-            <input type="text" id="loc_name" name="loc_name" required size="40%">
-            <input type='hidden' id='loc_id_pk' name='loc_id_pk'>
+            <input type="text" id="locationName" name="locationName" required size="40%">
+            <input type='hidden' id='locationIdPk' name='locationIdPk'>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -87,16 +127,10 @@
         const updaterModal = document.getElementById('updaterModal');
         updaterModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
-            document.getElementById('loc_id_pk').value = button.getAttribute('data-value');
+            document.getElementById('locationIdPk').value = button.getAttribute('data-value');
         });
     </script>
-    <script> 
-            $(function(){
-            $("navbar").load("templates/template_navbar.html"); 
-            $("#included_footer").load("template/footer.html"); 
-            });
-    </script> 
     <!-- Gets the footer from a central location -->
-    <div id="footer"><?php include('templates\template_footer.php'); ?></div>
+    <!-- <div id="footer"><?//php include('templates/template_footer.php'); ?></div> -->
 </body>
 </html>

@@ -20,8 +20,7 @@ set_exception_handler(function ($e) {
     error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
 
     // Redirect the user to our friendly error page
-    // Adjust the path if your error.php isn't in the same folder relative to the script running
-    header("Location: /culture-connect/CultureConnect/error.php");
+    header("Location: /CultureConnect/error.php");
     exit();
 });
 

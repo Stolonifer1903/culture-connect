@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit business</title>
+    <title>Edit council</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -16,17 +16,17 @@
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
     <!--Page heading-->
-    <section class = "text-left py-5" style="background-color:#ACC8A2;"><h1><div class="container"> Edit business details</h1></div></section>
+    <section class = "text-left py-5" style="background-color:#ACC8A2;"><h1><div class="container"> Edit council details</h1></div></section>
     <!-- Main content -->
     <section class = "text-left py-3">
         <div class="container"> 
-            <!-- Table containing business details -->
-            <form id="edit_bus" name="edit_bus" action="include/editBusiness.php" method="post">
+            <!-- Table containing council details -->
+            <form id="edit_bus" name="edit_bus" action="include/editcouncil.php" method="post">
                 <table class="table" >
-                    <!-- Business name -->
+                    <!-- council name -->
                     <tr>
-                        <td><label for="businessname">Business Name:</label></td>
-                        <td><input type="text" id="businessname" name="businessname" required size="65%"></td>
+                        <td><label for="councilname">Council Name:</label></td>
+                        <td><input type="text" id="councilname" name="councilname" required size="65%"></td>
                     </tr>
                     <!-- Contact phone number -->
                     <tr>
@@ -38,15 +38,15 @@
                         <td><label for="email">Contact email:</label></td>
                         <td><input type="text" id="email" name="email" required size="65%"></td>
                     </tr>
-                    <!-- Business website -->
+                    <!-- council website -->
                     <tr>
                         <td><label for="website">Web site:</label></td>
                         <td><input type="text" id="website" name="website" required size="65%"></td>
                     </tr>
-                    <!-- Business biography -->
+                    <!-- council biography -->
                     <tr>
-                        <td><label for="businessbio">Business biography:</label></td>
-                        <td><textarea id="businessbio" name="businessbio" rows="4" cols="68"></textarea></td>
+                        <td><label for="councilbio">Council biography:</label></td>
+                        <td><textarea id="councilbio" name="Councilbio" rows="4" cols="68"></textarea></td>
                     </tr>
                     <!-- Submit or cancel-->
                     <tr>
@@ -68,6 +68,11 @@
                 </table>
             </form>
         </div>
+    </section>
+    <section>
+        <?php
+            include '01EditLocations.php';
+        ?>
     </section>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates\template_footer.php'); ?></div>

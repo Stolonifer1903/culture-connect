@@ -48,8 +48,7 @@
                 <tr>
                     <td colspan=2>
                         <h5>Awards, memberships and exhibitions:</h5>
-                        <p>jdhafkjhflsflashlfadsfahsfdsfklafhskdfjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
-                            jjjjjjjjjjjjjjjjjjjjjffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</p>
+                        <p>" . $of_awards ."</p>
                     </td>
                 </tr>
             </table>";
