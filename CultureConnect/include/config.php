@@ -20,7 +20,7 @@ set_exception_handler(function ($e) {
     error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
 
     // Redirect the user to our friendly error page
-    header("Location: /CultureConnect/error.php");
+    header("Location: /culture-connect/CultureConnect/error.php");
     exit();
 });
 

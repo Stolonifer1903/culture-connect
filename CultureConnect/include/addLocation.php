@@ -10,7 +10,7 @@
         $stmt->bind_param("is", $council, $addLocation);
 
         if ($stmt->execute()) {
-            header('Location: /cultureconnect/01EditLocations.php', TRUE, 303);
+            header('Location: /culture-connect/CultureConnect/01EditLocations.php', TRUE, 303);
             exit;
         } else {
             echo "Error - " . $stmt->error;

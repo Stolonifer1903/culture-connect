@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit business</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
     <!--Session start-->
     <?php
-        session_start();
-        include ('include/config.php')
-    ?>
+    session_start();
+    include('include/config.php')
+        ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
     <!--Page heading-->
-    <section class = "text-left py-5" style="background-color:#ACC8A2;"><h1><div class="container"> Edit business details</h1></div></section>
+    <section class="text-left py-5" style="background-color:#ACC8A2;">
+        <h1>
+            <div class="container"> Edit business details
+        </h1>
+        </div>
+    </section>
     <!-- Main content -->
-    <section class = "text-left py-3">
-        <div class="container"> 
+    <section class="text-left py-3">
+        <div class="container">
             <!-- Table containing business details -->
             <form id="edit_bus" name="edit_bus" action="include/editBusiness.php" method="post">
-                <table class="table" >
+                <table class="table">
                     <!-- Business name -->
                     <tr>
                         <td><label for="businessname">Business Name:</label></td>
@@ -51,25 +58,30 @@
                     <!-- Submit or cancel-->
                     <tr>
                         <td><label for=""></label></td>
-                        <td><table>
-                            <tr>
-                                <td>
-                                <input class='btn btn-custom btn-sm' style="margin-right:25px;" type="submit" value="Update" name="update">
-                                <input class='btn btn-secondary btn-sm' style="margin-right:25px"action="action" type="button" value="Cancel" 
-                                        onclick="window.history.go(-1); return false;">
-                                </td>
-                            </tr>
-                        </td></table>
-                    </tr>
-                    <!-- TODO: Add PHP to update existing details -->
-                    <?php
-                        include 'include/config.php';
-                    ?>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input class='btn btn-custom btn-sm' style="margin-right:25px;" type="submit"
+                                            value="Update" name="update">
+                                        <input class='btn btn-secondary btn-sm' style="margin-right:25px"
+                                            action="action" type="button" value="Cancel"
+                                            onclick="window.history.go(-1); return false;">
+                                    </td>
+                                </tr>
+                        </td>
+                </table>
+                </tr>
+                <!-- TODO: Add PHP to update existing details -->
+                <?php
+                include 'include/config.php';
+                ?>
                 </table>
             </form>
         </div>
     </section>
     <!-- Gets the footer from a central location -->
-    <div id="footer"><?php include('templates\template_footer.php'); ?></div>
+    <div id="footer"><?php include('templates/template_footer.php'); ?></div>
 </body>
+
 </html>
