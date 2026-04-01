@@ -249,7 +249,7 @@ CREATE TABLE `user` (
   `userPassword` varchar(200) NOT NULL,
   `userTitle` varchar(200) NOT NULL,
   `userRole` int(13) NOT NULL,
-  `roleId` int(11) NOT NULL
+  `roleId` int(11) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --

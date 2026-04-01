@@ -28,7 +28,7 @@
     <section class="text-left py-3">
         <div class="container">
             <!-- Table containing offering -->
-            <form id="editoffering" name="editoffering" action="include\updateOffering.php" method="post">
+            <form id="editoffering" name="editoffering" action="include/updateOffering.php" method="post">
                 <table class="table">
                     <!--Product or service-->
                     <tr>

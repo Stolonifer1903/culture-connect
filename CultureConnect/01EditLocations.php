@@ -34,7 +34,7 @@
             $text = 'Admin';
         } else {
             // Redirect the user to error page
-            header("Location: /culture-connect/CultureConnect/error.php");
+            header("Location: error.php");
             exit();
         }
         echo "<section class = 'text-left py-5' style='background-color:#ACC8A2;'><h1 style='margin-left: 150px;'>Locations - " . $text . "</h1></section>" 
