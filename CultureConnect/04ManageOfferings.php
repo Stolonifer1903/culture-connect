@@ -72,8 +72,8 @@
                                 <td>" . $row["offeringCulturalBenefits"] . "</td>
                                 <td>" . $row["offeringPriceRangeDescription"] . "</td>
                                 <td>
-                                    <a class='btn btn-primary btn-sm' href='/culture-connect/CultureConnect/06ViewOffering.php?offeringIdPk=$row[offeringIdPk]'>Update</a>
-                                    <a class='btn btn-danger btn-sm' href='/culture-connect/CultureConnect/include/deleteOffering.php?offeringIdPk=$row[offeringIdPk]'>Delete</a>
+                                    <a class='btn btn-primary btn-sm' href='06ViewOffering.php?offeringIdPk=$row[offeringIdPk]'>Update</a>
+                                    <a class='btn btn-danger btn-sm' href='include/deleteOffering.php?offeringIdPk=$row[offeringIdPk]'>Delete</a>
                                 </td>
                             </tr>";
                     }
