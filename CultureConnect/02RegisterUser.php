@@ -267,12 +267,6 @@
         }
          console.log("user_type value:", document.getElementById("user_type").value);
     </script>
-
-    <?php
-    echo "<pre>";
-    print_r($_POST);
-    echo "</pre>";
-    ?>
     
 </body>
 </html>
