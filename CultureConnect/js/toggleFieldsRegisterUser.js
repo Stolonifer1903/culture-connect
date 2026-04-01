@@ -28,10 +28,12 @@ function toggleFieldsRegisterUser(register_as) {
     } else {
         business.style.display = "none";
     }
-    if (register_as === "council_rep") {
+    if (register_as === "council") {
         location.style.display = "none";
         user_type.value = 3;
         council.style.display = ""
     } else {//nothing
     }
 }
+
+

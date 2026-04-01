@@ -6,19 +6,21 @@
     <title>Enter your details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="css/style.css" rel="stylesheet">
+    <script src ="js/toggleFieldsRegisterUser.js"></script>
 </head>
 
-<body onload="toggleFieldsRegisterUser('resident')">
+<body>
     <?php
         session_start();
-        include ('include/config.php')
+        include ('include/config.php');
     ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
+    <!
     <!--Page heading-->
     <section class = "text-left py-5" style="background-color:#ACC8A2;"><div class="container"><h1>Enter your details</h1></div></section>
     <!-- Select which user type to register as -->
-    <section class = "text-left py-3"> 
+   <!--  <section class = "text-left py-3"> 
         <div class = "container" id="register_as_"> 
             <table>
                 <tr>
@@ -34,7 +36,7 @@
                 </tr>
             </table>
         </div>
-    </section>
+    </section> -->
     <!-- Enter registration details -->
     <section class = "text-left py-2">
         <div class = "container" id="register_user_" >
@@ -253,7 +255,25 @@
             </form>
         </div>
     </section>
-    <script src ="js/toggleFieldsRegisterUser.js"></script>
+
+    <script>
+        // Get the registration type from the url
+        const urlParams = new URLSearchParams(window.location.search);
+        const registerAs = urlParams.get('register_as');
+        if (registerAs==='business' || registerAs == 'council') {
+            toggleFieldsRegisterUser(registerAs);
+        } else {
+            toggleFieldsRegisterUser('resident')
+        }
+         console.log("user_type value:", document.getElementById("user_type").value);
+    </script>
+
+    <?php
+    echo "<pre>";
+    print_r($_POST);
+    echo "</pre>";
+    ?>
+    
 </body>
 </html>
         

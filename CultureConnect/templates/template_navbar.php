@@ -1,5 +1,5 @@
  <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-custom">+
+<nav class="navbar navbar-expand-lg navbar-custom">
     <?php
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -43,6 +43,9 @@
                                 <a id='manage_offerings'class='nav-link d-inline' href='04ManageOfferings.php'>Manage offerings</a>
                                 <a id='log_out' class='nav-link d-inline' href='include/logout.php'>Log out</a>";
 
+                    } else {
+                    echo "  <a id='home' class='nav-link d-inline' href='00Home.php'>Home</a>" ;
+                    echo "<a id='log_out' class='nav-link d-inline' href='include/logout.php'>Log out</a>";
                     }
                 } else {
                     echo "  <a id='home' class='nav-link d-inline' href='00Home.php'>Home</a>" ;

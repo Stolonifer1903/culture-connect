@@ -1,7 +1,7 @@
 <?php
     session_start();
     include 'config.php';
-    if(isset($_POST['login'])) {
+    if(isset($_POST['login']) or isset($_POST["register"])) {
         $email = $_POST['email'];
         $password = $_POST['password'];
 

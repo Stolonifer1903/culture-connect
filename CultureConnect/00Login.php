@@ -14,7 +14,7 @@
     <?php
     session_start();
     include('include/config.php')
-        ?>
+    ?>
 
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
@@ -44,16 +44,14 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <a href="02RegisterUser.php" class='link-dark' style="margin-left: 80px;">Register</a>
+                            <a href="02RegisterUser.php?register_as=resident" class='link-dark' style="margin-left: 80px;">Register</a>
                             <a href="99FeatureComing.html" class='link-dark' style="margin-left: 50px">Reset
                                 password</a>
                         </td>
                 </table>
             </form>
             <?php
-            //session_start();
             include('include/config.php');
-            //var_dump($_SESSION);
             if (isset($_SESSION['error'])) {
                 echo "<p color: red>" . $_SESSION['error'] . "</p>";
                 unset($_SESSION['error']);

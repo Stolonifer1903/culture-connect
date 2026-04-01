@@ -83,7 +83,7 @@
             <p>
             <div class="row g-3 justify-content-center">
                 <div class="col-md-3">
-                    <div class="card" style="background-color:#73916E;">
+                    <div class="card" style="background-color:#73916E;" onclick="window.location.href='02RegisterUser.php?register_as=council';">
                         <div class="card-body" style="color:white;">
                             <h5>Councils</h5>
                             <p style="color:white;">Register your council area to showcase local offerings</p>
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card" style="background-color:#73916E;">
+                    <div class="card" style="background-color:#73916E;" onclick="window.location.href='02RegisterUser.php?register_as=business';">
                         <div class="card-body" style="color:white;">
                             <h5>Businesses</h5>
                             <p style="color:white;">Register your business to share your products or services with the

@@ -1,6 +1,4 @@
 <?php
-    //var_dump($_POST);
-    //exit;
     include 'config.php';
     if (isset($_POST["register"])){
         //get variables
@@ -19,11 +17,11 @@
             $check->store_result();
 
             if ($check->num_rows > 0) {
-                // Business already exists, don't insert
+                // email already exists, don't insert
                 echo "User email already exists";
             } else {
                 //update new user in the table
-                $stmt1 = $connection->prepare("INSERT INTO user(userEmail, userFirstName, userLastName, userTitle, userPassword, userRole) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt1 = $connection->prepare("INSERT INTO user(userEmail, userFirstName, userLastName, userTitle, userPassword, userRole, roleId) VALUES (?, ?, ?, ?, ?, ?, -1)");
                 $stmt1->bind_param("sssssi", $user_email, $user_firstname, $user_lastname, $user_title, $user_pwd, $user_type);
                 $stmt1->execute();
             }
@@ -129,10 +127,13 @@
         }
 
         if ($stmt1->affected_rows > 0) { //TODO - update to include 
+            include 'login.php';
             header('Location: ../00Home.php', TRUE, 303);
             exit;
         } else {
             die("Error - " . $stmt->error);
         }
+        
     }
+
 ?>
