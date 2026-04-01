@@ -1,13 +1,17 @@
  <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-custom">+
     <?php
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         include ('include/config.php')
     ?>
     <div class="container">
         <a class="navbar-brand" href="00Home.php">CULTURE CONNECT</a>
         <?php
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             if (isset($_SESSION['role'])) {
             echo "<span class='navbar-text me-auto'>Welcome " . $_SESSION['name'] . "</span>";
             } 

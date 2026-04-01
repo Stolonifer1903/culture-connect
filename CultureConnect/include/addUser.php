@@ -129,7 +129,7 @@
         }
 
         if ($stmt1->affected_rows > 0) { //TODO - update to include 
-            header('Location: /cultureconnect/00Home.php', TRUE, 303);
+            header('Location: /culture-connect/CultureConnect/00Home.php', TRUE, 303);
             exit;
         } else {
             die("Error - " . $stmt->error);
