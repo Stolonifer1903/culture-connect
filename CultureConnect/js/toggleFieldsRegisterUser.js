@@ -8,6 +8,8 @@ function toggleFieldsRegisterUser(register_as) {
     var business = document.getElementById("business_name")
     var user_type = document.getElementById("user_type")
     var council = document.getElementById("council")
+    var council_msg = document.getElementById("council_msg")
+
     if (register_as === "resident") {
         gender.style.display = "";
         yob.style.display = "";
@@ -32,7 +34,9 @@ function toggleFieldsRegisterUser(register_as) {
         location.style.display = "none";
         user_type.value = 3;
         council.style.display = ""
-    } else {//nothing
+        council_msg.style.display = ""
+    } else {
+        council_msg.style.display = "none"
     }
 }
 

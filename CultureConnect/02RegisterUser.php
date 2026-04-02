@@ -198,6 +198,7 @@
                             </table>
                         </td>
                     </tr>
+                    
                     <tr id="council">
                         <td><label for="council_select">Council:</label></td>
                         <td>
@@ -217,6 +218,9 @@
                                 ?> 
                             </select>
                         </td>
+                    </tr>
+                    <tr id="council_msg">
+                        <td></td><td><p>If your council does not appear in the list, please contact us at help@cultureconnect.co.uk</p></td>
                     </tr>
                     <tr id="location">
                         <td><label for="location_select">Location:</label></td>
