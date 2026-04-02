@@ -10,7 +10,7 @@
             $stmt->bind_param("si", $loc_name, $loc_id_pk);
 
             if ($stmt->execute()) {
-                header("Location: ../01EditLocations.php", TRUE, 303);
+                header("Location: ../03EditCouncil.php", TRUE, 303);
                 exit;
             }
             else {
