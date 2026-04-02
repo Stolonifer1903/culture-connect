@@ -209,7 +209,7 @@
                                     $sql = "SELECT councilName from council";
                                     $result = $connection->query($sql);
                                     if (!$result) {
-                                        die("Invalid query: ". $connection->error);
+                                        throw new Exception("Invalid query: ". $connection->error);
                                     }
                                     while($row = $result->fetch_assoc()){
                                         $name = htmlspecialchars($row['councilName'], ENT_QUOTES, 'UTF-8');
@@ -232,7 +232,7 @@
                                     $sql = "SELECT locationName FROM location";
                                     $result = $connection->query($sql);
                                     if (!$result) {
-                                        die("Invalid query: " . $connection->error);
+                                        throw new Exception("Invalid query: " . $connection->error);
                                     }
                                     while ($row = $result->fetch_assoc()) {
                                         $name = htmlspecialchars($row['locationName'], ENT_QUOTES, 'UTF-8');
@@ -269,7 +269,7 @@
         } else {
             toggleFieldsRegisterUser('resident')
         }
-         console.log("user_type value:", document.getElementById("user_type").value);
+        // console.log("user_type value:", document.getElementById("user_type").value);
     </script>
     
 </body>

@@ -26,17 +26,16 @@
             $sql = "SELECT councilName FROM council WHERE councilIdPk = $role_id";
             $result = $connection->query($sql);
             if (!$result) {
-                die("Invalid query: ". $connection->error);
+                throw new Exception("Invalid query: ". $connection->error);
             }
             $row = $result->fetch_assoc();
             $text = $row['councilName'];
         } else if ($user_role == '4') {
             $text = 'Admin';
         } else {
-            // Redirect the user to error page
-            header("Location: error.php");
-            exit();
-        }
+        // Throw an exception which will be caught by config.php
+        throw new Exception("Unauthorized access attempt - Invalid role: " . $user_role);
+    }
         echo "<section class = 'text-left py-5' style='background-color:#ACC8A2;'><h1 style='margin-left: 150px;'>Locations - " . $text . "</h1></section>" 
     ?>
      
@@ -82,7 +81,7 @@
 
                         $result = $connection->query($sql);
                         if (!$result) {
-                            die("Invalid query: ". $connection->error);
+                            throw new Exception("Invalid query: ". $connection->error);
                         }
                         while($row = $result->fetch_assoc()){
                             if ($user_role == 3) {$council_display ="<td style='display: none; '>" . $row["councilIdPk"] . "</td>";} else {$council_display ="<td>" . $row["councilName"] . "</td>";}
