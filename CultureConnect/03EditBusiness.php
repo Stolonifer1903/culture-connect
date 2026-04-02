@@ -66,7 +66,7 @@
                                     $sql = "SELECT councilName from council";
                                     $result = $connection->query($sql);
                                     if (!$result) {
-                                        die("Invalid query: ". $connection->error);
+                                        throw new Exception("Invalid query: ". $connection->error);
                                     }
                                     while($row = $result->fetch_assoc()){
                                         $name = $row['councilName'];

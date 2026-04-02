@@ -131,7 +131,7 @@
             header('Location: ../00Home.php', TRUE, 303);
             exit;
         } else {
-            die("Error - " . $stmt->error);
+            throw new Exception("Error - " . $stmt->error);
         }
         
     }

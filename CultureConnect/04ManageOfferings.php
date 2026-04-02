@@ -58,7 +58,7 @@
                     $sql = "SELECT * FROM view_offerings";
                     $result = $connection->query($sql);
                     if (!$result) {
-                        die("Invalid query: " . $connection->error);
+                        throw new Exception("Invalid query: " . $connection->error);
                     }
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>

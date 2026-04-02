@@ -47,7 +47,7 @@
                 header('Location: ../04ManageOfferings.php', TRUE, 303);
                 exit;
             } else {
-                die("Error - " . $stmt->error);
+                throw new Exception("Error - " . $stmt->error);
             }
     }
 ?>

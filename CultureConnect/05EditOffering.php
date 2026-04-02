@@ -54,7 +54,7 @@
                                 $sql = "SELECT locationName from location";
                                 $result = $connection->query($sql);
                                 if (!$result) {
-                                    die("Invalid query: " . $connection->error);
+                                    throw new Exception("Invalid query: " . $connection->error);
                                 }
                                 while ($row = $result->fetch_assoc()) {
                                     echo "<option value='" . $row['locationName'] . "'>" . $row["locationName"] . "</option>";
@@ -75,7 +75,7 @@
                                 $sql = "SELECT interestAreaName from interestarea";
                                 $result = $connection->query($sql);
                                 if (!$result) {
-                                    die("Invalid query: " . $connection->error);
+                                    throw new Exception("Invalid query: " . $connection->error);
                                 }
                                 while ($row = $result->fetch_assoc()) {
                                     echo "<option value='" . $row["interestAreaName"] . "'>" . $row["interestAreaName"] . "</option>";
