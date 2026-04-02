@@ -34,7 +34,7 @@
             $text = 'Admin';
         } else {
             // Redirect the user to error page
-            header("Location: /culture-connect/CultureConnect/error.php");
+            header("Location: error.php");
             exit();
         }
         echo "<section class = 'text-left py-5' style='background-color:#ACC8A2;'><h1 style='margin-left: 150px;'>Locations - " . $text . "</h1></section>" 
@@ -92,7 +92,7 @@
                                         "<td>" . $row["locationName"] . "</td>
                                         <td>
                                             <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#updaterModal' data-value='$row[locationIdPk]'>Update</button>
-                                            <a class='btn btn-danger btn-sm' href='/culture-connect/CultureConnect/include/deleteLocation.php?locationIdPk=$row[locationIdPk]'>Delete</a>
+                                            <a class='btn btn-danger btn-sm' href='include/deleteLocation.php?locationIdPk=$row[locationIdPk]'>Delete</a>
                                         </td>
                                     </tr>
                                 </tbody> ";

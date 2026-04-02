@@ -6,7 +6,7 @@
         $result = $connection->query($delete_query);
         if ($result) {
             echo "Location deleted";
-            header("Location: /culture-connect/CultureConnect/01EditLocations.php");
+            header("Location: ../03EditCouncil.php");
         }
         else {
             echo "Error";

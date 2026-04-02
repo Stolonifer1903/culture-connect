@@ -44,7 +44,7 @@
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) { //TODO - update to include 
-                header('Location: /culture-connect/CultureConnect/04ManageOfferings.php', TRUE, 303);
+                header('Location: ../04ManageOfferings.php', TRUE, 303);
                 exit;
             } else {
                 die("Error - " . $stmt->error);
