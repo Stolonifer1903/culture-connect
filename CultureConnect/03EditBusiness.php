@@ -13,8 +13,9 @@
     <!--Session start-->
     <?php
     session_start();
-    include('include/config.php')
-        ?>
+    include'include/config.php';
+    include 'include/getBusinessInfo.php';
+    ?>
     <!-- Gets the header from a central location -->
     <div id='header'><?php include('templates/template_navbar.php'); ?></div>
     <!--Page heading-->
@@ -30,34 +31,55 @@
             <!-- Table containing business details -->
             <form id='edit_bus' name='edit_bus' action='include/editBusiness.php' method='post'>
                 <table class='table'>
-                    <?php
-                    include 'include/config.php';
-                    include 'include/getBusinessInfo.php';
-
-                    echo "<!-- Business name -->
+                    <!-- Business name -->
                     <tr>
                         <td><label for='businessname'>Business Name:</label></td>
-                        <td><input type='text' id='businessname' name='businessname' required size='65%' value='" . $bus_name .  "'></td>
+                        <?php echo "<td><input type='text' id='businessname' name='businessname' required size='65%' value='" . $bus_name .  "'></td>"; ?>
                     </tr>
                     <!-- Contact phone number -->
                     <tr>
                         <td><label for='phone'>Phone number:</label></td>
-                        <td><input type='text' id='phone' name='phone' required size='65%' value='" . $bus_phone .  "'></td>
+                        <?php echo "<td><input type='text' id='phone' name='phone' required size='65%' value='" . $bus_phone .  "'></td>"; ?>
                     </tr>
                     <!-- Contact email -->
                     <tr>
                         <td><label for='email'>Contact email:</label></td>
-                        <td><input type='text' id='email' name='email' required size='65%' value='" . $bus_email .  "'></td>
+                        <?php echo "<td><input type='text' id='email' name='email' required size='65%' value='" . $bus_email .  "'></td>"; ?>
                     </tr>
                     <!-- Business website -->
                     <tr>
                         <td><label for='website'>Web site:</label></td>
-                        <td><input type='text' id='website' name='website' required size='65%' value='" . $bus_link .  "'></td>
+                        <?php echo "<td><input type='text' id='website' name='website' required size='65%' value='" . $bus_link .  "'></td>"; ?>
                     </tr>
                     <!-- Business biography -->
                     <tr>
                         <td><label for='businessbio'>Business biography:</label></td>
-                        <td><textarea id='businessbio' name='businessbio' rows='4' cols='68'>" . $bus_bio . "</textarea></td>
+                        <?php echo "<td><textarea id='businessbio' name='businessbio' rows='4' cols='68'>" . $bus_bio . "</textarea></td>"; ?>
+                    </tr>
+                    <!-- Council -->
+                    <tr id="council">
+                        <td><label for="council_select">Council:</label></td>
+                        <td>
+                            <select id="council_select" name="council_select">
+                                <option value="">Select council</option>
+                                <?php
+                                    $sql = "SELECT councilName from council";
+                                    $result = $connection->query($sql);
+                                    if (!$result) {
+                                        die("Invalid query: ". $connection->error);
+                                    }
+                                    while($row = $result->fetch_assoc()){
+                                        $name = $row['councilName'];
+                                        if ($counc_name == $name) {
+                                            $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+                                            echo "<option value='" . $name . "' selected>" . $name . "</option>";
+                                        } else {
+                                            echo "<option value='" . $name . "'>" . $name . "</option>";
+                                        }
+                                    }  
+                                ?> 
+                            </select>
+                        </td>
                     </tr>
                     <!-- Submit or cancel-->
                     <tr>
@@ -75,8 +97,7 @@
                                 </tr>
                         </td>
                 </table>
-                </tr>"
-                ?>
+                </tr>
                 </table>
             </form>
         </div>

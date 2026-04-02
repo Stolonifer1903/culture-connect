@@ -8,11 +8,17 @@
         $bus_email = $_POST["email"] ;
         $bus_phone = $_POST["phone"] ;
         $bus_link = $_POST["website"] ;
-        //$counc_id = $_POST["update"];
+        $counc_name = $_POST["council_select"];
+
+        //get council id from the council table based on council name
+        // TODO fix against SQL injection
+        $sql = "SELECT councilIdPk FROM council WHERE councilName = '$counc_name' ";
+        $result = $connection->query($sql);
+        $row = $result->fetch_assoc();
+        $council_id = $row["councilIdPk"];
    
-        $stmt = $connection->prepare("UPDATE business SET businessName = ?, businessDescription = ?, businessEmail = ?, businessPhone = ?, businessLink = ? WHERE businessIdPk = ?");
-        $stmt->bind_param("sssssi", $bus_name, $bus_bio, $bus_email, $bus_phone, $bus_link, $bus_id);
-        //$stmt->execute();
+        $stmt = $connection->prepare("UPDATE business SET businessName = ?, businessDescription = ?, businessEmail = ?, businessPhone = ?, businessLink = ?, councilIdPk = ? WHERE businessIdPk = ?");
+        $stmt->bind_param("sssssii", $bus_name, $bus_bio, $bus_email, $bus_phone, $bus_link, $council_id, $bus_id);
 
         if ($stmt->execute()) {
             echo "Update successful!";
