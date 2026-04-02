@@ -79,14 +79,14 @@
     <section class="text-center py-3" style="background-color:#ACC8A2;">
         <div class="container">
             <h1>Get involved</h1>
-            <p>Register your council or business here
+            <p>Register an account for your council or business here
             <p>
             <div class="row g-3 justify-content-center">
                 <div class="col-md-3">
                     <div class="card" style="background-color:#73916E;" onclick="window.location.href='02RegisterUser.php?register_as=council';">
                         <div class="card-body" style="color:white;">
                             <h5>Councils</h5>
-                            <p style="color:white;">Register your council area to showcase local offerings</p>
+                            <p style="color:white;">Register an account for your council area to showcase local offerings</p>
                             <br>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                     <div class="card" style="background-color:#73916E;" onclick="window.location.href='02RegisterUser.php?register_as=business';">
                         <div class="card-body" style="color:white;">
                             <h5>Businesses</h5>
-                            <p style="color:white;">Register your business to share your products or services with the
+                            <p style="color:white;">Register an account for your business to share your products or services with the
                                 community</p>
                         </div>
                     </div>
