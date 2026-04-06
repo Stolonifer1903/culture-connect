@@ -152,7 +152,6 @@
             </form>
         </div>
     </section>
-    <script src="js/toggleFieldsEditOffering.js"></script>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
 </body>

@@ -19,7 +19,7 @@
             $link = $row["councilLink"] ;
         }
         else {
-            echo "Error";
+            throw new Exception("Error - " . $stmt->error);
         }
     }
 ?>

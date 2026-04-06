@@ -9,7 +9,7 @@
             header("Location: ../03EditCouncil.php");
         }
         else {
-            echo "Error";
+            throw new Exception("Error - " . $stmt->error);
         }
     }
 

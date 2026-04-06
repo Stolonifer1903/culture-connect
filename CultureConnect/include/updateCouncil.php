@@ -22,7 +22,7 @@
                 echo " No rows were updated (maybe ID doesn't exist or values are the same).";
             }
         } else {
-            echo "Error: " . $stmt->error;
+            throw new Exception("Error - " . $stmt->error);
         }
 
     }

@@ -13,7 +13,7 @@
             header('Location: ../03EditCouncil.php', TRUE, 303);
             exit;
         } else {
-            echo "Error - " . $stmt->error;
+            throw new Exception("Error - " . $stmt->error);
         }
     }
 ?>

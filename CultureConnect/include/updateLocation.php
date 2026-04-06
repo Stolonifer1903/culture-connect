@@ -14,7 +14,7 @@
                 exit;
             }
             else {
-                echo "Error" . $stmt->error;
+                throw new Exception("Error - " . $stmt->error);
             }
         }
     }

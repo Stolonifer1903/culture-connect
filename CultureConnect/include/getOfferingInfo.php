@@ -31,7 +31,7 @@
 
         }
         else {
-            echo "Error";
+            throw new Exception("Error - " . $stmt->error);
         }
     }
 ?>

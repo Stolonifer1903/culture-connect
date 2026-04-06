@@ -77,7 +77,7 @@
             header('Location: ../02ManageUser.php', TRUE, 303); //TODO: UPDATE SUCCESS MESSAGE
             exit;
         } else {
-            header('Location: ../error.php', TRUE, 303);
+            throw new Exception("Error - " . $stmt->error);
         }
         
     }

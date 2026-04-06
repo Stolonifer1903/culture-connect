@@ -195,7 +195,7 @@
                                         if (in_array('Original artwork', $interests)) {echo "<input type='checkbox' id='artwork' name='servicesandproducts[]' value='Original artwork' checked>";}
                                         else {echo "<input type='checkbox' id='artwork' name='servicesandproducts[]' value='Original artwork'>";}
                                         ?>
-                                        echo "<label for='artwork'>Original artwork</label>
+                                        <label for='artwork'>Original artwork</label>
                                     </td>
                                     <td>
                                         <?php

@@ -9,7 +9,7 @@
             header("Location: ../04ManageOfferings.php");
         }
         else {
-            echo "Error";
+            throw new Exception("Error - " . $stmt->error);
         }
     }
 ?>
