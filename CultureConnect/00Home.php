@@ -36,7 +36,7 @@
         <div class="container">
             <h1>Discover Local Culture</h1>
             <p>Find art, events and businesses near you</p>
-            <button class="btn btn-custom">Explore</button>
+            <a class="btn btn-custom" href="showOfferings.php">Explore</a>
         </div>
     </section>
 
