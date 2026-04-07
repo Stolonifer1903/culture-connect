@@ -289,6 +289,8 @@
                 toggleFieldsManageUser('business');
             } else if (user_type===3) {
                 toggleFieldsManageUser('council');
+            } else if (user_type===4) {
+                toggleFieldsManageUser('admin');
             } else {
                 toggleFieldsManageUser('resident')
             }

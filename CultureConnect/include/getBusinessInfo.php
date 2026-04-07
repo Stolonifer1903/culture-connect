@@ -3,14 +3,21 @@
     if (isset($_SESSION['role']) || isset($_SESSION['role_id'])){
         if ($_SESSION['role'] == 2) {
             $bus_id = $_SESSION['role_id'];
-            //get offering info from the view_offerings view
-            $stmt = $connection->prepare("SELECT * FROM business WHERE businessIdPk = ?");
-            $stmt->bind_param("i", $bus_id);
+        } else if (isset($_POST['create-new']) && ($_SESSION['role'] == 4)){
+            $stmt = $connection->prepare("INSERT INTO business(businessName, councilIdPk) VALUES ('New business', 1)");
             $stmt->execute();
-            $result = $stmt->get_result();
+            $bus_id = $connection->insert_id;
+        } else if (isset($_GET['businessIdPk'])) {
+            $bus_id = $_GET['businessIdPk'];
+        } else {
+            throw new Exception("Error - " . $stmt->error);
         }
-        
-        if ($result) {
+
+        $stmt = $connection->prepare("SELECT * FROM business WHERE businessIdPk = ?");
+        $stmt->bind_param("i", $bus_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $bus_name = $row["businessName"];
             $bus_bio = $row["businessDescription"] ;
@@ -27,8 +34,7 @@
                 $row = $result->fetch_assoc();
                 $counc_name = $row["councilName"];
             }
-        }
-        else {
+        } else {
             throw new Exception("Error - " . $stmt->error);
         }
     }

@@ -62,6 +62,6 @@
         }
         
     } else {
-        throw new Exception("Error - " . $stmt->error);
+        throw new Exception("Error - not logged in");
     }
 ?>

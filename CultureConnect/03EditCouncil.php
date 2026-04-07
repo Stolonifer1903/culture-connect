@@ -15,8 +15,15 @@
     session_start();
     include 'include/config.php';
     include 'include/getCouncilInfo.php';
-    $role_id = $_SESSION['role_id'];
-        ?>
+    if (isset($_SESSION['role'])){
+        $role = $_SESSION['role'];
+        if ($role == 3 && isset($_SESSION['role_id'])){
+        $council = $_SESSION['role_id'];
+        } else if ($role == 4) {
+        $council = $_GET['councilIdPk'];
+        }
+    }
+    ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
     <!--Page heading-->
@@ -90,6 +97,11 @@
                         </td>
                     </tr>
                 </table>
+                <?php 
+                if ($role==4) {
+                    echo "<input type='hidden' id='councilIdPk' name='councilIdPk' value = '" . $council . "'>";
+                }
+                ?>
             </form>
         </div>
         <div class="container">
@@ -105,7 +117,7 @@
                 <tbody>
                 <?php
                     $stmt = $connection->prepare("SELECT * FROM location WHERE councilIdPk = ?");
-                    $stmt->bind_param("i", $role_id);
+                    $stmt->bind_param("i", $council);
                     $stmt->execute();
                     $result = $stmt->get_result();
                     if ($result->num_rows > 0) {
@@ -115,8 +127,8 @@
                                     <td style='display: none; '>" . $row["councilIdPk"] . "</td>
                                     <td>" . $row["locationName"] . "</td>
                                     <td>
-                                        <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#updaterModal' data-value='$row[locationIdPk]'>Update</button>
-                                        <a class='btn btn-danger btn-sm' href='include/deleteLocation.php?locationIdPk=$row[locationIdPk]'>Delete</a>
+                                        <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#updaterModal' data-value='$row[locationIdPk]' data-value2='$row[locationName]'>Update</button>
+                                        <a class='btn btn-danger btn-sm' href='include/deleteLocation.php?locationIdPk=$row[locationIdPk]&councilIdPk=$row[councilIdPk]'>Delete</a>
                                     </td>
                                 </tr>";
                         }
@@ -141,6 +153,7 @@
             <div class="modal-body">
                     <input type="text" id="locationName" name="locationName" required size="40%">
                     <input type='hidden' id='locationIdPk' name='locationIdPk'>
+                    <input type='hidden' id='councilIdPk' name='councilIdPk' value=<?php echo "'". $council . "'" ?>>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -156,6 +169,7 @@
         updaterModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             document.getElementById('locationIdPk').value = button.getAttribute('data-value');
+            document.getElementById('locationName').value = button.getAttribute('data-value2');
         });
     </script>
     <!-- Gets the footer from a central location -->
