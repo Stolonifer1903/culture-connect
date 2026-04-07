@@ -19,6 +19,9 @@
             $of_cultural_benefits = $row["offeringCulturalBenefits"] ;
             $of_awards = $row["offeringAwards"] ; 
             $of_price_range_description = $row["offeringPriceRangeDescription"] ; 
+            $of_yes_votes = $row["yesVotes"];
+            $of_no_votes = $row["noVotes"];
+            $votes = $of_yes_votes - $of_no_votes;
             
             // echo $bus_name;
             // echo $of_name;
@@ -33,5 +36,18 @@
         else {
             throw new Exception("Error - " . $stmt->error);
         }
+    } else {
+        $bus_name = "";
+        $of_name = "";
+        $int_name = "";
+        $loc_name = "";
+        $of_description = "";
+        $of_details = "";
+        $of_cultural_benefit = "";
+        $of_awards = "";
+        $of_price_range_description = "";
+        $of_yes_votes = 0;
+        $of_no_votes = 0;
+        $votes = $of_yes_votes - $of_no_votes;
     }
 ?>

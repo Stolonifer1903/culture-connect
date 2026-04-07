@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="css/styleOfferings.css" rel="stylesheet">
 </head>
-<body>
+<body onload="userVisibility()">
     <?php
     session_start();
     include ('include/config.php');
@@ -19,8 +19,15 @@
 
     include('include/buildFilterQuery.php');
     //echo "<br>Full query is: " . $filter_query;
-    include 'include/getUserInfo.php'; 
-    include 'include/getCloseLocationInfo.php'; 
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 1) {
+        include 'include/getUserInfo.php'; 
+        include 'include/getCloseLocationInfo.php'; 
+        //
+        }
+    } else {
+        //
+    }
     ?>
     
      <!-- Gets the header from a central location -->
@@ -42,7 +49,7 @@
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleCloseToMe(this)" id="closeToMe">Close to me</button>
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleABitFurtherAway(this)" id="furtherAway">A bit further away</button>
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleMyInterests(this)" id="myInterests">My interests</button>
-                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleMyInterests(this)" id="myLiked">My liked items</button>
+                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="togglemyVoted(this)" id="myVoted">My voted items</button>
             </div>
             <div style="margin-top:5px; margin-right:5px;">
                 <span style="margin-left:10px; margin-right:30px">Sort:</span>
@@ -221,13 +228,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script>
     //<!-- declare script constants
-        const closeToMeButton = document.getElementById('closeToMe');
-        const furtherAwayButton = document.getElementById('furtherAway');
         const allProductsButton = document.getElementById('allProducts');
         const allServicesButton = document.getElementById('allServices');
+        const closeToMeButton = document.getElementById('closeToMe');
+        const furtherAwayButton = document.getElementById('furtherAway');
         const myInterestsButton = document.getElementById('myInterests');
-        const myLikedButton = document.getElementById('myLiked');
+        const myVotedButton = document.getElementById('myVoted');
+        const role = <?php echo json_encode($_SESSION['role'] ); ?>;
 
+        console.log ("role:" + role);
+        console.log('closeToMeButton:', closeToMeButton);
+        console.log('furtherAwayButton:', furtherAwayButton);
+
+    //<!-- set toggle button visibility based on role -->
+        function userVisibility(){
+            if (role != 1) {
+                closeToMeButton.style.display = "none";
+                furtherAwayButton.style.display = "none";
+                myInterestsButton.style.display = "none";
+                myVotedButton.style.display = "none";
+                const votes = document.querySelectorAll('[name="votes"]')
+                votes.forEach(vote => {
+                    vote.style.display = "none";
+                });
+            }
+        }
     
     //<!--get the toggle filter state and call getFilteredOfferings.php -->
         function applyFilters() {
@@ -247,7 +272,9 @@
             .then(r => r.text())                            //when the query completes, gets the response and converts it to text
             .then(html => {                                 //then inserts the text as html into the grid
                 document.getElementById('product-grid').innerHTML = html;
+                userVisibility();                           //refresh what is visible based on user role
             });
+            
         }
     
     //<!-- toggle show all products / show all services buttons -->
@@ -257,7 +284,7 @@
         checkboxes.forEach(cb => cb.checked = !allChecked);                             //checks or unchecks every box depending on allChecked state (does the opposite)
         btn.classList.toggle('active', !allChecked);                                    //toggles the button depending on allChecked state (does the opposite)
         myInterestsButton.classList.toggle('active',false); 
-        myLikedButton.classList.toggle('active',false); 
+        myVotedButton.classList.toggle('active',false); 
         applyFilters();                                                                 //fills the grid
         }
 
@@ -306,8 +333,21 @@
             })
             allProducts.classList.toggle('active',false); 
             allServices.classList.toggle('active',false); 
+            myVoted.classList.toggle('active',false);
         }
         applyFilters();
+        }
+
+    //<!-- toggle my voted items button -->
+        function toggleMyVoted(btn) {
+        // const checkboxes = document.querySelectorAll('input[name="products[]"], input[name="services[]"]'); //gets all the products and services checkboxes
+        // checkboxes.forEach(cb => cb.checked = false);                           //uncheck all the boxes
+        // const myVotes = <?php echo json_encode($votes); ?>; //get the user interests from the database                   
+        // const isToggled = btn.classList.contains('active');
+        // allProducts.classList.toggle('active',false); 
+        // allServices.classList.toggle('active',false);
+        // myInterests.classList.toggle('active',false);
+        // applyFilters();
         }
 
     //<!-- set the order by input -->
@@ -356,6 +396,8 @@
             });
 
         })
+
+    
     </script>
     
 </body>

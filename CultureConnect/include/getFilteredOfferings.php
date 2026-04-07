@@ -16,34 +16,19 @@ if ($result_offerings->num_rows == 0){              //if there are no results
     echo "<p>Oops - nothing available at the moment</p>"; //return text string in the grid
 } else {                                            //if there are results
     while ($row = $result_offerings->fetch_assoc()) { //loop through the results and fill the grid
+        $votes = $row['yesVotes'] - $row['noVotes'];
          echo 
         "<div class='col-6 col-md-3' >
             <div class='d-grid gap-2 col-11 mx-auto'>
-                <p>
-                <div style='height: 250px; overflow: hidden;'>
-                    <img src='images/placeholder.jpg' class='object-fit-cover border rounded' style='height: 90%; width: 90%'>
+                <div style='height: 200px; overflow: hidden;'>
+                    <img src='images/placeholder.jpg' class='object-fit-cover border rounded' style='height: 100%; width: 100%'>
                 </div>
-                <h5>" . $row['offeringName']  . "</h5>
-                <span>" . $row['interestAreaName']  . "</span>
-                <h6><a href=''>" . $row['businessName']  . "</a></h6>
-                <span>Based in <a href=''>" . $row['locationName']  . "</a></span>
-                <p>Pricing: " . $row['offeringPriceRangeDescription']  . "</p>
-                <table width='50%'>
-                    <tr>
-                        <td width='40%'>Vote:</td>
-                        <td width='20%'><a href=''><img src='images/upvote.svg'></a></td>
-                        <td width='20%'><a href=''><img src='images/downvote.svg'></a></td>
-                        <td width='20%'><a href=''><img src='images/clearvote.svg'></a></td>
-                    </tr>
-                    <tr>
-                        <td width='40%'></td>
-                        <td width='20%'>10</td>
-                        <td width='20%'>5</a></td>
-                        <td width='20%'></td>
-                    </tr>
-                </table>
-                <div class='d-grid col-10'><a href='06ViewOffering.php?offeringIdPk=" . $row['offeringIdPk']  . "' class='btn btn-light'>See more</a></div>
-                <p>
+                <span><b>" . $row['offeringName']  . "<br>
+                </b> by " . $row['businessName']  . "<br>
+                <img src='images/thumbs-up-solid-full.svg' height=20px>(" . $votes . ")&nbsp<strong>・</strong>&nbsp" .  $row['interestAreaName']  . "<br>
+                Pricing: " . $row['offeringPriceRangeDescription']  . "<br>
+                Based in: " . $row['locationName']  . "</span>
+                <div class='d-grid col-12'><a href='06ViewOffering.php?offeringIdPk=" . $row['offeringIdPk']  . "' class='btn btn-light'>See more</a></div>
             </div>
         </div>";
     }

@@ -1,4 +1,5 @@
 <?php
+        // include ('getLikedOfferingsInfo.php');
         //get offering info from the view_offerings view
         $main_query = "SELECT * FROM view_offerings ";
 
@@ -38,8 +39,7 @@
         if (!empty($selected_orderby)) {
             switch ($selected_orderby) {
                 case 'popular':
-                    //$order_by .= "offeringVotes DESC";
-                    $order_by .= "offeringIdPk";
+                    $order_by .= "displayVotes DESC";
                     break;
                 case 'az':
                     $order_by .= "offeringName ASC";
@@ -58,11 +58,12 @@
     }
 }
 
-
         $conditions = array_filter([$price_filter, $location_filter, $offerings_filter]);
         if (!empty($conditions)) {
             $filter_query = $main_query . " WHERE " . implode(" AND ", $conditions) . " " . $order_by;
-        } else {
+        // } else if (!empty($liked_offerings)) {
+        //     $filter_query = $main_query . " WHERE offeringIdPk IN (" . implode("," , $liked_offerings) . ")" . $order_by;
+        }else {
             $filter_query = $main_query . $order_by;
         }
         
