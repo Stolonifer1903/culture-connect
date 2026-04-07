@@ -19,6 +19,7 @@
             if ($check->num_rows > 0) {
                 // email already exists, don't insert
                 echo "User email already exists";
+                exit;
             } else {
                 //update new user in the table
                 $stmt1 = $connection->prepare("INSERT INTO user(userEmail, userFirstName, userLastName, userTitle, userPassword, userRole, roleId) VALUES (?, ?, ?, ?, ?, ?, -1)");
@@ -80,11 +81,16 @@
             $user_council = $_POST["council_select"];
 
             //get council id from the council table based on council name
-            // TODO fix against SQL injection
-            $sql = "SELECT councilIdPk  FROM council WHERE councilName  = '$user_council' ";
-            $result = $connection->query($sql);
-            $row = $result->fetch_assoc();
-            $council_id = $row["councilIdPk"];
+            $stmtC = $connection->prepare("SELECT councilIdPk FROM council WHERE councilName = ?");
+            $stmtC->bind_param("s", $user_council);
+            $stmtC->execute();
+            $resultC = $stmtC->get_result();
+            if ($resultC && $rowC = $resultC->fetch_assoc()) {
+                $council_id = $rowC["councilIdPk"];
+            } else {
+                echo "Error: Council not found.";
+                exit;
+            }
 
             // Check if business name already exists
             $check = $connection->prepare("SELECT businessIdPk FROM business WHERE businessName = ?");
@@ -95,6 +101,7 @@
             if ($check->num_rows > 0) {
                 // Business already exists, don't insert
                 echo "Business already exists";
+                exit;
             } else {
                 // Business doesn't exist, safe to insert
                 $stmt3 = $connection->prepare("INSERT INTO business(businessName, councilIdPk) VALUES (?, ?)");
@@ -114,11 +121,16 @@
             $user_council = $_POST["council_select"];
 
             //get council id from the council table based on council name
-            // TODO fix against SQL injection
-            $sql = "SELECT councilIdPk FROM council WHERE councilName = '$user_council' ";
-            $result = $connection->query($sql);
-            $row = $result->fetch_assoc();
-            $council_id = $row["councilIdPk"];
+            $stmtC = $connection->prepare("SELECT councilIdPk FROM council WHERE councilName = ?");
+            $stmtC->bind_param("s", $user_council);
+            $stmtC->execute();
+            $resultC = $stmtC->get_result();
+            if ($resultC && $rowC = $resultC->fetch_assoc()) {
+                $council_id = $rowC["councilIdPk"];
+            } else {
+                echo "Error: Council not found.";
+                exit;
+            }
 
             //insert counc_id_pk into user table
             $stmt2 = $connection->prepare("UPDATE user SET roleId = ? WHERE userIdPk = ?");
@@ -126,12 +138,12 @@
             $stmt2->execute();
         }
 
-        if ($stmt1->affected_rows > 0) { //TODO - update to include 
+        if (isset($stmt1) && $stmt1->affected_rows > 0) { //TODO - update to include 
             include 'login.php';
             header('Location: ../00Home.php', TRUE, 303);
             exit;
         } else {
-            throw new Exception("Error - " . $stmt->error);
+            throw new Exception("Error during registration process.");
         }
         
     }
