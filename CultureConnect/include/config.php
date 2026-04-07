@@ -20,7 +20,12 @@ set_exception_handler(function ($e) {
     error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
 
     // Redirect the user to our friendly error page
-    header("Location: error.php");
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    if (strpos($scriptName, '/include/') !== false) {
+        header("Location: ../error.php");
+    } else {
+        header("Location: error.php");
+    }
     exit();
 });
 
