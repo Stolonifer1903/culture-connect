@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 30, 2026 at 06:45 AM
+-- Generation Time: Apr 08, 2026 at 10:54 AM
 -- Server version: 10.5.29-MariaDB
 -- PHP Version: 8.5.3
 
@@ -192,6 +192,7 @@ ALTER TABLE `location`
 --
 ALTER TABLE `offering`
   ADD PRIMARY KEY (`offeringIdPk`),
+  ADD UNIQUE KEY `uniqueOfferingPerBusiness` (`offeringName`,`businessIdPk`),
   ADD KEY `businessIdPk` (`businessIdPk`),
   ADD KEY `locationIdPk` (`locationIdPk`),
   ADD KEY `offeringPriceRange` (`offeringPriceRange`);
