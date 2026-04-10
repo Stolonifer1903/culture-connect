@@ -1,0 +1,163 @@
+
+:root {
+  --primary: #3A5A40;   /* deep olive */
+  --secondary: #ACC8A2; /* soft sage */
+  --light: #F6F5F0;
+  --dark: #2B2B2B;
+}
+
+/* Main */ 
+body {
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #3A5A40;
+}
+
+p {
+  color: #555;
+}
+
+/* Tables */
+.table {
+  margin-left: auto;
+  margin-right: auto;
+  --bs-table-bg: none;
+  border-style: var(--primary);
+  border-radius: 10px;
+  border-collapse: collapse;
+  border-color: var(--light);
+  width: 85%;
+
+  > :not(caption) > * > * {
+    color: inherit;
+  }
+
+  > thead{
+    color: white;
+    background-color: var(--primary);
+  }
+
+}
+
+
+
+/* Header */
+.nav-link {
+  margin-left: 20px;
+}
+
+.navbar {
+  padding: 15px 0;
+}
+
+.navbar-brand {
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.navbar-text {
+  text-align: left;
+  justify-self: left;
+}
+
+/* Footer */
+.footer {
+  background-color: #527558;
+  color:  var(--light);
+}
+
+.footer p {
+  color: var(--light);
+}
+
+/* Buttons */
+.btn-custom {
+  background-color: var(--primary);
+  color: rgb(236, 222, 222);
+}
+
+.btn-custom:hover {
+  background-color: #588157;
+}
+
+.card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+
+
+.hero {
+  background: linear-gradient(135deg, #A3B18A, #3A5A40);
+  color: white;
+  padding: 80px 0;
+}
+
+.event-card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+.card-title {
+  color: #3A5A40;
+}
+
+/* Badges */
+.category-badge {
+  background-color: #A3B18A;
+  color: #2B2B2B;
+  margin-right: 5px;
+}
+
+.category-section {
+  background-color: #A3B18A;
+}
+
+.featured {
+  background-color: #F6F5F0;
+}
+
+.btn-custom {
+  background-color: #3A5A40;
+  color: white;
+  border: none;
+}
+
+.btn-custom:hover {
+  background-color: #588157;
+}
+
+
+
+.card {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
