@@ -18,4 +18,4 @@ from    (((((cultureconnect.offering o
         join cultureconnect.location l on(o.locationIdPk = l.locationIdPk)) 
         join cultureconnect.offeringpricing op on(o.offeringPriceRange = op.offeringPriceRange)) 
         left join cultureconnect.vote v on(v.offeringIdPk = o.offeringIdPk)) 
-group by o.offeringIdPk
+group by o.offeringIdPk;

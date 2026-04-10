@@ -1,4 +1,4 @@
-INSERT INTO `interestarea` (`interestAreaIdPk`, `interestAreaName`, `InterestAreaProductOrService`) VALUES
+INSERT INTO interestarea (interestAreaIdPk, interestAreaName, InterestAreaProductOrService) VALUES
 (1, 'Art classes', 2),
 (2, 'Music lessons', 2),
 (3, 'Live theatre performances', 2),
