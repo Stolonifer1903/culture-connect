@@ -20,7 +20,13 @@
     if (isset($_SESSION['role']) && isset($_SESSION['role_id'])){
         $role = $_SESSION['role'];
         if ($role == 2){
-        $business = $_SESSION['role_id'];
+            $business = $_SESSION['role_id'];
+            if ($of_id != ""){
+                include('include/getBusinessInfo.php');
+                if ($of_bus_name != $bus_name){
+                    throw new Exception("Not your business");
+                }
+            }
         }
     }
     ?>
@@ -36,7 +42,7 @@
     <section class="text-left py-3">
         <div class="container">
             <!-- Table containing offering -->
-            <form id="editoffering" name="editoffering" action="include/updateOffering.php?offeringIdPk=<?php echo $of_id;?>" method="post">
+            <form id="editoffering" name="editoffering" action="include/updateOffering.php?offeringIdPk=<?php echo $of_id;?>" method="post" enctype="multipart/form-data">
                 <table class="table">
                     <?php
                     if ($role ==4){
@@ -52,7 +58,7 @@
                                     throw new Exception("Invalid query: " . $connection->error);
                                 }
                                 while ($row = $result->fetch_assoc()) {
-                                    $is_selected = ($row['businessName'] == $bus_name) ? 'selected' : '' ;
+                                    $is_selected = ($row['businessName'] == $of_bus_name) ? 'selected' : '' ;
                                     echo "<option id='" . $row['businessName'] . "' value='" . $row['businessIdPk'] . "' " . $is_selected . ">" . $row['businessName'] . "</option>";
                                 }
                         echo "
@@ -75,7 +81,7 @@
                                     throw new Exception("Invalid query: " . $connection->error);
                                 }
                                 while ($row = $result->fetch_assoc()) {
-                                    $is_selected = ($row['locationName'] == $loc_name) ? 'selected' : '' ;
+                                    $is_selected = ($row['locationName'] == $of_loc_name) ? 'selected' : '' ;
                                     echo "<option id='" . $row['locationName'] . "' value='" . $row['locationName'] . "' " . $is_selected . ">" . $row['locationName'] . "</option>";
                                 }
                                 ?>
@@ -96,7 +102,7 @@
                                     throw new Exception("Invalid query: " . $connection->error);
                                 }
                                 while ($row = $result->fetch_assoc()) {
-                                    $is_selected = ($row['interestAreaName'] == $int_name) ? 'selected' : '' ;
+                                    $is_selected = ($row['interestAreaName'] == $of_int_name) ? 'selected' : '' ;
                                     echo "<option id='" . $row['interestAreaName'] . "' value='" . $row['interestAreaName'] . "' " . $is_selected . ">" . $row['interestAreaName'] . "</option>";
                                 }
                                 ?>
@@ -127,7 +133,7 @@
                     <tr>
                         <td><label for="cultural_benefit">Cultural benefit:</label></td>
                         <td><textarea id="cultural_benefit" name="cultural_benefit" rows="4" cols="68"
-                                maxlength="300"><?php echo (($of_cultural_benefits) ?  $of_cultural_benefits: '' );?></textarea></td>
+                                maxlength="300"><?php echo (($of_cultural_benefits) ?  $of_cultural_benefits : "" );?></textarea></td>
                     </tr>
                     <tr>
                         <td><label for="price_range">Price range:</label></td>
@@ -145,6 +151,12 @@
                                 }
                                 ?>
                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="image">Image:</label></td>
+                        <td>
+                            <input type="file" name="image" id="image" accept="image/*">
                         </td>
                     </tr>
                     <!-- Submit or cancel-->

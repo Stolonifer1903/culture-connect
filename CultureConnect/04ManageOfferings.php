@@ -21,7 +21,6 @@
         $business = $_SESSION['role_id'];
         $sql2 = " WHERE businessName = (SELECT businessName FROM business WHERE businessIdPk = " .$business. ")" ;
         } else if ($role == 4) {
-        $council = $_GET['councilIdPk'];
         $sql2 = "";
         } else {
              throw new Exception("Access not authorised");

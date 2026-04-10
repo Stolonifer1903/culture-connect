@@ -46,25 +46,25 @@
             <div class="row g-4">
 
                 <div class="col-md-4">
-                    <div class="card">
+                    <div class="card" onclick="window.location.href='showOfferings.php?allProducts=true'" style='cursor: pointer;'>
                         <div class="card-body">
-                            <h5>Local Artists</h5>
-                            <p>Support creatives in your area.</p>
+                            <h5>Products</h5>
+                            <p>See local crafts.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card">
+                    <div class="card" onclick="window.location.href='showOfferings.php?allServices=true'" style='cursor: pointer;'>
                         <div class="card-body">
-                            <h5>Events</h5>
+                            <h5>Events and services</h5>
                             <p>Discover cultural experiences.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card">
+                    <div class="card" onclick="window.location.href='showBusinesses.php'" style='cursor: pointer;'>
                         <div class="card-body">
                             <h5>Businesses</h5>
                             <p>Explore innovative local shops.</p>
