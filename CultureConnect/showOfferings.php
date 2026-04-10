@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View products and services</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="css/styleOfferings.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- <link href="css/styleOfferings.css" rel="stylesheet"> -->
+    <link href="css/offeringItemStyle.css" rel="stylesheet">
 </head>
 <body onload="userVisibility()">
     <?php
@@ -32,20 +35,23 @@
     
      <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
-    <section class="text-center py-4">
-        <h1>Browse cultural events and products</h1>
+    <section class="text-center py-4" style="background-color:#3A5A40;">
+        <div class="container">
+            <h1 style="color:white">Browse cultural events and products</h1>
+            <p style="color:white">See what's on offer locally or a bit further away</p>
+        </div>
     </section>
     <section class="py-3">
         <div class="container">
             <div class="input-group mb-2">
-                <input type="text" class="form-control" placeholder="Search offerings">
-                <button class="btn btn-light" type="button">Search</button>
+                <input type="text" class="form-control" id="search_input" placeholder="Search offerings">
+                <button class="btn btn-light" type="button" onclick="doSearch()">Search</button>
                 <br>
             </div>
             <div style="margin-top:5px; margin-right:5px;">
                 <span style="margin-left:10px; margin-right:30px">Quick filters:</span>
-                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleAll('products', this)" id="allProducts">Show all products</button>
-                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleAll('services', this)" id="allServices">Show all services</button>
+                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleAll('products', this, false)" id="allProducts">Show all products</button>
+                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleAll('services', this, false)" id="allServices">Show all services</button>
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleCloseToMe(this)" id="closeToMe">Close to me</button>
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleABitFurtherAway(this)" id="furtherAway">A bit further away</button>
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleMyInterests(this)" id="myInterests">My interests</button>
@@ -64,15 +70,17 @@
     <section class="row flex-xl-nowrap mx-0">
         <div class="col-12 col-md-2 bd-sidebar">
             <form id="filters" name="filters" action="showOfferings.php" method="get">
-                <h2><span>Filters<button type="button" class="btn btn-danger btn-sm" style="margin-left:20px" onclick="window.location.href='showOfferings.php';">Clear all filters</button></span></h2>
+                <div class='d-flex justify-content-between align-items-center'>
+                    <h2 class='mb-0'>Filters</h2>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="window.location.href='showOfferings.php';">Clear all filters</button>
+                </div>
                 <hr>
                 <?php
                 $location_open = !empty($selected_locations) ? 'true' : 'false';
                 $location_show = !empty($selected_locations) ? 'show' : '';
                 ?>
-                <a class='collapse-heading' data-bs-toggle='collapse' href='#location_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
-                    <h4>Locations<img src=images/expand.svg height="30px" width="30px" style="float: right;"></h4></a>
-                </p>
+                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#location_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
+                    <b>Locations</b><i class="bi bi-chevron-down"></i></a>
                 <div class="row">
                     <div class="col">
                         <div class="collapse multi-collapse <?php echo $location_show; ?>" id="location_select"> 
@@ -91,7 +99,7 @@
                                 echo "<input type='checkbox' id='" . $location . "' name='locations[]' value='" . $location . "' " . $checked . "  onChange='applyFilters()';>
                                     <label for='" . $location . "'>" . $location . "</label><br>";  
                             } else {
-                                echo "<br><h6>" . $council . "</h6>
+                                echo "<h6 style='margin-top:5px; margin-bottom:5px;'>" . $council . "</h6>
                                     <input type='checkbox' id='" . $location . "' name='locations[]' value='" . $location . "' " . $checked . "  onChange='applyFilters()'>
                                     <label for='" . $location . "'>" . $location . "</label><br>";                           
                             }
@@ -102,14 +110,12 @@
                     </div>
                 </div>
                 <hr>
-                <p>
                 <?php
                 $price_open = !empty($selected_prices) ? 'true' : 'false';
                 $price_show = !empty($selected_prices) ? 'show' : '';
                 ?>
-                <a class="collapse-heading" data-bs-toggle="collapse" href="#price_select" role="button" aria-expanded="<?php echo $price_open; ?>" aria-controls="price_select">
-                    <h4>Price range<img src=images/expand.svg height="30px" width="30px" style="float: right;"></h4></a>
-                </p>
+                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#price_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
+                    <b>Price range</b><i class="bi bi-chevron-down"></i></a>
                 <div class="row">
                     <div class="col">
                         <div class="collapse multi-collapse <?php echo $price_show; ?>" id="price_select">
@@ -139,14 +145,12 @@
                     </div>
                 </div>
                 <hr>
-                <p>
                 <?php
                 $services_open = !empty($selected_services) ? 'true' : 'false';
                 $services_show = !empty($selected_services) ? 'show' : '';
                 ?>
-                <a class="collapse-heading" data-bs-toggle="collapse" href="#services_select" role="button" aria-expanded="<?php echo $services_open; ?>" aria-controls="services_select">
-                    <h4>Services<img src=images/expand.svg height="30px" width="30px" style="float: right;"></h4></a>
-                </p>
+                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#services_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
+                    <b>Services</b><i class="bi bi-chevron-down"></i></a>
                 <div class="row">
                     <div class="col">
                         <div class="collapse multi-collapse <?php echo $services_show; ?>" id="services_select">
@@ -175,14 +179,12 @@
                     </div>
                 </div>
                 <hr>
-                <p>
                 <?php
                 $products_open = !empty($selected_products) ? 'true' : 'false';
                 $products_show = !empty($selected_products) ? 'show' : '';
                 ?>
-                <a class="collapse-heading" data-bs-toggle="collapse" href="#products_select" role="button" aria-expanded="<?php echo $products_open; ?>" aria-controls="products_select">
-                    <h4>Products<img src=images/expand.svg height="30px" width="30px" style="float: right;"></h4></a>
-                </p>
+                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#products_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
+                    <b>Products</b><i class="bi bi-chevron-down"></i></a>
                 <div class="row">
                     <div class="col">
                         <div class="collapse multi-collapse <?php echo $products_show; ?>" id="products_select">
@@ -210,7 +212,8 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" id="orderby" name="orderby" value="popular">
+                <input type="hidden" id="orderby" name="orderby" value="popular"> <!-- order by search terms -->
+                <input type="hidden" id="search_term" name="search_term" value=""> <!-- search bar input -->
             </form>
             <hr>
         </div>
@@ -227,178 +230,14 @@
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script>
-    //<!-- declare script constants
-        const allProductsButton = document.getElementById('allProducts');
-        const allServicesButton = document.getElementById('allServices');
-        const closeToMeButton = document.getElementById('closeToMe');
-        const furtherAwayButton = document.getElementById('furtherAway');
-        const myInterestsButton = document.getElementById('myInterests');
-        const myVotedButton = document.getElementById('myVoted');
-        const role = <?php echo json_encode($_SESSION['role'] ); ?>;
-
-        console.log ("role:" + role);
-        console.log('closeToMeButton:', closeToMeButton);
-        console.log('furtherAwayButton:', furtherAwayButton);
-
-    //<!-- set toggle button visibility based on role -->
-        function userVisibility(){
-            if (role != 1) {
-                closeToMeButton.style.display = "none";
-                furtherAwayButton.style.display = "none";
-                myInterestsButton.style.display = "none";
-                myVotedButton.style.display = "none";
-                const votes = document.querySelectorAll('[name="votes"]')
-                votes.forEach(vote => {
-                    vote.style.display = "none";
-                });
-            }
-        }
-    
-    //<!--get the toggle filter state and call getFilteredOfferings.php -->
-        function applyFilters() {
-            const form = document.getElementById('filters'); //gets the filters form 
-            const formData = new FormData(form);            //gets the info from the form
-
-            console.log('orderby value:', document.getElementById('orderby').value);
-            console.log('formData orderby:', formData.get('orderby'));
-            
-            const params = new URLSearchParams(formData);   //converts the form data to URLSearchParams query string
-            history.pushState(null, '', 'showOfferings.php?' + params.toString()); //creates a weblink
-
-            fetch('include/getFilteredOfferings.php', {     //gets the filtered offerings from the db without reloading the page
-                method: 'POST',
-                body: formData
-            })
-            .then(r => r.text())                            //when the query completes, gets the response and converts it to text
-            .then(html => {                                 //then inserts the text as html into the grid
-                document.getElementById('product-grid').innerHTML = html;
-                userVisibility();                           //refresh what is visible based on user role
-            });
-            
-        }
-    
-    //<!-- toggle show all products / show all services buttons -->
-        function toggleAll(name, btn) {
-        const checkboxes = document.querySelectorAll('input[name="' + name + '[]"]');   //get all the products or services checkboxes
-        const allChecked = Array.from(checkboxes).every(cb => cb.checked);              //returns true if all of the boxes are checked
-        checkboxes.forEach(cb => cb.checked = !allChecked);                             //checks or unchecks every box depending on allChecked state (does the opposite)
-        btn.classList.toggle('active', !allChecked);                                    //toggles the button depending on allChecked state (does the opposite)
-        myInterestsButton.classList.toggle('active',false); 
-        myVotedButton.classList.toggle('active',false); 
-        applyFilters();                                                                 //fills the grid
-        }
-
-    //<!-- toggle close to me button -->
-        function toggleCloseToMe(btn) {
-        const checkboxes = document.querySelectorAll('input[name="locations[]"]'); //gets all the locations checkboxes
-        checkboxes.forEach(cb => cb.checked = false);                               //uncheck all the boxes
-        const myLocation = "<?php echo "" . $location_name . ""; ?>"; //get the location from the database
-        const checkbox = document.querySelector('input[name="locations[]"][value="' + myLocation + '"]');             //finds the checkbox of the location                        
-        const isToggled = btn.classList.contains('active');
-        if (isToggled) {
-            if (checkbox) checkbox.checked = true;
-            furtherAwayButton.classList.toggle('active',false);
-        }
-        applyFilters();
-        }
-
-    //<!-- toggle a bit further away button -->
-        function toggleABitFurtherAway(btn) {
-        const checkboxes = document.querySelectorAll('input[name="locations[]"]'); //gets all the locations checkboxes
-        checkboxes.forEach(cb => cb.checked = false);                               //uncheck all the boxes
-        const myLocations = <?php echo json_encode($close_locations); ?>; //get the close locations from the database                   
-        const isToggled = btn.classList.contains('active');
-        if (isToggled) {
-            myLocations.forEach(location => {
-                const checkbox = document.querySelector('input[name="locations[]"][value="' + location + '"]');
-                if (checkbox) checkbox.checked = true;   
-            })
-            closeToMeButton.classList.toggle('active',false); 
-        }
-        applyFilters();
-        }
-
-    //<!-- toggle my interests button -->
-        function toggleMyInterests(btn) {
-        const checkboxes = document.querySelectorAll('input[name="products[]"], input[name="services[]"]'); //gets all the products and services checkboxes
-        checkboxes.forEach(cb => cb.checked = false);                           //uncheck all the boxes
-        const myInterests = <?php echo json_encode($interests); ?>; //get the user interests from the database                   
-        const isToggled = btn.classList.contains('active');
-        if (isToggled) {
-            myInterests.forEach(interest => {
-                const productsCheckbox = document.querySelector('input[name="products[]"][value="' + interest + '"]');
-                if (productsCheckbox) productsCheckbox.checked = true;   
-                const servicesCheckbox = document.querySelector('input[name="services[]"][value="' + interest + '"]');
-                if (servicesCheckbox) servicesCheckbox.checked = true; 
-            })
-            allProducts.classList.toggle('active',false); 
-            allServices.classList.toggle('active',false); 
-            myVoted.classList.toggle('active',false);
-        }
-        applyFilters();
-        }
-
-    //<!-- toggle my voted items button -->
-        function toggleMyVoted(btn) {
-        // const checkboxes = document.querySelectorAll('input[name="products[]"], input[name="services[]"]'); //gets all the products and services checkboxes
-        // checkboxes.forEach(cb => cb.checked = false);                           //uncheck all the boxes
-        // const myVotes = <?php echo json_encode($votes); ?>; //get the user interests from the database                   
-        // const isToggled = btn.classList.contains('active');
-        // allProducts.classList.toggle('active',false); 
-        // allServices.classList.toggle('active',false);
-        // myInterests.classList.toggle('active',false);
-        // applyFilters();
-        }
-
-    //<!-- set the order by input -->
-        function setOrderBy(input, btn){
-            const popularButton = document.getElementById('popular');
-            const azButton = document.getElementById('az');
-            const zaButton = document.getElementById('za');
-            const prAscButton = document.getElementById('1-9');
-            const prDsButton = document.getElementById('9-1');
-
-            //untoggle all buttons
-            popularButton.classList.toggle('active',false); 
-            azButton.classList.toggle('active',false); 
-            zaButton.classList.toggle('active',false); 
-            prAscButton.classList.toggle('active',false); 
-            prDsButton.classList.toggle('active',false); 
-
-            btn.classList.toggle('active', true)                //toggle the clicked button
-
-            document.getElementById('orderby').value = input;   //set the input value
-
-            applyFilters();                                     //fill the grid
-        }
-
-    //<!-- add event listener to handle backwards and forwards browsing -->
-        window.addEventListener('popstate', function(){                                     //whenever the user hits the back button
-            const params = new URLSearchParams(window.location.search);                     //gets the URL search params from the current page
-
-            document.querySelectorAll('#filters input[type="checkbox"]').forEach(cb=> {     //uncheck every checkbox in the filters form
-                cb.checked = false;
-            });
-
-            for (const [key, value] of params) {                                            //for each parameter and value in the params string, 
-                const checkbox = document.querySelector('input[name="' + key + '"][value="' + value + '"]');             //find a checkbox with the key and value                          
-                if (checkbox) checkbox.checked = true;                                      //if there is a matching checkbox, check it
-            }
-
-            //get the filtered offerings again from the url
-            fetch('include/getFilteredOfferings.php', {     //gets the filtered offerings from the db without reloading the page
-                method: 'POST',
-                body: params
-            })
-            .then(r => r.text())                            //when the query completes, gets the response and converts it to text
-            .then(html => {                                 //then inserts the text as html into the grid
-                document.getElementById('product-grid').innerHTML = html;
-            });
-
-        })
-
-    
+    // set variables needed in applyFiltersViewOfferings.js that need PHP
+    const role = <?php echo json_encode($_SESSION['role'] ?? null); ?>;
+    const myLocation = "<?php echo $location_name ?? ''; ?>";
+    const myLocations = <?php echo json_encode($close_locations ?? []); ?>;
+    const myInterests = <?php echo json_encode($interests ?? []); ?>;
+    const councilLocations = <?php echo json_encode($council_locations ?? []); ?>;
     </script>
+    <script src="js/applyFiltersViewOfferings.js"></script>
     
 </body>
 </html>

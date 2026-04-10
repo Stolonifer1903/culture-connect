@@ -7,7 +7,7 @@
             $stmt = $connection->prepare("INSERT INTO council(CouncilName) VALUES ('New council')");
             $stmt->execute();
             $counc_id = $connection->insert_id;
-        } else if (isset($_GET['councilIdPk'])) {
+        } else if (isset($_GET['councilIdPk']) && ($_SESSION['role'] == 4)) {
             $counc_id = $_GET['councilIdPk'];
         } else {
             throw new Exception("Error - " . $stmt->error);

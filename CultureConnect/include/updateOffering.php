@@ -42,27 +42,61 @@
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         $price_id = $row["offeringPriceRange"];
-    
 
+           
         //update the table
-        if (isset($_POST["offeringIdPk"])){ //if offering id exists update the entry that is already there
+        if (!empty($_POST["offeringIdPk"])){ //if offering id exists update the entry that is already there
             $of_id_pk = $_POST["offeringIdPk"];
             $stmt = $connection->prepare("UPDATE offering SET businessIdPk = ?, offeringCategory = ?, locationIdPk = ?, offeringName = ?, 
-                                        offeringDescription = ?, offeringDetails = ?, offeringCulturalBenefits = ?, offeringPriceRange = ?  
+                                        offeringDescription = ?, offeringDetails = ?, offeringCulturalBenefits = ?, offeringPriceRange = ?
                                             WHERE offeringIdPk = ?");
             $stmt->bind_param("iiissssii", $business, $category_id, $location_id, $name, $description, $details, $cultural_benefit,$price_id, $of_id_pk);
             
         } else { //otherwise insert a new entry into the table
-            $stmt = $connection->prepare("INSERT INTO offering(businessIdPk, offeringCategory, locationIdPk, offeringName, offeringDescription, offeringDetails, offeringCulturalBenefits, offeringPriceRange) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("iiissssi", $business, $category_id, $location_id, $name, $description, $details, $cultural_benefit,$price_id);
+            $stmt = $connection->prepare("INSERT INTO offering(businessIdPk, offeringCategory, locationIdPk, offeringName, offeringDescription, offeringDetails, 
+                                        offeringCulturalBenefits, offeringPriceRange) 
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ? )");
+            $stmt->bind_param("iiissssi", $business, $category_id, $location_id, $name, $description, $details, $cultural_benefit, $price_id);
         }
         $stmt->execute();
 
-        if ($stmt->affected_rows > 0)  { //TODO - update to include 
-                header('Location: ../04ManageOfferings.php', TRUE, 303);
-                exit;
-            } else {
+        if ($stmt-> errno )  { //TODO - update to include 
+            throw new Exception("Error - " . $stmt->error);
+        }
+
+        //sets of_id_pk for new offerings
+        if (empty($_POST["offeringIdPk"])) {
+            $of_id_pk = $connection->insert_id;
+        }
+
+        //validate the image
+        if (!empty($_FILES['image']['name'])){
+            $upload_directory = '../images/offerings/';
+            $file_name = basename($_FILES['image']['name']);
+            $file_tmp = $_FILES['image']['tmp_name'];
+            $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+            $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            if (!in_array($file_ext, $allowed)) {
+                throw new Exception("Invalid file type");
+            }
+            $upload_file_name = $of_id_pk . '.' . $file_ext;
+
+            if (!move_uploaded_file($file_tmp, $upload_directory . $upload_file_name)) {
+                throw new Exception("Failed to upload image");
+            }
+            $result = move_uploaded_file($file_tmp, $upload_directory . $upload_file_name);
+            
+            // update the image filename in the db
+            $stmt = $connection->prepare("UPDATE offering SET offeringImage = ? WHERE offeringIdPk = ?");
+            $stmt->bind_param("si", $upload_file_name, $of_id_pk);
+            $stmt->execute();
+
+            if ($stmt->errno)  { //if any errors saving to db, throw error
                 throw new Exception("Error - " . $stmt->error);
             }
+        }
+        header('Location: ../04ManageOfferings.php', TRUE, 303);
+        exit;
     }
 ?>

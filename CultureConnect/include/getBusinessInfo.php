@@ -7,7 +7,7 @@
             $stmt = $connection->prepare("INSERT INTO business(businessName, councilIdPk) VALUES ('New business', 1)");
             $stmt->execute();
             $bus_id = $connection->insert_id;
-        } else if (isset($_GET['businessIdPk'])) {
+        } else if (isset($_GET['businessIdPk']) && ($_SESSION['role'] == 4)) {
             $bus_id = $_GET['businessIdPk'];
         } else {
             throw new Exception("Error - " . $stmt->error);
