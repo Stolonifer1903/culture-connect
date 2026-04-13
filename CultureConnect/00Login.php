@@ -19,48 +19,56 @@
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container">
             <a class="navbar-brand" href="00Home.php">CULTURE CONNECT</a>
+            <a id='home' class='nav-link d-inline' href='00Home.php'>Home</a>
         </div>
     </nav>
-
+    <hr class="m-0">
     <!-- Login box -->
     <section class="text-center py-2 d-flex align-items-center justify-content-center" style="min-height: 80vh;">
-        <div id="login" class="container">
-            <br><br><br><br>
-            <h2> Log in to view our initiatives </h2>
-            <form name="login" method="post" action="include/login.php">
-                <table class="table" height="140" style="width: 35%;">
-                    <tr>
-                        <td>Email Address: * </td>
-                        <td><input type="text" name="email" /></td>
-                    </tr>
-                    <tr>
-                        <td>Password: * </td>
-                        <td><input type="password" name="password" /></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input class='btn btn-custom' style="margin-right:25px;margin-top:20px" type="submit"
-                                value="Log in" id="login" name="login"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <a href="02RegisterUser.php?register_as=resident" class='link-dark' style="margin-left: 80px;">Register</a>
-                            <a href="99FeatureComing.html" class='link-dark' style="margin-left: 50px">Reset
-                                password</a>
-                        </td>
-                </table>
-            </form>
-            <?php
-            if (isset($_SESSION['error'])) {
-                echo "<p color: red>" . $_SESSION['error'] . "</p>";
-                unset($_SESSION['error']);
-            } else {
-                echo "<p></p>";
-            }
-            ?>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <h2 class="mb-4">Log in to view our initiatives</h2>
+                    <div class="card no-hover border-0 shadow-sm p-4">
+                        <div class="card-body">
+                            
+                            <form name="login" method="post" action="include/login.php">
+                                <table class="table table-borderless" style="width: 100%;">
+                                    <tr>
+                                        <td class="text-start">Email Address: *</td>
+                                        <td><input type="text" name="email" class="form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-start">Password: *</td>
+                                        <td><input type="password" name="password" class="form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="text-start"><input class='btn btn-custom' style="margin-top:20px" type="submit" value="Log in" name="login">
+                                        <input class='btn btn-secondary' style="margin-top:20px; margin-left:25px"action="action" type="button" value="Cancel" onclick="window.history.go(-1); return false;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <a href="02RegisterUser.php?register_as=resident" class='link-dark'>Register</a>
+                                            <a href="99FeatureComing.php" class='link-dark' style="margin-left: 50px">Reset password</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        <?php
+                        if (isset($_SESSION['error'])) {
+                            echo "<p color: red>" . $_SESSION['error'] . "</p>";
+                            unset($_SESSION['error']);
+                        } else {
+                            echo "<p></p>";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
-    </br>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
 </body>
