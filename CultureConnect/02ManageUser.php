@@ -195,7 +195,7 @@
                                         if (in_array('Original artwork', $interests)) {echo "<input type='checkbox' id='artwork' name='servicesandproducts[]' value='Original artwork' checked>";}
                                         else {echo "<input type='checkbox' id='artwork' name='servicesandproducts[]' value='Original artwork'>";}
                                         ?>
-                                        echo "<label for='artwork'>Original artwork</label>
+                                        <label for='artwork'>Original artwork</label>
                                     </td>
                                     <td>
                                         <?php
@@ -289,6 +289,8 @@
                 toggleFieldsManageUser('business');
             } else if (user_type===3) {
                 toggleFieldsManageUser('council');
+            } else if (user_type===4) {
+                toggleFieldsManageUser('admin');
             } else {
                 toggleFieldsManageUser('resident')
             }

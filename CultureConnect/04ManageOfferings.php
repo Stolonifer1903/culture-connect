@@ -14,7 +14,18 @@
     <!--Session start-->
     <?php
     session_start();
-    include('include/config.php')
+    include('include/config.php');
+    if (isset($_SESSION['role'])){
+        $role = $_SESSION['role'];
+        if ($role == 2 && isset($_SESSION['role_id'])){
+        $business = $_SESSION['role_id'];
+        $sql2 = " WHERE businessName = (SELECT businessName FROM business WHERE businessIdPk = " .$business. ")" ;
+        } else if ($role == 4) {
+        $sql2 = "";
+        } else {
+             throw new Exception("Access not authorised");
+        }
+    }
         ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
@@ -37,7 +48,7 @@
             </form>
             <br>
             <table class="table" width=80%>
-                <thead style="border-bottom-width: 3px; border-bottom-color: white;>
+                <thead style="border-bottom-width: 3px; border-bottom-color: white;">
                     <tr>
                         <th style=" display:none">ID</th>
                     <th>Business name</th>
@@ -54,28 +65,28 @@
                 <tbody style="color: white; background-color: #527558;">
                     <!-- TODO: UPDATE PHP -->
                     <?php
-                    include 'include/config.php';
-                    $sql = "SELECT * FROM view_offerings";
+                    $sql = "SELECT * FROM view_offerings" . $sql2;
                     $result = $connection->query($sql);
                     if (!$result) {
                         throw new Exception("Invalid query: " . $connection->error);
                     }
                     while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                                <td style='display: none; '>" . $row["offeringIdPk"] . "</td>
-                                <td>" . $row["businessName"] . "</td>
-                                <td>" . $row["offeringName"] . "</td>
-                                <td>" . $row["interestAreaName"] . "</td>
-                                <td>" . $row["locationName"] . "</td>
-                                <td>" . $row["offeringDescription"] . "</td>
-                                <td>" . $row["offeringDetails"] . "</td>
-                                <td>" . $row["offeringCulturalBenefits"] . "</td>
-                                <td>" . $row["offeringPriceRangeDescription"] . "</td>
-                                <td>
-                                    <a class='btn btn-primary btn-sm' href='06ViewOffering.php?offeringIdPk=$row[offeringIdPk]'>Update</a>
-                                    <a class='btn btn-danger btn-sm' href='include/deleteOffering.php?offeringIdPk=$row[offeringIdPk]'>Delete</a>
-                                </td>
-                            </tr>";
+                        echo 
+                        "<tr>
+                            <td style='display: none; '>" . $row["offeringIdPk"] . "</td>
+                            <td>" . $row["businessName"] . "</td>
+                            <td>" . $row["offeringName"] . "</td>
+                            <td>" . $row["interestAreaName"] . "</td>
+                            <td>" . $row["locationName"] . "</td>
+                            <td>" . $row["offeringDescription"] . "</td>
+                            <td>" . $row["offeringDetails"] . "</td>
+                            <td>" . $row["offeringCulturalBenefits"] . "</td>
+                            <td>" . $row["offeringPriceRangeDescription"] . "</td>
+                            <td>
+                                <a class='btn btn-primary btn-sm' href='05EditOffering.php?offeringIdPk=$row[offeringIdPk]'>Update</a>
+                                <a class='btn btn-danger btn-sm' href='include/deleteOffering.php?offeringIdPk=$row[offeringIdPk]'>Delete</a>
+                            </td>
+                        </tr>";
                     }
                     ?>
                 </tbody>

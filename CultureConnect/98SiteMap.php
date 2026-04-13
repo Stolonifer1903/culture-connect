@@ -42,10 +42,10 @@
             <a href="01EditLocations.php">Manage locations</a>
         </ul>
         <ul>
-            <a href="99FeatureComing.html">Edit user profile</a>
+            <a href="99FeatureComing.php">Edit user profile</a>
         </ul>
         <ul>
-            <a href="99FeatureComing.html">Admin pages</a>
+            <a href="99FeatureComing.php">Admin pages</a>
         </ul>
     </section>
     <!-- Gets the footer from a central location -->

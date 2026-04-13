@@ -13,8 +13,8 @@
     <!--Session start-->
     <?php
     session_start();
-    include'include/config.php';
-    include 'include/getBusinessInfo.php';
+    include ('include/config.php');
+    include ('include/getBusinessInfo.php');
     ?>
     <!-- Gets the header from a central location -->
     <div id='header'><?php include('templates/template_navbar.php'); ?></div>

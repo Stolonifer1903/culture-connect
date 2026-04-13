@@ -38,10 +38,10 @@
                     $row = $result->fetch_assoc();
                     $location_name = $row["locationName"];
                 } else {
-                    echo "Error";
+                    throw new Exception("Error - " . $stmt->error);
                 }
             } else {
-                echo "Error";
+                throw new Exception("Error - " . $stmt->error);
             }
             //get interests from the interest table
             $stmt = $connection->prepare("SELECT interestAreaName FROM interestarea INNER JOIN residentinterests ON residentinterests.interestAreaIdPk = interestarea.interestAreaIdPk WHERE residentIdPk = ?");
@@ -62,6 +62,6 @@
         }
         
     } else {
-        echo "Error";
+        throw new Exception("Error - not logged in");
     }
 ?>
