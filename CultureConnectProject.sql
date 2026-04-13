@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2026 at 03:25 PM
+-- Generation Time: Apr 13, 2026 at 06:06 PM
 -- Server version: 10.5.29-MariaDB
 -- PHP Version: 8.5.3
 
@@ -368,6 +368,18 @@ ALTER TABLE `vote`
 --
 ALTER TABLE `business`
   MODIFY `businessIdPk` int(13) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `council`
+--
+ALTER TABLE `council`
+  MODIFY `councilIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `interestArea`
+--
+ALTER TABLE `interestArea`
+  MODIFY `interestAreaIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `location`
