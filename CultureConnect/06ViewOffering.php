@@ -112,6 +112,9 @@
                 <button class="btn btn-danger px-4" onclick="setVote('no')">
                     👎 No
                 </button>
+                <button class="btn btn-outline-secondary px-4" onclick="setVote('clear')">
+                    ✖️ Remove vote
+                </button>
             </div>
             <?php else: ?>
             <p class="text-muted text-center">You must be logged in as a resident to vote.  <a href="00Login.php">Login</a> or <a href="02RegisterUser.php">Register</a></p>
