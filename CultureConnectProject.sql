@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 10, 2026 at 06:07 PM
+-- Generation Time: Apr 13, 2026 at 03:25 PM
 -- Server version: 10.5.29-MariaDB
 -- PHP Version: 8.5.3
 
@@ -147,7 +147,8 @@ CREATE TABLE `offering` (
   `locationIdPk` int(13) NOT NULL,
   `businessIdPk` int(13) NOT NULL,
   `offeringDetails` varchar(255) DEFAULT NULL,
-  `offeringAwards` varchar(100) NOT NULL DEFAULT 'None'
+  `offeringAwards` varchar(100) NOT NULL DEFAULT 'None',
+  `offeringImage` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -203,6 +204,17 @@ CREATE TABLE `residentInterests` (
   `interestAreaIdPk` int(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+--
+-- Dumping data for table `residentInterests`
+--
+
+INSERT INTO `residentInterests` (`residentInterestIdPk`, `residentIdPk`, `interestAreaIdPk`) VALUES
+(1, 3, 2),
+(2, 3, 3),
+(3, 3, 6),
+(4, 3, 14),
+(5, 3, 15);
+
 -- --------------------------------------------------------
 
 --
@@ -233,37 +245,37 @@ INSERT INTO `user` (`userIdPk`, `userFirstName`, `userLastName`, `userEmail`, `u
 -- --------------------------------------------------------
 
 --
--- Table structure for table `viewLocation`
+-- Stand-in structure for view `view_locations`
+-- (See below for the actual view)
 --
-
-CREATE TABLE `viewLocation` (
-  `locationIdPk` int(11) NOT NULL,
-  `locationName` varchar(255) DEFAULT NULL,
-  `councilName` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `view_locations` (
+`locationIdPk` int(13)
+,`locationName` varchar(200)
+,`councilName` varchar(200)
+);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `viewOfferings`
+-- Stand-in structure for view `view_offerings`
+-- (See below for the actual view)
 --
-
-CREATE TABLE `viewOfferings` (
-  `offeringIdPk` int(11) NOT NULL,
-  `businessName` varchar(255) DEFAULT NULL,
-  `offeringName` varchar(255) DEFAULT NULL,
-  `interestAreaName` varchar(100) DEFAULT NULL,
-  `locationName` varchar(150) DEFAULT NULL,
-  `offeringDescription` text DEFAULT NULL,
-  `offeringDetails` text DEFAULT NULL,
-  `offeringCulturalBenefits` text DEFAULT NULL,
-  `offeringAwards` text DEFAULT NULL,
-  `offeringPriceRangeDescription` varchar(100) DEFAULT NULL,
-  `offeringImage` varchar(255) DEFAULT NULL,
-  `yesVotes` int(11) DEFAULT 0,
-  `noVotes` int(11) DEFAULT 0,
-  `displayVotes` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+CREATE TABLE `view_offerings` (
+`offeringIdPk` int(13)
+,`businessName` varchar(200)
+,`offeringName` varchar(200)
+,`interestAreaName` varchar(200)
+,`locationName` varchar(200)
+,`offeringDescription` varchar(200)
+,`offeringDetails` varchar(255)
+,`offeringCulturalBenefits` varchar(200)
+,`offeringAwards` varchar(100)
+,`offeringImage` varchar(255)
+,`offeringPriceRangeDescription` varchar(200)
+,`yesVotes` decimal(23,0)
+,`noVotes` decimal(23,0)
+,`displayVotes` decimal(24,0)
+);
 
 -- --------------------------------------------------------
 
@@ -340,18 +352,6 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`userIdPk`);
 
 --
--- Indexes for table `viewLocation`
---
-ALTER TABLE `viewLocation`
-  ADD PRIMARY KEY (`locationIdPk`);
-
---
--- Indexes for table `viewOfferings`
---
-ALTER TABLE `viewOfferings`
-  ADD PRIMARY KEY (`offeringIdPk`);
-
---
 -- Indexes for table `vote`
 --
 ALTER TABLE `vote`
@@ -391,7 +391,7 @@ ALTER TABLE `resident`
 -- AUTO_INCREMENT for table `residentInterests`
 --
 ALTER TABLE `residentInterests`
-  MODIFY `residentInterestIdPk` int(13) NOT NULL AUTO_INCREMENT;
+  MODIFY `residentInterestIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -404,6 +404,24 @@ ALTER TABLE `user`
 --
 ALTER TABLE `vote`
   MODIFY `voteIdPk` int(13) NOT NULL AUTO_INCREMENT;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_locations`
+--
+DROP TABLE IF EXISTS `view_locations`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_locations`  AS SELECT `l`.`locationIdPk` AS `locationIdPk`, `l`.`locationName` AS `locationName`, `c`.`councilName` AS `councilName` FROM (`location` `l` join `council` `c`) WHERE `l`.`councilIdPk` = `c`.`councilIdPk` ORDER BY 3 ASC, 2 ASC ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_offerings`
+--
+DROP TABLE IF EXISTS `view_offerings`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_offerings`  AS SELECT `o`.`offeringIdPk` AS `offeringIdPk`, `b`.`businessName` AS `businessName`, `o`.`offeringName` AS `offeringName`, `i`.`interestAreaName` AS `interestAreaName`, `l`.`locationName` AS `locationName`, `o`.`offeringDescription` AS `offeringDescription`, `o`.`offeringDetails` AS `offeringDetails`, `o`.`offeringCulturalBenefits` AS `offeringCulturalBenefits`, `o`.`offeringAwards` AS `offeringAwards`, `o`.`offeringImage` AS `offeringImage`, `op`.`offeringPriceRangeDescription` AS `offeringPriceRangeDescription`, sum(`v`.`vote` = 1) AS `yesVotes`, sum(`v`.`vote` = 0) AS `noVotes`, sum(`v`.`vote` = 1) - sum(`v`.`vote` = 0) AS `displayVotes` FROM (((((`offering` `o` join `business` `b` on(`o`.`businessIdPk` = `b`.`businessIdPk`)) join `interestArea` `i` on(`o`.`offeringCategory` = `i`.`interestAreaIdPk`)) join `location` `l` on(`o`.`locationIdPk` = `l`.`locationIdPk`)) join `offeringPricing` `op` on(`o`.`offeringPriceRange` = `op`.`offeringPriceRange`)) left join `vote` `v` on(`v`.`offeringIdPk` = `o`.`offeringIdPk`)) GROUP BY `o`.`offeringIdPk`, `b`.`businessName`, `o`.`offeringName`, `i`.`interestAreaName`, `l`.`locationName`, `o`.`offeringDescription`, `o`.`offeringDetails`, `o`.`offeringCulturalBenefits`, `o`.`offeringAwards`, `o`.`offeringImage`, `op`.`offeringPriceRangeDescription` ;
 
 --
 -- Constraints for dumped tables
