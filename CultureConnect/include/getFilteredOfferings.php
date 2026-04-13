@@ -19,7 +19,7 @@ if ($result_offerings->num_rows == 0){              //if there are no results
         $votes = $row['yesVotes'] - $row['noVotes'];
         $picture = ($row['offeringImage']) ? $row['offeringImage'] : 'placeholder.jpg';
          echo "
-            <div class='col-12 col-sm-6 col-lg-3'>
+            <div class='col-12 col-sm-6 col-lg-4 col-xl-3'>
                 <div class='card listing-card h-100 border-0 shadow-sm' onclick=\"window.location.href='06ViewOffering.php?offeringIdPk=" . $row['offeringIdPk'] . "'\" style='cursor: pointer;'>
                     <div class='card-body d-flex flex-column gap-2'>
 

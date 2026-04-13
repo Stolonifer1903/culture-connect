@@ -8,7 +8,7 @@
         $stmt->execute();
         $result = $stmt->get_result();
         
-        if ($result) {
+        if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $of_bus_name = $row["businessName"];
             $of_name = $row["offeringName"] ;
@@ -24,14 +24,17 @@
             $votes = $of_yes_votes - $of_no_votes;
             $of_picture = ($row['offeringImage']) ? $row['offeringImage'] : 'placeholder.jpg';
             
-            // echo $bus_name;
-            // echo $of_name;
-            // echo $int_name;
-            // echo $loc_name;
-            // echo $of_description;
-            // echo $of_details;
-            // echo $of_cultural_benefits;
-            // echo $of_price_range_description;
+            $stmt = $connection->prepare("SELECT businessIdPk FROM offering WHERE offeringIdPk = ?");
+            $stmt->bind_param("i", $of_id_pk);
+            $stmt->execute();
+            $result2 = $stmt->get_result();
+
+            if ($result2->num_rows > 0) {
+                $row2 = $result2->fetch_assoc();
+                $bus_id = $row2["businessIdPk"];
+            } else {
+            throw new Exception("Error - " . $stmt->error);
+            }   
 
         }
         else {

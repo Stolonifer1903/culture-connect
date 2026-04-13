@@ -49,7 +49,7 @@
                 </a>
             </span>
             <span class="meta-item text-white small">
-                <a class="btn btn-portfolio btn-sm px-3" id="vendor-portfolio" href="#" target="_blank">
+                <a class="btn btn-portfolio btn-sm px-3" id="vendor-portfolio" href="07ViewBusiness.php?businessIdPk=<?php echo $bus_id?>" target="_blank">
                 <i class="bi bi-link-45deg me-1"></i> View Portfolio
                 </a>
             </span>
@@ -69,13 +69,10 @@
 
         <h2 class="section-title mb-3">Details</h2>
         <div class="d-flex gap-3 flex-wrap align-items-stretch">
-            <!-- <div class="d-flex flex-column gap-3"> -->
-                <!-- <div class="card cred-card h-100 border-0 shadow-sm p-3 d-flex flex-row align-items-start gap-3"> -->
-                    <div style='height: 400px; width: 400px; overflow: hidden;'>
-                        <?php echo "<img src='images/offerings/" .$of_picture . "' class='object-fit-contain' style='height: 100%; width: 100%'>"?>
-                    </div>
-                <!-- </div> -->
-            <!-- </div> -->
+            <div style='height: 400px; width: 400px; overflow: hidden;'>
+                <?php echo "<img src='images/offerings/" .$of_picture . "' class='object-fit-contain' style='height: 100%; width: 100%'>"?>
+            </div>
+
             <div class="card cred-card h-100 border-0 shadow-sm p-3 d-flex flex-row align-items-start gap-3">
                 <div class="d-flex flex-column gap-3 w-100">
                     <div class="p-3 rounded mb-3 benefits-box w-100 ">

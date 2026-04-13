@@ -218,7 +218,7 @@
             <hr>
         </div>
         <!-- get all available offerings-->
-        <div class="col-12 col-md-8 py-md-1 ">
+        <div class="col-12 col-md-10 py-md-1 ">
             <div class="row g-1 mb-4" id="product-grid">
                 <?php
                 include 'include/getFilteredOfferings.php';

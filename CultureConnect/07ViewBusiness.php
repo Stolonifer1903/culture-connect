@@ -59,9 +59,6 @@
             <h1 class="fw-bold mb-1 text-white" id="vendor-name">
               <?php echo $bus_name ?>
             </h1>
-            <!-- <p class="text-white mb-3 opacity-75" id="vendor-tagline">
-              <?php echo $bus_bio ?>
-            </p> -->
 
             <!-- Meta badges / details -->
             <div
@@ -102,7 +99,7 @@
       </div>
     </header>
     
-    <div class="container my-1"><a href="javascript:history.back()" style="color: inherit;">Back to list<a></div>
+    <div class="container my-1"><a href="javascript:history.back()" style="color: inherit;">Back to list</a></div>
 
     <!-- ===== ABOUT ===== -->
     <div class="container my-5">
