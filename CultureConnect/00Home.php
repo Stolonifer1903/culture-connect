@@ -115,7 +115,8 @@
                 <div class="col-12 col-md-6">
                     <p><strong>Popular in events and services:</strong></p>
                     <div class="row g-2">
-                        <?php while ($row = $top_services->fetch_assoc()): ?>
+                        <?php while ($row = $top_services->fetch_assoc()): 
+                            $picture = ($row['offeringImage']) ? $row['offeringImage'] : 'placeholder.jpg';?>
                         <div class="col-6">
                             <div class="card border-0 shadow-sm p-2" onclick="window.location.href='06ViewOffering.php?offeringIdPk=<?php echo $row['offeringIdPk']; ?>'" style="cursor:pointer;">
                                 <div style='height: 200px; overflow: hidden;'>
