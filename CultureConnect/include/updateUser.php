@@ -10,24 +10,10 @@
         $user_lastname = $_POST["lastname"];
         $user_title = $_POST["title_select"];
         $user_email = $_POST["email"];
-        $user_pwd = $_POST["password"];
 
-        //get password from user table
-        $stmt = $connection->prepare("SELECT userPassword FROM user WHERE userIdPk = ?");
-        $stmt->bind_param("s", $user_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $existing_pw = $row["userPassword"];
-
-        //update user information
-        if ($existing_pw == $user_pwd || $user_pwd = '') {
-            $stmt = $connection->prepare ("UPDATE user SET userEmail = ?, userFirstName = ?, userLastName = ?, userTitle = ? WHERE userIdPk = ?");
-            $stmt->bind_param("ssssi", $user_email, $user_firstname, $user_lastname, $user_title, $user_id);
-        } else {
-            $stmt = $connection->prepare ("UPDATE user SET userEmail = ?, userFirstName = ?, userLastName = ?, userTitle = ?, userPassword = ? WHERE userIdPk = ?");
-            $stmt->bind_param("sssssi", $user_email, $user_firstname, $user_lastname, $user_title, $user_pwd, $user_id);
-        }
+        //update user information (password is now handled separately via changePassword.php)
+        $stmt = $connection->prepare("UPDATE user SET userEmail = ?, userFirstName = ?, userLastName = ?, userTitle = ? WHERE userIdPk = ?");
+        $stmt->bind_param("ssssi", $user_email, $user_firstname, $user_lastname, $user_title, $user_id);
         $stmt->execute();
 
         //perform additional actions based on user type
@@ -73,11 +59,11 @@
             }
         } 
 
-        if ($stmt->affected_rows > 0) { 
-            header('Location: ../02ManageUser.php', TRUE, 303); //TODO: UPDATE SUCCESS MESSAGE
+        if (!$stmt->error) { 
+            header('Location: ../02ManageUser.php?profileUpdateSuccess=true', TRUE, 303);
             exit;
         } else {
-            throw new Exception("Error - " . $stmt->error);
+            throw new Exception("Error updating user profile for ID: $user_id - " . $stmt->error);
         }
         
     }

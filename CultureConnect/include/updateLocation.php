@@ -14,14 +14,14 @@
             if ($stmt->execute()) {
                 if (isset($_SESSION['role']) && isset($_SESSION['role_id'])){
                      if ($_SESSION['role'] == 3) {
-                        header("Location: ../03EditCouncil.php", TRUE, 303);
+                        header("Location: ../03EditCouncil.php?locationUpdateSuccess=true", TRUE, 303);
                      } else if ($_SESSION['role'] == 4) {
-                        header("Location: ../03EditCouncil.php?councilIdPk=" . $councilIdPk , TRUE, 303);
+                        header("Location: ../03EditCouncil.php?councilIdPk=" . $councilIdPk . "&locationUpdateSuccess=true" , TRUE, 303);
                      }
                 }
             }
             else {
-                throw new Exception("Error - " . $stmt->error);
+                throw new Exception("Error updating location name to '$loc_name' for ID: $loc_id_pk - " . $stmt->error);
             }
         }
     }

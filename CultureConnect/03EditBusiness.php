@@ -18,6 +18,36 @@
     ?>
     <!-- Gets the header from a central location -->
     <div id='header'><?php include('templates/template_navbar.php'); ?></div>
+
+    <!-- Success Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <?php
+            if (isset($_GET['businessUpdateSuccess']) && $_GET['businessUpdateSuccess'] == 'true') {
+                echo '<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="businessSuccessToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ✓ Business details updated successfully!
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+        ?>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show and auto-dismiss toast
+        document.addEventListener('DOMContentLoaded', function() {
+            const businessToast = document.getElementById('businessSuccessToast');
+            
+            if (businessToast) {
+                const toast = new bootstrap.Toast(businessToast, { delay: 4000 });
+                toast.show();
+            }
+        });
+    </script>
+
     <!--Page heading-->
     <section class='text-left py-5' style='background-color:#ACC8A2;'>
         <h1>
@@ -88,6 +118,7 @@
                             <table>
                                 <tr>
                                     <td>
+                                        <?php echo "<input type='hidden' name='businessIdPk' value='" . $bus_id . "'>"; ?>
                                         <input class='btn btn-custom btn-sm' style='margin-right:25px;' type='submit'
                                             value='Update' name='update'>
                                         <input class='btn btn-secondary btn-sm' style='margin-right:25px'

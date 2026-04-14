@@ -93,6 +93,42 @@
             </table>
         </div>
     </section>
+    <!-- Success Modal -->
+    <div class="modal fade" id="offeringSuccessModal" tabindex="-1" aria-labelledby="offeringSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="offeringSuccessModalLabel">Success</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ✓ Offering updated successfully!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('offeringUpdateSuccess')) {
+                const modalEl = document.getElementById('offeringSuccessModal');
+                const successModal = new bootstrap.Modal(modalEl);
+                successModal.show();
+                
+                // Clean up the URL to prevent re-shows on refresh
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
+            }
+        });
+    </script>
+    
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
 </body>

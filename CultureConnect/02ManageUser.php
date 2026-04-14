@@ -17,6 +17,51 @@
     ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
+
+    <!-- Success Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <?php
+            if (isset($_GET['profileUpdateSuccess']) && $_GET['profileUpdateSuccess'] == 'true') {
+                echo '<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="profileSuccessToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ✓ Profile updated successfully!
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+            if (isset($_GET['passwordChangeSuccess']) && $_GET['passwordChangeSuccess'] == 'true') {
+                echo '<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="passwordSuccessToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ✓ Password changed successfully!
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+        ?>
+    </div>
+
+    <script>
+        // Show and auto-dismiss toasts
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileToast = document.getElementById('profileSuccessToast');
+            const passwordToast = document.getElementById('passwordSuccessToast');
+            
+            if (profileToast) {
+                const toast = new bootstrap.Toast(profileToast, { delay: 4000 });
+                toast.show();
+            }
+            
+            if (passwordToast) {
+                const toast = new bootstrap.Toast(passwordToast, { delay: 4000 });
+                toast.show();
+            }
+        });
+    </script>
+
     <!--Page heading-->
     <section class = "text-left py-5" style="background-color:#ACC8A2;"><div class="container"><h1>Enter your details</h1></div></section>
     <!-- Enter registration details -->
@@ -50,10 +95,6 @@
                     <tr>
                         <td><label for='email'>Email:</label></td>
                         <?php echo "<td><input type='email' id='email' name='email' required size='65%' value='" . $email . "'></td>";?>
-                    </tr>
-                    <tr>
-                        <td><label for="password">Password:</label></td>
-                        <td><input type="password" id="password" name="password" size="65%"></td>
                     </tr>
                     <tr id="birth_year">
                         <td><label for="YOB">Year of birth:</label></td>
@@ -269,6 +310,7 @@
                             <tr>
                                 <td>
                                 <input class='btn btn-custom btn-sm' style="margin-right:25px;" type="submit" value="Update" name="update">
+                                <button type='button' class='btn btn-info btn-sm' style="margin-right:25px;" data-bs-toggle='modal' data-bs-target='#changePasswordModal'>Change Password</button>
                                 <input class='btn btn-secondary btn-sm' style="margin-right:25px"action="action" type="button" value="Cancel" 
                                         onclick="window.history.go(-1); return false;">
                                 </td>
@@ -280,6 +322,40 @@
         </div>
     </section>
 
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="changePasswordForm" action="include/changePassword.php" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password <span style="color: red;">*</span></label>
+                            <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password <span style="color: red;">*</span></label>
+                            <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password <span style="color: red;">*</span></label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                        </div>
+                        <div id="passwordError" class="alert alert-danger" style="display: none;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded',function(){
             // Get the user type from the session variable
@@ -295,9 +371,46 @@
                 toggleFieldsManageUser('resident')
             }
             console.log("user_type value:", user_type);
+            
+            // Password change form validation
+            const changePasswordForm = document.getElementById('changePasswordForm');
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener('submit', function(e) {
+                    const newPassword = document.getElementById('newPassword').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    const passwordError = document.getElementById('passwordError');
+                    
+                    if (newPassword !== confirmPassword) {
+                        e.preventDefault();
+                        passwordError.textContent = 'New passwords do not match!';
+                        passwordError.style.display = 'block';
+                        return false;
+                    }
+                    
+                    if (newPassword.length === 0) {
+                        e.preventDefault();
+                        passwordError.textContent = 'New password cannot be empty!';
+                        passwordError.style.display = 'block';
+                        return false;
+                    }
+                    
+                    passwordError.style.display = 'none';
+                });
+            }
+            
+            // Clear password fields when modal is closed
+            const changePasswordModal = document.getElementById('changePasswordModal');
+            if (changePasswordModal) {
+                changePasswordModal.addEventListener('hidden.bs.modal', function() {
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmPassword').value = '';
+                    document.getElementById('passwordError').style.display = 'none';
+                });
+            }
         });
     </script>
-    
+
 </body>
 </html>
         

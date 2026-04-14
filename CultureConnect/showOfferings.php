@@ -137,7 +137,7 @@
                                     <label for='" . $price_cat . "'>" . $price_cat . "</label><br>";
                                 }
                             } else {
-                                throw new Exception("Error - " . $stmt->error);
+                                throw new Exception("Error fetching pricing filter options - " . $stmt->error);
                             }
                             ?>
                             
@@ -172,7 +172,7 @@
                                     <label for='" . $interest_area . "'>" . $interest_area . "</label><br>";
                                 }
                             } else {
-                                throw new Exception("Error - " . $stmt->error);
+                                throw new Exception("Error fetching services filter options - " . $stmt->error);
                             }
                             ?>
                         </div>
@@ -206,7 +206,7 @@
                                     <label for='" . $interest_area . "'>" . $interest_area . "</label><br>";
                                 }
                             } else {
-                                throw new Exception("Error - " . $stmt->error);
+                                throw new Exception("Error fetching products filter options - " . $stmt->error);
                             }
                             ?>
                         </div>
