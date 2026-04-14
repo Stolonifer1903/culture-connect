@@ -9,6 +9,6 @@
 
     if($result && $result->num_rows > 0) {
     } else {
-        throw new Exception("Error - " . $stmt->error);
+        throw new Exception("Error fetching location list from view_locations - " . $stmt->error);
     }
 ?>

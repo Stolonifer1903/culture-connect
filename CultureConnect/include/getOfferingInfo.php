@@ -33,12 +33,12 @@
                 $row2 = $result2->fetch_assoc();
                 $bus_id = $row2["businessIdPk"];
             } else {
-            throw new Exception("Error - " . $stmt->error);
+            throw new Exception("Error fetching business ID for offering ID: $of_id_pk - " . $stmt->error);
             }   
 
         }
         else {
-            throw new Exception("Error - " . $stmt->error);
+            throw new Exception("Error fetching offering details for ID: $of_id_pk - " . $stmt->error);
         }
     } else {
         $of_bus_name = "";

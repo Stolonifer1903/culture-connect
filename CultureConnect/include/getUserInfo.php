@@ -38,10 +38,10 @@
                     $row = $result->fetch_assoc();
                     $location_name = $row["locationName"];
                 } else {
-                    throw new Exception("Error - " . $stmt->error);
+                    throw new Exception("Error fetching location name for location ID: $location_id - " . $stmt->error);
                 }
             } else {
-                throw new Exception("Error - " . $stmt->error);
+                throw new Exception("Error fetching resident details for role ID: $role_id - " . $stmt->error);
             }
             //get interests from the interest table
             $stmt = $connection->prepare("SELECT interestAreaName FROM interestarea INNER JOIN residentinterests ON residentinterests.interestAreaIdPk = interestarea.interestAreaIdPk WHERE residentIdPk = ?");
@@ -62,6 +62,6 @@
         }
         
     } else {
-        throw new Exception("Error - not logged in");
+        throw new Exception("Error - Session not established or user not logged in");
     }
 ?>

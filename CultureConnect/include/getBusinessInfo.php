@@ -6,11 +6,11 @@
         } else if (isset($_POST['create-new']) && ($_SESSION['role'] == 4)){
             $stmt = $connection->prepare("INSERT INTO business(businessName, councilIdPk) VALUES ('New business', 1)");
             $stmt->execute();
-            $bus_id = $connection->insert_id;
+            $bus_id = $stmt->insert_id;
         } else if (isset($_GET['businessIdPk']) && ($_SESSION['role'] == 4)) {
             $bus_id = $_GET['businessIdPk'];
         } else {
-            throw new Exception("Error - " . $stmt->error);
+            throw new Exception("Unauthorized access - Cannot edit business info");
         }
 
         $stmt = $connection->prepare("SELECT * FROM business WHERE businessIdPk = ?");
@@ -35,7 +35,7 @@
                 $counc_name = $row["councilName"];
             }
         } else {
-            throw new Exception("Error - " . $stmt->error);
+            throw new Exception("Error fetching business info for ID: $bus_id - " . $stmt->error);
         }
     }
 ?>
