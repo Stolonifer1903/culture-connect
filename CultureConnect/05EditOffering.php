@@ -135,6 +135,12 @@
                         <td><textarea id="cultural_benefit" name="cultural_benefit" rows="4" cols="68"
                                 maxlength="300"><?php echo (($of_cultural_benefits) ?  $of_cultural_benefits : "" );?></textarea></td>
                     </tr>
+                    <!-- Cultural benefits -->
+                    <tr>
+                        <td><label for="awards">Awards:</label></td>
+                        <td><textarea id="awards" name="awards" rows="4" cols="68"
+                                maxlength="300"><?php echo (($of_awards) ?  $of_awards : "" );?></textarea></td>
+                    </tr>
                     <tr>
                         <td><label for="price_range">Price range:</label></td>
                         <td>

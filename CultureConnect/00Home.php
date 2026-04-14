@@ -81,7 +81,7 @@
             // Top 4 products
             $stmt = $connection->prepare("SELECT vo.*, i.interestAreaProductOrService FROM view_offerings vo JOIN interestarea i ON vo.interestareaname = i.interestareaname
                 WHERE i.interestAreaProductOrService = 1 
-                ORDER BY CAST(displayVotes AS SIGNED) DESC 
+                ORDER BY yesVotes DESC 
                 LIMIT 4");
             $stmt->execute();
             $top_products = $stmt->get_result();
@@ -89,7 +89,7 @@
             // Top 4 services
             $stmt = $connection->prepare("SELECT vo.*, i.interestAreaProductOrService FROM view_offerings vo JOIN interestarea i ON vo.interestareaname = i.interestareaname
                 WHERE i.interestAreaProductOrService = 2 
-                ORDER BY CAST(displayVotes AS SIGNED) DESC 
+                ORDER BY yesVotes DESC 
                 LIMIT 4");
             $stmt->execute();
             $top_services = $stmt->get_result();

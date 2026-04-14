@@ -13,6 +13,7 @@
                     <th>Description</th>
                     <th>Details</th>
                     <th>Cultural benefit</th>
+                    <th>Awards</th>
                     <th>Price range</th>
                     <th>Thumbnail</th>
                     <th>Actions</th>
@@ -46,6 +47,7 @@
                                 <td>" . $row["offeringDescription"] . "</td>
                                 <td>" . $row["offeringDetails"] . "</td>
                                 <td>" . $row["offeringCulturalBenefits"] . "</td>
+                                <td>" . $row["offeringAwards"] . "</td>
                                 <td>" . $row["offeringPriceRangeDescription"] . "</td>
                                 <td>
                                     <div style='height: 50px; overflow: hidden;'>

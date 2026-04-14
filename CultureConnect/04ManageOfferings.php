@@ -58,6 +58,7 @@
                     <th width=15%>Description</th>
                     <th width=15%>Details</th>
                     <th width=15%>Cultural benefit</th>
+                    <th>Awards</th>
                     <th>Price range</th>
                     <th>Thumbnail</th>
                     <th width=10%>Actions</th>
@@ -83,6 +84,7 @@
                             <td>" . $row["offeringDescription"] . "</td>
                             <td>" . $row["offeringDetails"] . "</td>
                             <td>" . $row["offeringCulturalBenefits"] . "</td>
+                            <td>" . $row["offeringAwards"] . "</td>
                             <td>" . $row["offeringPriceRangeDescription"] . "</td>
                             <td>
                                 <div style='height: 50px; overflow: hidden;'>

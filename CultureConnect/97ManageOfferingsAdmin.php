@@ -37,6 +37,7 @@
             </form>
         </div>
     </section>
+    
     <!-- Main content -->
     <?php include('include/manageOfferingsSection.php');?>
 
