@@ -366,19 +366,25 @@
             // Get the user type from the session variable
             let user_type = <?php echo isset($_SESSION['role']) ? $_SESSION['role'] : 1 ?>;
             console.log("toggleFieldsManageUser called with: " + user_type);
+            const urlParams = new URLSearchParams(window.location.search);
+            let url_role = parseInt(urlParams.get('role'));
+            console.log("URL params role: " + url_role);
+
             if (user_type===2) {
                 toggleFieldsManageUser('business');
             } else if (user_type===3) {
                 toggleFieldsManageUser('council');
             } else if (user_type===4) {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('role')===1){
+                if (url_role===1){
+                    user_type=1;
                     toggleFieldsManageUser('resident');
-                } else if (urlParams.get('role')===2){
+                } else if (url_role===2){
+                    user_type=2;
                     toggleFieldsManageUser('business'); 
-                }else if (urlParams.get('role')===3){
+                }else if (url_role===3){
+                    user_type=3;
                     toggleFieldsManageUser('council'); 
-                }else {
+                } else {
                 toggleFieldsManageUser('admin');
                 }
             } else {
