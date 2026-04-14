@@ -14,6 +14,7 @@
                     <th>Details</th>
                     <th>Cultural benefit</th>
                     <th>Price range</th>
+                    <th>Thumbnail</th>
                     <th>Actions</th>
                     </tr>
                 </thead>
@@ -33,6 +34,7 @@
                         echo "<tr><td colspan=10>No offerings available</td></tr>";
                     } else {
                         while ($row = $result->fetch_assoc()) {
+                            $picture = ($row['offeringImage']) ? $row['offeringImage'] : 'placeholder.jpg';
                             echo 
                             "<tr id=" . $row["offeringIdPk"] . ">
                                 <td>" . $row["offeringIdPk"] . "</td>
@@ -45,6 +47,11 @@
                                 <td>" . $row["offeringDetails"] . "</td>
                                 <td>" . $row["offeringCulturalBenefits"] . "</td>
                                 <td>" . $row["offeringPriceRangeDescription"] . "</td>
+                                <td>
+                                    <div style='height: 50px; overflow: hidden;'>
+                                        <img src='images/offerings/" .$picture. "' class='object-fit-contain border rounded' style='height: 100%; width: 100%'>
+                                    </div>
+                                </td>
                                 <td>
                                     <a class='btn btn-primary btn-sm' href='05EditOffering.php?offeringIdPk=$row[offeringIdPk]'>Update</a>
                                     <a class='btn btn-danger btn-sm' href='include/deleteOffering.php?offeringIdPk=$row[offeringIdPk]'>Delete</a>
