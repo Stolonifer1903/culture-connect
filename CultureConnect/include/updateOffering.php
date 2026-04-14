@@ -61,7 +61,7 @@
         $stmt->execute();
 
         if ($stmt-> errno )  { //TODO - update to include 
-            throw new Exception("Error - " . $stmt->error);
+            throw new Exception("Error during offering persistence (ID: $of_id_pk) - " . $stmt->error);
         }
 
         //sets of_id_pk for new offerings
@@ -93,10 +93,11 @@
             $stmt->execute();
 
             if ($stmt->errno)  { //if any errors saving to db, throw error
-                throw new Exception("Error - " . $stmt->error);
+                throw new Exception("Error updating image filename for offering ID: $of_id_pk - " . $stmt->error);
             }
         }
-        header('Location: ../04ManageOfferings.php', TRUE, 303);
+        $redirect_page = ($_SESSION['role'] == 4) ? '97ManageOfferingsAdmin.php' : '04ManageOfferings.php';
+        header("Location: ../$redirect_page?offeringUpdateSuccess=true", TRUE, 303);
         exit;
     }
 ?>
