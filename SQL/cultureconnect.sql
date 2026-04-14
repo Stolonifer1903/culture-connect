@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2026 at 06:38 PM
+-- Generation Time: Apr 14, 2026 at 08:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `cultureconnect`
 --
-CREATE DATABASE IF NOT EXISTS `cultureconnect` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `cultureconnect`;
 
 -- --------------------------------------------------------
 
@@ -29,13 +27,12 @@ USE `cultureconnect`;
 -- Table structure for table `business`
 --
 
-DROP TABLE IF EXISTS `business`;
 CREATE TABLE `business` (
   `businessIdPk` int(13) NOT NULL,
   `businessName` varchar(200) NOT NULL,
   `businessDescription` varchar(200) DEFAULT NULL,
-  `businessEmail` varchar(200) NOT NULL,
-  `businessPhone` int(13) DEFAULT NULL,
+  `businessEmail` varchar(200) DEFAULT NULL,
+  `businessPhone` varchar(13) DEFAULT NULL,
   `businessLink` varchar(200) DEFAULT NULL,
   `councilIdPk` int(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -45,7 +42,15 @@ CREATE TABLE `business` (
 --
 
 INSERT INTO `business` (`businessIdPk`, `businessName`, `businessDescription`, `businessEmail`, `businessPhone`, `businessLink`, `councilIdPk`) VALUES
-(1, 'MyBusiness', NULL, '', NULL, NULL, 10);
+(4, 'The Clay Studio Hatfield', 'A small ceramics studio based in Hatfield offering handmade pottery, clay workshops and bespoke commissions. Founded by local artist Emma Rhodes, the studio celebrates traditional craft techniques wit', 'hello@claystudiohatfield.co.uk', '01707 474000', 'claystudiohatfield.co.uk', 10),
+(5, 'Hitchin Printworks', 'An independent print studio in Hitchin specialising in limited edition screen prints, linocuts and original artwork inspired by the Hertfordshire countryside. Run by artist collective of three local c', ' info@hitchinprintworks.co.uk', '01462 159478', 'hitchinprintworks.co.uk', 5),
+(6, 'Welwyn Garden City Arts Collective', 'A community arts organisation based in Welwyn Garden City offering gallery visits, live theatre performances and open mic nights. Dedicated to bringing affordable cultural experiences to local residen', 'hello@wgcartsco.uk', '01707 159746', ' wgcartsco.uk', 10),
+(7, 'North Herts Bindery', 'A specialist bookbinding and stationery studio based in Letchworth Garden City. Hand-binding bespoke journals, limited edition zines and artisan stationery using traditional techniques and locally sou', 'contact@northhertsbindery.co.uk', '01462 156489', 'northhertsbindery.co.uk', 5),
+(8, 'Hatfield Theatre Company', 'A community theatre company based in Hatfield producing live theatre performances, concerts and cultural events throughout the year. Open to performers of all experience levels, with regular workshops', 'hello@hatfieldtheatre.co.uk', '01707 345678', 'hatfieldtheatre.co.uk', 10),
+(9, 'Royston Digital Creative Studio', 'A small digital creative agency in Royston offering graphic design, digital design and videography services to local businesses and community organisations. Passionate about telling local stories thro', 'hello@roystondigital.co.uk', '01438 456789', 'roystondigital.co.uk', 5),
+(10, 'Letchworth Photography Studio', 'A professional photography studio and training school in Letchworth Garden City offering portrait photography services, videography and photography workshops for beginners and enthusiasts. Also availa', 'hello@letchworthphoto.co.uk', '01462 567890', 'letchworthphoto.co.uk', 5),
+(11, 'Hitchin Music Academy', 'A friendly music school in Hitchin offering individual and group music lessons for all ages and abilities, from beginners to advanced. Specialising in piano, guitar, violin and voice, with regular stu', 'hello@hitchinmusicacademy.co.uk', '01462 156496', 'hitchinmusicacademy.co.uk', 5),
+(12, 'Welwyn Cultural Tours', 'A guided tour company based in Welwyn Garden City offering walking cultural tours of Hertfordshire\'s historic towns and villages. Tours cover local art, architecture and history, with specialist photo', 'info@welwyncultural.co.uk', '01707 456989', 'welwyncultural.co.uk', 10);
 
 -- --------------------------------------------------------
 
@@ -53,11 +58,10 @@ INSERT INTO `business` (`businessIdPk`, `businessName`, `businessDescription`, `
 -- Table structure for table `council`
 --
 
-DROP TABLE IF EXISTS `council`;
 CREATE TABLE `council` (
   `councilIdPk` int(13) NOT NULL,
   `councilName` varchar(200) NOT NULL,
-  `councilContact` varchar(200) NOT NULL,
+  `councilContact` varchar(200) DEFAULT NULL,
   `councilLink` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -83,7 +87,6 @@ INSERT INTO `council` (`councilIdPk`, `councilName`, `councilContact`, `councilL
 -- Table structure for table `interestarea`
 --
 
-DROP TABLE IF EXISTS `interestarea`;
 CREATE TABLE `interestarea` (
   `interestAreaIdPk` int(13) NOT NULL,
   `interestAreaName` varchar(200) NOT NULL,
@@ -120,7 +123,6 @@ INSERT INTO `interestarea` (`interestAreaIdPk`, `interestAreaName`, `InterestAre
 -- Table structure for table `location`
 --
 
-DROP TABLE IF EXISTS `location`;
 CREATE TABLE `location` (
   `locationIdPk` int(13) NOT NULL,
   `locationName` varchar(200) NOT NULL,
@@ -139,7 +141,10 @@ INSERT INTO `location` (`locationIdPk`, `locationName`, `councilIdPk`) VALUES
 (5, 'Hitchin', 5),
 (6, 'Letchworth Garden City', 5),
 (7, 'Baldock', 5),
-(8, 'Royston', 5);
+(8, 'Royston', 5),
+(17, 'Knebworth', 5),
+(18, 'Welwyn Village', 10),
+(21, 'Stevenage', 7);
 
 -- --------------------------------------------------------
 
@@ -147,26 +152,40 @@ INSERT INTO `location` (`locationIdPk`, `locationName`, `councilIdPk`) VALUES
 -- Table structure for table `offering`
 --
 
-DROP TABLE IF EXISTS `offering`;
 CREATE TABLE `offering` (
   `offeringIdPk` int(13) NOT NULL,
   `offeringName` varchar(200) NOT NULL,
   `offeringDescription` varchar(200) DEFAULT NULL,
-  `offeringDetails` varchar(200) NOT NULL,
   `offeringCulturalBenefits` varchar(200) DEFAULT NULL,
-  `offeringAwards` varchar(100) NOT NULL,
   `offeringPriceRange` int(13) NOT NULL,
   `offeringCategory` int(13) NOT NULL,
   `locationIdPk` int(13) NOT NULL,
-  `businessIdPk` int(13) NOT NULL
+  `businessIdPk` int(13) NOT NULL,
+  `offeringDetails` varchar(255) DEFAULT NULL,
+  `offeringAwards` varchar(100) NOT NULL DEFAULT 'None',
+  `offeringImage` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `offering`
 --
 
-INSERT INTO `offering` (`offeringIdPk`, `offeringName`, `offeringDescription`, `offeringDetails`, `offeringCulturalBenefits`, `offeringAwards`, `offeringPriceRange`, `offeringCategory`, `locationIdPk`, `businessIdPk`) VALUES
-(1, 'Beautiful handmade ceramics\r\n', 'Beautiful ceramics handmade in Hatfield that represent the countryside around the area', 'Mugs - £15 each\r\nPlates - £10 each', 'We are keeping traditional ceramics alive by staying true to centuries old methods.', '', 1, 14, 2, 1);
+INSERT INTO `offering` (`offeringIdPk`, `offeringName`, `offeringDescription`, `offeringCulturalBenefits`, `offeringPriceRange`, `offeringCategory`, `locationIdPk`, `businessIdPk`, `offeringDetails`, `offeringAwards`, `offeringImage`) VALUES
+(3, 'Handmade Ceramic Mugs', 'Beautiful hand-thrown ceramic mugs made in our Hatfield studio. Each piece is unique and finished with our signature earthy glazes.', 'Supports traditional craft skills and promotes local artisan culture.', 1, 14, 2, 4, 'Available in sets of 2 or 4. \r\nChoose from a range of glaze colours.', 'Highly Commended, Hertfordshire Craft Awards 2023', '3.jpg'),
+(4, 'Pottery Workshop for Beginners', 'A two-hour introduction to hand-building pottery techniques. No experience needed — just bring your creativity! All materials provided.', 'Encourages creative expression and provides a relaxing cultural experience for local residents.', 2, 14, 2, 4, 'Sessions run every Saturday 10am-12pm. Maximum 8 participants.', 'None', '4.jpg'),
+(5, 'Hertfordshire Landscape Print', 'A limited edition screen print of the Hitchin countryside, hand-pulled by our studio artists. Each print is numbered and signed.', 'Celebrates the local landscape and supports independent printmaking as a traditional art form.', 2, 13, 5, 5, 'Available in A3 and A2. Edition of 50.', 'Winner, North Herts Arts Prize 2022', '5.jpg'),
+(6, 'Limited Edition Botanical Poster', 'A hand-printed botanical poster featuring wildflowers native to Hertfordshire. Printed using traditional linocut techniques on recycled paper.', 'Raises awareness of local biodiversity and supports sustainable printmaking practices.', 1, 17, 5, 5, 'A2 size. Edition of 30. Unframed.', 'Shortlisted, Independent Print Awards 2023', '6.jpg'),
+(7, 'Summer Theatre Evening', 'An outdoor live theatre performance of a classic play performed by our community theatre group in Welwyn Garden City. Bring a picnic and enjoy the show!', 'Brings the community together through shared cultural experiences and supports local performing arts.', 1, 3, 1, 6, 'Runs Friday and Saturday evenings in July and August. Gates open 6pm, performance starts 7:30pm.', 'Best Community Event, Welwyn Garden City Arts Festival 2023', '7.jpg'),
+(8, 'Monthly Open Mic Night', 'A relaxed and welcoming open mic night for musicians, poets and spoken word artists of all levels. Held monthly at our WGC arts space.', 'Provides a platform for local creative talent and fosters a sense of community.', 1, 5, 1, 6, 'First Friday of every month. Doors open 7pm. Sign up to perform on the door.', 'Highly Commended, British Bookbinding Awards 2022', '8.jpg'),
+(9, 'Bespoke Hand-bound Journal', 'A beautifully hand-bound journal made to order in our Letchworth studio. Choose your cover fabric, paper type and size for a truly personal item.', 'Keeps traditional bookbinding craft alive and supports sustainable, locally made stationery.', 2, 18, 6, 7, 'A5 or A4. Choice of fabric covers. 4-6 week lead time.', 'None', '9.jpg'),
+(10, 'Letchworth Local Zine', 'A quarterly zine celebrating local arts, culture and community in Letchworth and North Hertfordshire. Written and designed by local contributors.', 'Amplifies local voices and celebrates the creative community of North Hertfordshire.', 1, 16, 6, 7, 'A5 format. 32 pages. New edition every quarter.', 'None', NULL),
+(11, 'Winter Pantomime', 'Our annual family pantomime performed by our community theatre group. A festive tradition in Hatfield for over 10 years!', 'Brings families together through live performance and celebrates a beloved British cultural tradition.', 1, 3, 2, 8, 'Runs for two weeks in December. Matinee and evening performances available.', 'None', '11.jpg'),
+(12, 'Summer Concert Series', 'A series of outdoor concerts featuring local musicians performing across a range of genres, from classical to folk to jazz.', 'Supports local musicians and makes live music accessible to all members of the community.', 1, 4, 2, 8, 'Every Sunday afternoon in July. Free entry. Donations welcome.', 'None', '12.jpg'),
+(13, 'Brand Identity Design Package', 'A complete brand identity design service for local businesses and community organisations, including logo, colour palette and typography.', 'Helps local businesses establish a strong visual identity and supports the growth of the local economy.', 2, 11, 8, 9, 'Includes 3 concept designs and 2 rounds of revisions. 4-week turnaround.', 'None', NULL),
+(14, 'Community Event Videography', 'Professional videography service for local community events, festivals and cultural occasions. We capture the moments that matter.', 'Preserves important cultural moments and creates lasting memories for the local community.', 3, 10, 8, 9, 'Full day coverage. Edited highlight reel delivered within 2 weeks.', 'None', '14.jpg'),
+(15, 'Portrait Photography Session', 'A professional portrait photography session in our Letchworth studio or at a location of your choice in Hertfordshire.', 'Celebrates individual stories and supports professional photography as a cultural art form.', 2, 9, 6, 10, '1 hour session. 10 edited digital images included. Additional images available.', 'None', '15.jpg'),
+(16, 'Guitar Lessons for Beginners', 'Weekly one-to-one guitar lessons for complete beginners of all ages. Our patient and experienced tutors will have you playing your favourite songs in no time.', 'Promotes music education and supports the development of lifelong creative skills.', 1, 2, 5, 11, '30 or 60 minute sessions available. Weekly or fortnightly slots.', 'None', '16.jpg'),
+(17, 'Welwyn Garden City Heritage Walk', 'A guided walking tour of Welwyn Garden City exploring its unique Arts and Crafts architecture, garden city heritage and cultural history. Led by our expert local guides.', 'Celebrates the unique cultural and architectural heritage of Welwyn Garden City and promotes local history.', 1, 6, 1, 12, 'Tours run every Saturday at 10am. Approximately 2 hours. Maximum 12 participants.', 'None', '17.jpg');
 
 -- --------------------------------------------------------
 
@@ -174,7 +193,6 @@ INSERT INTO `offering` (`offeringIdPk`, `offeringName`, `offeringDescription`, `
 -- Table structure for table `offeringpricing`
 --
 
-DROP TABLE IF EXISTS `offeringpricing`;
 CREATE TABLE `offeringpricing` (
   `offeringPriceRange` int(13) NOT NULL,
   `offeringPriceRangeDescription` varchar(200) NOT NULL
@@ -195,7 +213,6 @@ INSERT INTO `offeringpricing` (`offeringPriceRange`, `offeringPriceRangeDescript
 -- Table structure for table `resident`
 --
 
-DROP TABLE IF EXISTS `resident`;
 CREATE TABLE `resident` (
   `residentIdPk` int(13) NOT NULL,
   `residentGender` varchar(20) NOT NULL,
@@ -209,7 +226,11 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`residentIdPk`, `residentGender`, `residentBirthYear`, `locationIdPk`, `userIdPk`) VALUES
-(3, 'Male', 1998, 2, 4);
+(3, 'Male', 1998, 8, 2),
+(5, 'Female', 1986, 2, 9),
+(6, 'Male', 2009, 7, 10),
+(7, 'Female', 1973, 1, 11),
+(8, 'Male', 2000, 5, 12);
 
 -- --------------------------------------------------------
 
@@ -217,7 +238,6 @@ INSERT INTO `resident` (`residentIdPk`, `residentGender`, `residentBirthYear`, `
 -- Table structure for table `residentinterests`
 --
 
-DROP TABLE IF EXISTS `residentinterests`;
 CREATE TABLE `residentinterests` (
   `residentInterestIdPk` int(13) NOT NULL,
   `residentIdPk` int(13) NOT NULL,
@@ -229,10 +249,33 @@ CREATE TABLE `residentinterests` (
 --
 
 INSERT INTO `residentinterests` (`residentInterestIdPk`, `residentIdPk`, `interestAreaIdPk`) VALUES
-(1, 3, 2),
-(2, 3, 3),
-(3, 3, 6),
-(4, 3, 14);
+(30, 5, 1),
+(31, 5, 5),
+(32, 5, 6),
+(33, 5, 13),
+(34, 5, 14),
+(35, 6, 2),
+(36, 6, 7),
+(37, 6, 9),
+(38, 6, 11),
+(39, 6, 16),
+(40, 7, 4),
+(41, 7, 7),
+(42, 7, 11),
+(43, 7, 12),
+(44, 7, 16),
+(45, 7, 18),
+(46, 8, 2),
+(47, 8, 7),
+(48, 8, 9),
+(49, 8, 13),
+(50, 8, 15),
+(51, 3, 2),
+(52, 3, 3),
+(53, 3, 5),
+(54, 3, 6),
+(55, 3, 14),
+(56, 3, 15);
 
 -- --------------------------------------------------------
 
@@ -240,7 +283,6 @@ INSERT INTO `residentinterests` (`residentInterestIdPk`, `residentIdPk`, `intere
 -- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `userIdPk` int(13) NOT NULL,
   `userFirstName` varchar(200) NOT NULL,
@@ -249,7 +291,7 @@ CREATE TABLE `user` (
   `userPassword` varchar(200) NOT NULL,
   `userTitle` varchar(200) NOT NULL,
   `userRole` int(13) NOT NULL,
-  `roleId` int(11) 
+  `roleId` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -257,10 +299,35 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userIdPk`, `userFirstName`, `userLastName`, `userEmail`, `userPassword`, `userTitle`, `userRole`, `roleId`) VALUES
-(1, 'admin', 'admin', 'admin@admin.com', '1234', '', 4, 0),
-(4, 'user', 'user', 'user@user.com', '1234', '', 1, 3),
-(5, 'bus', 'bus', 'bus@bus.com', '1234', 'Mrs', 2, 1),
-(6, 'Coun', 'Counc', 'counc@counc.com', '1234', '', 3, 10);
+(1, 'Tina', 'Jones', 'admin@admin.com', '1234', 'Ms', 4, 0),
+(2, 'Chloe', 'Davis', 'user@user.com', '1234', '', 1, 3),
+(3, 'Daniel', 'Foster', 'bus@bus.com', '1234', 'Mr', 2, 5),
+(4, 'Greg', 'Jones', 'counc@counc.com', '1234', 'Mr', 3, 10),
+(9, 'Sarah', 'Thompson', 'sarah.tompson@email.com', '1234', 'Ms', 1, 5),
+(10, 'James', 'Patel', 'jp@gmail.com', '1234', '', 1, 6),
+(11, 'Amara', 'Okafor', 'miss_a@yahoo.com', '1234', 'Mrs', 1, 7),
+(12, 'Liam', 'O\'Brien', 'liamb654@mail.com', '1234', 'Mr', 1, 8),
+(13, 'Emma', 'Rhodes', 'emma.rhodes@claystudiohatfield.co.uk', '1234', 'Ms', 2, 4),
+(14, 'Sophie', 'Adeyemi', 'sophie.adeyemi@wgcartsco.uk', '1234', 'Ms', 2, 6),
+(15, 'Robert', 'Lawson', 'robert.lawson@northhertsbindery.co.uk', '1234', '', 2, 7),
+(16, 'Mia', 'Chen', 'mia.chen@roystondigital.co.uk', '1234', '', 2, 9),
+(17, 'Marcus', 'Webb', 'marcus.webb@hitchinmusicacademy.co.uk', '1234', '', 2, 11),
+(18, 'Anita', 'Patel', 'anita.patel@welwyncultural.co.uk', '1234', '', 2, 12),
+(19, 'James', 'Thornton', 'james.thornton@hatfieldtheatre.co.uk', '1234', 'Mr', 2, 8),
+(20, 'Laura', 'Smith', 'lauras@claystudiohatfield.co.uk', '1234', 'Mrs', 2, 4),
+(21, 'Felicity', 'Rainer', 'felr@nhdc.gov.uk', '12347', 'Ms', 3, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_locations`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_locations` (
+`locationIdPk` int(13)
+,`locationName` varchar(200)
+,`councilName` varchar(200)
+);
 
 -- --------------------------------------------------------
 
@@ -268,7 +335,6 @@ INSERT INTO `user` (`userIdPk`, `userFirstName`, `userLastName`, `userEmail`, `u
 -- Stand-in structure for view `view_offerings`
 -- (See below for the actual view)
 --
-DROP VIEW IF EXISTS `view_offerings`;
 CREATE TABLE `view_offerings` (
 `offeringIdPk` int(13)
 ,`businessName` varchar(200)
@@ -276,10 +342,14 @@ CREATE TABLE `view_offerings` (
 ,`interestAreaName` varchar(200)
 ,`locationName` varchar(200)
 ,`offeringDescription` varchar(200)
-,`offeringDetails` varchar(200)
+,`offeringDetails` varchar(255)
 ,`offeringCulturalBenefits` varchar(200)
 ,`offeringAwards` varchar(100)
+,`offeringImage` varchar(255)
 ,`offeringPriceRangeDescription` varchar(200)
+,`yesVotes` decimal(23,0)
+,`noVotes` decimal(23,0)
+,`displayVotes` decimal(24,0)
 );
 
 -- --------------------------------------------------------
@@ -288,13 +358,41 @@ CREATE TABLE `view_offerings` (
 -- Table structure for table `vote`
 --
 
-DROP TABLE IF EXISTS `vote`;
 CREATE TABLE `vote` (
   `voteIdPk` int(13) NOT NULL,
   `offeringIdPk` int(13) NOT NULL,
   `residentIdPk` int(13) NOT NULL,
   `vote` int(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `vote`
+--
+
+INSERT INTO `vote` (`voteIdPk`, `offeringIdPk`, `residentIdPk`, `vote`) VALUES
+(1, 11, 3, 1),
+(2, 7, 3, 1),
+(3, 12, 3, 1),
+(4, 17, 3, 1),
+(5, 8, 3, 0),
+(6, 16, 3, 1),
+(7, 4, 3, 1),
+(8, 3, 3, 1),
+(9, 17, 5, 1),
+(10, 5, 5, 1),
+(11, 8, 5, 0),
+(12, 10, 5, 1),
+(13, 11, 5, 1),
+(14, 4, 5, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_locations`
+--
+DROP TABLE IF EXISTS `view_locations`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_locations`  AS SELECT `l`.`locationIdPk` AS `locationIdPk`, `l`.`locationName` AS `locationName`, `c`.`councilName` AS `councilName` FROM (`location` `l` join `council` `c`) WHERE `l`.`councilIdPk` = `c`.`councilIdPk` ORDER BY 3 ASC, 2 ASC ;
 
 -- --------------------------------------------------------
 
@@ -303,8 +401,7 @@ CREATE TABLE `vote` (
 --
 DROP TABLE IF EXISTS `view_offerings`;
 
-DROP VIEW IF EXISTS `view_offerings`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_offerings`  AS SELECT `o`.`offeringIdPk` AS `offeringIdPk`, `b`.`businessName` AS `businessName`, `o`.`offeringName` AS `offeringName`, `i`.`interestAreaName` AS `interestAreaName`, `l`.`locationName` AS `locationName`, `o`.`offeringDescription` AS `offeringDescription`, `o`.`offeringDetails` AS `offeringDetails`, `o`.`offeringCulturalBenefits` AS `offeringCulturalBenefits`, `o`.`offeringAwards` AS `offeringAwards`, `op`.`offeringPriceRangeDescription` AS `offeringPriceRangeDescription` FROM ((((`offering` `o` join `business` `b`) join `interestarea` `i`) join `location` `l`) join `offeringpricing` `op`) WHERE `o`.`offeringPriceRange` = `op`.`offeringPriceRange` AND `o`.`businessIdPk` = `b`.`businessIdPk` AND `o`.`locationIdPk` = `l`.`locationIdPk` AND `o`.`offeringCategory` = `i`.`interestAreaIdPk` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_offerings`  AS SELECT `o`.`offeringIdPk` AS `offeringIdPk`, `b`.`businessName` AS `businessName`, `o`.`offeringName` AS `offeringName`, `i`.`interestAreaName` AS `interestAreaName`, `l`.`locationName` AS `locationName`, `o`.`offeringDescription` AS `offeringDescription`, `o`.`offeringDetails` AS `offeringDetails`, `o`.`offeringCulturalBenefits` AS `offeringCulturalBenefits`, `o`.`offeringAwards` AS `offeringAwards`, `o`.`offeringImage` AS `offeringImage`, `op`.`offeringPriceRangeDescription` AS `offeringPriceRangeDescription`, sum(`v`.`vote` = 1) AS `yesVotes`, sum(`v`.`vote` = 0) AS `noVotes`, sum(`v`.`vote` = 1) - sum(`v`.`vote` = 0) AS `displayVotes` FROM (((((`offering` `o` join `business` `b` on(`o`.`businessIdPk` = `b`.`businessIdPk`)) join `interestarea` `i` on(`o`.`offeringCategory` = `i`.`interestAreaIdPk`)) join `location` `l` on(`o`.`locationIdPk` = `l`.`locationIdPk`)) join `offeringpricing` `op` on(`o`.`offeringPriceRange` = `op`.`offeringPriceRange`)) left join `vote` `v` on(`v`.`offeringIdPk` = `o`.`offeringIdPk`)) GROUP BY `o`.`offeringIdPk`, `b`.`businessName`, `o`.`offeringName`, `i`.`interestAreaName`, `l`.`locationName`, `o`.`offeringDescription`, `o`.`offeringDetails`, `o`.`offeringCulturalBenefits`, `o`.`offeringAwards`, `o`.`offeringImage`, `op`.`offeringPriceRangeDescription` ;
 
 --
 -- Indexes for dumped tables
@@ -341,6 +438,7 @@ ALTER TABLE `location`
 --
 ALTER TABLE `offering`
   ADD PRIMARY KEY (`offeringIdPk`),
+  ADD UNIQUE KEY `uniqueOfferingPerBusiness` (`offeringName`,`businessIdPk`),
   ADD KEY `businessIdPk` (`businessIdPk`),
   ADD KEY `locationIdPk` (`locationIdPk`),
   ADD KEY `offeringPriceRange` (`offeringPriceRange`);
@@ -382,13 +480,13 @@ ALTER TABLE `vote`
 -- AUTO_INCREMENT for table `business`
 --
 ALTER TABLE `business`
-  MODIFY `businessIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `businessIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `council`
 --
 ALTER TABLE `council`
-  MODIFY `councilIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `councilIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `interestarea`
@@ -400,37 +498,37 @@ ALTER TABLE `interestarea`
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `locationIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `locationIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `offering`
 --
 ALTER TABLE `offering`
-  MODIFY `offeringIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `offeringIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `residentIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `residentIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `residentinterests`
 --
 ALTER TABLE `residentinterests`
-  MODIFY `residentInterestIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `residentInterestIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `userIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `vote`
 --
 ALTER TABLE `vote`
-  MODIFY `voteIdPk` int(13) NOT NULL AUTO_INCREMENT;
+  MODIFY `voteIdPk` int(13) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -453,15 +551,13 @@ ALTER TABLE `location`
 --
 ALTER TABLE `offering`
   ADD CONSTRAINT `offering_ibfk_1` FOREIGN KEY (`businessIdPk`) REFERENCES `business` (`businessIdPk`),
-  ADD CONSTRAINT `offering_ibfk_2` FOREIGN KEY (`locationIdPk`) REFERENCES `location` (`locationIdPk`),
-  ADD CONSTRAINT `offering_ibfk_3` FOREIGN KEY (`offeringPriceRange`) REFERENCES `offering` (`offeringIdPk`);
+  ADD CONSTRAINT `offering_ibfk_2` FOREIGN KEY (`locationIdPk`) REFERENCES `location` (`locationIdPk`);
 
 --
 -- Constraints for table `resident`
 --
 ALTER TABLE `resident`
-  ADD CONSTRAINT `resident_ibfk_1` FOREIGN KEY (`locationIdPk`) REFERENCES `location` (`locationIdPk`),
-  ADD CONSTRAINT `resident_ibfk_2` FOREIGN KEY (`userIdPk`) REFERENCES `user` (`userIdPk`);
+  ADD CONSTRAINT `resident_ibfk_1` FOREIGN KEY (`locationIdPk`) REFERENCES `location` (`locationIdPk`);
 
 --
 -- Constraints for table `residentinterests`
