@@ -1,26 +1,28 @@
 
 <?php
-    // var_dump($_POST);
-    // exit;
-    
+    session_start();
     include 'config.php';
-    if (isset($_POST["loc_id_pk"])){
-        if (isset($_POST["loc_name"])){
-            $loc_id_pk = $_POST["loc_id_pk"];
-            $loc_name = $_POST["loc_name"];
-            $edit_query = "UPDATE council SET loc_name = '$loc_name' WHERE loc_id_pk = $loc_id_pk";
-            $result = $connection->query($edit_query);
-            if ($result) {
-                echo "Location updated";
-                header("Location: /cultureconnect/EditLocations.php");
-                exit;
+    if (isset($_POST["locationIdPk"])){
+        if (isset($_POST["locationName"])){
+            $loc_id_pk = $_POST["locationIdPk"];
+            $loc_name = $_POST["locationName"];
+            $councilIdPk = $_POST["councilIdPk"];
+
+            $stmt = $connection->prepare("UPDATE location SET locationName = ? WHERE locationIdPk = ?");
+            $stmt->bind_param("si", $loc_name, $loc_id_pk);
+
+            if ($stmt->execute()) {
+                if (isset($_SESSION['role']) && isset($_SESSION['role_id'])){
+                     if ($_SESSION['role'] == 3) {
+                        header("Location: ../03EditCouncil.php?locationUpdateSuccess=true", TRUE, 303);
+                     } else if ($_SESSION['role'] == 4) {
+                        header("Location: ../03EditCouncil.php?councilIdPk=" . $councilIdPk . "&locationUpdateSuccess=true" , TRUE, 303);
+                     }
+                }
             }
             else {
-                echo "Error";
+                throw new Exception("Error updating location name to '$loc_name' for ID: $loc_id_pk - " . $stmt->error);
             }
         }
     }
 ?>
-
-
-

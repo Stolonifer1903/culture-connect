@@ -1,15 +1,17 @@
 <?php
     include 'config.php';
-    if (isset($_GET["of_id_pk"])){
-        $of_id_pk = $_GET["of_id_pk"];
-        $delete_query = "DELETE FROM offering WHERE of_id_pk = $of_id_pk";
-        $result = $connection->query($delete_query);
-        if ($result) {
-            echo "Offering deleted";
-            header("Location: ../04ManageOfferings.php");
-        }
-        else {
-            echo "Error";
+    session_start();
+    if (isset($_GET["offeringIdPk"])){
+        $of_id_pk = $_GET["offeringIdPk"];
+        $stmt = $connection->prepare("DELETE FROM offering WHERE offeringIdPk = ?");
+        $stmt->bind_param("i", $of_id_pk);
+        
+        if ($stmt->execute()) {
+            $redirect_page = ($_SESSION['role'] == 4) ? '97ManageOfferingsAdmin.php' : '04ManageOfferings.php';
+            header("Location: ../$redirect_page");
+            exit;
+        } else {
+            throw new Exception("Error deleting offering ID: $of_id_pk - " . $stmt->error);
         }
     }
 ?>

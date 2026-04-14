@@ -16,12 +16,22 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 // 4. Set a Global Exception Handler
 set_exception_handler(function ($e) {
-    // Log the actual secure error message to our file behind the scenes
-    error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
+    // Collect context for better debugging
+    $url = $_SERVER['REQUEST_URI'] ?? 'Unknown URL';
+    $userId = $_SESSION['userIdPk'] ?? 'Guest';
+    $role = $_SESSION['role'] ?? 'None';
+    $context = "[URI: $url] [User: $userId] [Role: $role]";
+
+    // Log the detailed error message
+    error_log("Uncaught Exception: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine() . " " . $context);
 
     // Redirect the user to our friendly error page
-    // Adjust the path if your error.php isn't in the same folder relative to the script running
-    header("Location: /culture-connect/CultureConnect/error.php");
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    if (strpos($scriptName, '/include/') !== false) {
+        header("Location: ../error.php");
+    } else {
+        header("Location: error.php");
+    }
     exit();
 });
 
@@ -35,4 +45,19 @@ $database = "CultureConnect";
 // Since mysqli_report is set to STRICT, if this fails, it will 
 // throw an exception and automatically trigger our set_exception_handler above!
 $connection = new mysqli($servername, $username, $password, $database);
+
+// 6. Function to require admin role for protected pages
+if (!function_exists('requireAdminRole')) {
+    function requireAdminRole() {
+        // Check if user is logged in
+        if (!isset($_SESSION['role'])) {
+            throw new Exception("Unauthorized access - Admin access required");
+        }
+        
+        // Check if user has admin role (role 4)
+        if ($_SESSION['role'] != 4) {
+            throw new Exception("Unauthorized access - Admin access required");
+        }
+    }
+}
 ?>

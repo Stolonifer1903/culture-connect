@@ -1,36 +1,57 @@
 <?php
     include 'config.php';
-    if (isset($_GET["of_id_pk"])){
-        $of_id_pk = $_GET["of_id_pk"];
+    if (isset($_GET["offeringIdPk"])){
+        $of_id_pk = $_GET["offeringIdPk"];
         //get offering info from the view_offerings view
-        $stmt = $connection->prepare("SELECT * FROM view_offerings WHERE of_id_pk = ?");
+        $stmt = $connection->prepare("SELECT * FROM view_offerings WHERE offeringIdPk = ?");
         $stmt->bind_param("i", $of_id_pk);
         $stmt->execute();
         $result = $stmt->get_result();
         
-        if ($result) {
+        if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $bus_name = $row["bus_name"];
-            $of_name = $row["of_name"] ;
-            $int_name = $row["int_name"] ;
-            $loc_name = $row["loc_name"] ;
-            $of_description = $row["of_description"] ;
-            $of_details = $row["of_details"] ;
-            $of_cultural_benefits = $row["of_cultural_benefits"] ;
-            $of_price_range_description = $row["of_price_range_description"] ; 
+            $of_bus_name = $row["businessName"];
+            $of_name = $row["offeringName"] ;
+            $of_int_name = $row["interestAreaName"] ;
+            $of_loc_name = $row["locationName"] ;
+            $of_description = $row["offeringDescription"] ;
+            $of_details = $row["offeringDetails"] ;
+            $of_cultural_benefits = $row["offeringCulturalBenefits"] ;
+            $of_awards = $row["offeringAwards"] ; 
+            $of_price_range_description = $row["offeringPriceRangeDescription"] ; 
+            $of_yes_votes = $row["yesVotes"];
+            $of_no_votes = $row["noVotes"];
+            $votes = $of_yes_votes - $of_no_votes;
+            $of_picture = ($row['offeringImage']) ? $row['offeringImage'] : 'placeholder.jpg';
             
-            // echo $bus_name;
-            // echo $of_name;
-            // echo $int_name;
-            // echo $loc_name;
-            // echo $of_description;
-            // echo $of_details;
-            // echo $of_cultural_benefits;
-            // echo $of_price_range_description;
+            $stmt = $connection->prepare("SELECT businessIdPk FROM offering WHERE offeringIdPk = ?");
+            $stmt->bind_param("i", $of_id_pk);
+            $stmt->execute();
+            $result2 = $stmt->get_result();
+
+            if ($result2->num_rows > 0) {
+                $row2 = $result2->fetch_assoc();
+                $bus_id = $row2["businessIdPk"];
+            } else {
+            throw new Exception("Error fetching business ID for offering ID: $of_id_pk - " . $stmt->error);
+            }   
 
         }
         else {
-            echo "Error";
+            throw new Exception("Error fetching offering details for ID: $of_id_pk - " . $stmt->error);
         }
+    } else {
+        $of_bus_name = "";
+        $of_name = "";
+        $of_int_name = "";
+        $of_loc_name = "";
+        $of_description = "";
+        $of_details = "";
+        $of_cultural_benefits = "";
+        $of_awards = "";
+        $of_price_range_description = "";
+        $of_yes_votes = 0;
+        $of_no_votes = 0;
+        $votes = $of_yes_votes - $of_no_votes;
     }
 ?>

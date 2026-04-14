@@ -1,3 +1,39 @@
-[29-Mar-2026 11:54:19 Europe/London] Uncaught Exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/06ViewOfferings.php on line 35
-[29-Mar-2026 11:57:07 Europe/London] Uncaught Exception: Unknown column 'location' in 'where clause' in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/06ViewOfferings.php on line 37
-[29-Mar-2026 12:05:03 Europe/London] Uncaught Exception: Unknown column 'loc_id_fk' in 'where clause' in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/06ViewOfferings.php on line 37
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $bus_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 37
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $bus_phone in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 42
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $bus_email in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 47
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $bus_link in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 52
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $bus_bio in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 57
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 02:04:47 Europe/London] PHP Warning:  Undefined variable $counc_name in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditBusiness.php on line 73
+[14-Apr-2026 03:12:04 Europe/London] Uncaught Exception: Unauthorized access - Admin access required in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/config.php on line 47
+[14-Apr-2026 03:12:07 Europe/London] PHP Fatal error:  Cannot redeclare requireAdminRole() (previously declared in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/config.php:46) in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/config.php on line 44
+[14-Apr-2026 03:12:11 Europe/London] PHP Fatal error:  Cannot redeclare requireAdminRole() (previously declared in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/config.php:46) in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/config.php on line 44
+[14-Apr-2026 03:14:31 Europe/London] Uncaught Exception: Unauthorized access - Admin access required in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/config.php on line 48
+[14-Apr-2026 03:16:11 Europe/London] Uncaught Exception: Unauthorized access - Admin access required in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/config.php on line 53
+[14-Apr-2026 03:28:07 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/updateUser.php on line 80
+[14-Apr-2026 03:32:34 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/updateUser.php on line 80
+[14-Apr-2026 03:34:47 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/updateUser.php on line 80
+[14-Apr-2026 04:45:20 Europe/London] PHP Warning:  Undefined array key "councilIdPk" in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditCouncil.php on line 23
+[14-Apr-2026 04:46:15 Europe/London] PHP Warning:  Undefined array key "councilIdPk" in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditCouncil.php on line 23
+[14-Apr-2026 04:46:39 Europe/London] PHP Warning:  Undefined array key "councilIdPk" in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditCouncil.php on line 23
+[14-Apr-2026 04:46:42 Europe/London] PHP Warning:  Undefined array key "councilIdPk" in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditCouncil.php on line 23
+[14-Apr-2026 04:49:04 Europe/London] PHP Warning:  Undefined array key "councilIdPk" in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditCouncil.php on line 23
+[14-Apr-2026 04:55:22 Europe/London] PHP Warning:  Undefined variable $stmt in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getCouncilInfo.php on line 13
+[14-Apr-2026 04:55:22 Europe/London] PHP Warning:  Attempt to read property "error" on null in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getCouncilInfo.php on line 13
+[14-Apr-2026 04:55:22 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getCouncilInfo.php on line 13
+[14-Apr-2026 04:58:24 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getCouncilInfo.php on line 29
+[14-Apr-2026 05:01:11 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getCouncilInfo.php on line 29
+[14-Apr-2026 05:10:39 Europe/London] PHP Warning:  Undefined array key "councilIdPk" in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/03EditCouncil.php on line 23
+[14-Apr-2026 05:10:57 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getCouncilInfo.php on line 29
+[14-Apr-2026 05:21:57 Europe/London] PHP Warning:  Undefined variable $stmt in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getBusinessInfo.php on line 13
+[14-Apr-2026 05:21:57 Europe/London] PHP Warning:  Attempt to read property "error" on null in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getBusinessInfo.php on line 13
+[14-Apr-2026 05:21:57 Europe/London] Uncaught Exception: Error -  in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/getBusinessInfo.php on line 13
+[14-Apr-2026 05:57:07 Europe/London] Uncaught Exception: Cannot delete or update a parent row: a foreign key constraint fails (`cultureconnect`.`offering`, CONSTRAINT `offering_ibfk_2` FOREIGN KEY (`locationIdPk`) REFERENCES `location` (`locationIdPk`)) in /Applications/XAMPP/xamppfiles/htdocs/culture-connect/CultureConnect/include/deleteLocation.php on line 10 [URI: /culture-connect/CultureConnect/include/deleteLocation.php?locationIdPk=3&councilIdPk=10] [User: Guest] [Role: 4]
