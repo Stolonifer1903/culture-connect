@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2026 at 06:06 PM
+-- Generation Time: Apr 14, 2026 at 04:32 PM
 -- Server version: 10.5.29-MariaDB
 -- PHP Version: 8.5.3
 
@@ -32,7 +32,7 @@ CREATE TABLE `business` (
   `businessName` varchar(200) NOT NULL,
   `businessDescription` varchar(200) DEFAULT NULL,
   `businessEmail` varchar(200) DEFAULT NULL,
-  `businessPhone` int(13) DEFAULT NULL,
+  `businessPhone` varchar(13) DEFAULT NULL,
   `businessLink` varchar(200) DEFAULT NULL,
   `councilIdPk` int(13) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
