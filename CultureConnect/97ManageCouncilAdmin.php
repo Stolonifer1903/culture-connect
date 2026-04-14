@@ -14,7 +14,8 @@
     <!--Session start-->
     <?php
     session_start();
-    include('include/config.php')
+    include('include/config.php');
+    requireAdminRole();
         ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
