@@ -17,15 +17,72 @@
     include 'include/getCouncilInfo.php';
     if (isset($_SESSION['role'])){
         $role = $_SESSION['role'];
-        if ($role == 3 && isset($_SESSION['role_id'])){
-        $council = $_SESSION['role_id'];
-        } else if ($role == 4) {
-        $council = $_GET['councilIdPk'];
-        }
+        // $council is already set by include/getCouncilInfo.php
     }
     ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
+
+    <!-- Success Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <?php
+            if (isset($_GET['councilUpdateSuccess']) && $_GET['councilUpdateSuccess'] == 'true') {
+                echo '<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="councilSuccessToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ✓ Council updated successfully!
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+            if (isset($_GET['locationAddSuccess']) && $_GET['locationAddSuccess'] == 'true') {
+                echo '<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="locationAddSuccessToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ✓ Location added successfully!
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+            if (isset($_GET['locationUpdateSuccess']) && $_GET['locationUpdateSuccess'] == 'true') {
+                echo '<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="locationUpdateSuccessToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ✓ Location updated successfully!
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+        ?>
+    </div>
+
+    <script>
+        // Show and auto-dismiss toasts
+        document.addEventListener('DOMContentLoaded', function() {
+            const councilToast = document.getElementById('councilSuccessToast');
+            const addLocationToast = document.getElementById('locationAddSuccessToast');
+            const updateLocationToast = document.getElementById('locationUpdateSuccessToast');
+            
+            if (councilToast) {
+                const toast = new bootstrap.Toast(councilToast, { delay: 4000 });
+                toast.show();
+            }
+            
+            if (addLocationToast) {
+                const toast = new bootstrap.Toast(addLocationToast, { delay: 4000 });
+                toast.show();
+            }
+            
+            if (updateLocationToast) {
+                const toast = new bootstrap.Toast(updateLocationToast, { delay: 4000 });
+                toast.show();
+            }
+        });
+    </script>
+
     <!--Page heading-->
     <section class="text-left py-5" style="background-color:#ACC8A2;">
         <h1><div class="container"> Edit council details</div></h1>
@@ -41,11 +98,7 @@
                         <td><label for="councilname">Council Name:</label></td>
                         <?php echo"<td><input type='text' id='councilname' name='councilname' required size='65%' value='" . $name . "'></td>";?>
                     </tr>
-                    <!-- Contact phone number -->
-                    <tr>
-                        <td><label for="phone">Phone number:</label></td>
-                        <td><input type="text" id="phone" name="phone"  size="65%"></td>
-                    </tr>
+
                     <!-- Contact email -->
                     <tr>
                         <td><label for="email">Contact:</label></td>
@@ -56,11 +109,7 @@
                         <td><label for="website">Web site:</label></td>
                         <?php echo"<td><input type='text' id='website' name='website' required size='65%' value='" . $link . "'></td>";?>
                     </tr>
-                    <!-- council biography -->
-                    <tr>
-                        <td><label for="councilbio">Council biography:</label></td>
-                        <td><textarea id="councilbio" name="councilbio" rows="4" cols="68"></textarea></td>
-                    </tr>
+
                     <!-- Submit or cancel-->
                     <tr>
                         <td><label for=""></label></td>
@@ -68,6 +117,7 @@
                             <table>
                                 <tr>
                                     <td>
+                                        <?php echo "<input type='hidden' name='councilIdPk' value='" . $council . "'>"; ?>
                                         <input class='btn btn-custom btn-sm' style="margin-right:25px;" type="submit"
                                             value="Update" name="update">
                                         <input class='btn btn-secondary btn-sm' style="margin-right:25px"
