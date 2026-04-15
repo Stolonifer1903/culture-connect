@@ -18,8 +18,7 @@
 
             if ($check->num_rows > 0) {
                 // email already exists, don't insert
-                echo "User email already exists";
-                exit;
+                throw new Exception("Error: user email already exists");
             } else {
                 //update new user in the table
                 $stmt1 = $connection->prepare("INSERT INTO user(userEmail, userFirstName, userLastName, userTitle, userPassword, userRole, roleId) VALUES (?, ?, ?, ?, ?, ?, -1)");
@@ -88,8 +87,7 @@
             if ($resultC && $rowC = $resultC->fetch_assoc()) {
                 $council_id = $rowC["councilIdPk"];
             } else {
-                echo "Error: Council not found.";
-                exit;
+                throw new Exception("Error: councilIdPk not found");
             }
 
             // Check if business name already exists
@@ -99,18 +97,17 @@
             $check->store_result();
 
             if ($check->num_rows > 0) {
-                // Business already exists, don't insert
-                echo "Business already exists";
-                exit;
+                // Business already exists, don't insert. get id
+                $check->bind_result($bus_id);
+                $check->fetch();
             } else {
                 // Business doesn't exist, safe to insert
                 $stmt3 = $connection->prepare("INSERT INTO business(businessName, councilIdPk) VALUES (?, ?)");
                 $stmt3->bind_param("si", $bus_name, $council_id);
                 $stmt3->execute();
+                //get last record number for next operations
+                $bus_id = $connection->insert_id;
             }
-
-            //get last record number for next operations
-            $bus_id = $connection->insert_id;
 
             //insert bus_id_pk into user table
             $stmt2 = $connection->prepare("UPDATE user SET roleId = ? WHERE userIdPk = ?");
@@ -128,8 +125,7 @@
             if ($resultC && $rowC = $resultC->fetch_assoc()) {
                 $council_id = $rowC["councilIdPk"];
             } else {
-                echo "Error: Council not found.";
-                exit;
+                throw new Exception("Error: councilIdPk not found");
             }
 
             //insert counc_id_pk into user table
@@ -137,11 +133,16 @@
             $stmt2->bind_param("ii", $council_id, $last_id);
             $stmt2->execute();
         }
-
+        session_start();
         if (isset($stmt1) && $stmt1->affected_rows > 0) { //TODO - update to include 
-            include 'login.php';
-            header('Location: ../00Home.php', TRUE, 303);
-            exit;
+            if ($_SESSION['role'] !=4) {
+                include 'login.php';
+                header('Location: ../00Home.php', TRUE, 303);
+                exit;
+            } else {
+                header('Location: ../97ManageUsersAdmin.php', TRUE, 303);
+                exit;
+            }
         } else {
             throw new Exception("Error during registration process.");
         }

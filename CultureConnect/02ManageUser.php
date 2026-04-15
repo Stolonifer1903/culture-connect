@@ -318,10 +318,12 @@
                         </td></table>
                     </tr>
                 </table>
+                <input type="hidden" id="role" name="role" value="<?php echo $role?>">
+                <input type="hidden" id="role_id" name="role_id" value="<?php echo $role_id?>">
+                <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id?>">
             </form>
         </div>
     </section>
-
     <!-- Change Password Modal -->
     <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -350,6 +352,9 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Update Password</button>
                     </div>
+                    <input type="hidden" id="role" name="role" value="<?php echo $role?>">
+                    <input type="hidden" id="role_id" name="role_id" value="<?php echo $role_id?>">
+                    <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id?>">
                 </form>
             </div>
         </div>
@@ -361,12 +366,27 @@
             // Get the user type from the session variable
             let user_type = <?php echo isset($_SESSION['role']) ? $_SESSION['role'] : 1 ?>;
             console.log("toggleFieldsManageUser called with: " + user_type);
+            const urlParams = new URLSearchParams(window.location.search);
+            let url_role = parseInt(urlParams.get('role'));
+            console.log("URL params role: " + url_role);
+
             if (user_type===2) {
                 toggleFieldsManageUser('business');
             } else if (user_type===3) {
                 toggleFieldsManageUser('council');
             } else if (user_type===4) {
+                if (url_role===1){
+                    user_type=1;
+                    toggleFieldsManageUser('resident');
+                } else if (url_role===2){
+                    user_type=2;
+                    toggleFieldsManageUser('business'); 
+                }else if (url_role===3){
+                    user_type=3;
+                    toggleFieldsManageUser('council'); 
+                } else {
                 toggleFieldsManageUser('admin');
+                }
             } else {
                 toggleFieldsManageUser('resident')
             }

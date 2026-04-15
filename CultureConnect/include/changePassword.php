@@ -8,7 +8,7 @@
             throw new Exception("User not logged in - cannot change password");
         }
         
-        $user_id = $_SESSION['user_id'];
+        $user_id = $POST['user_id'];
         $current_password = $_POST["current_password"];
         $new_password = $_POST["new_password"];
         $confirm_password = $_POST["confirm_password"];

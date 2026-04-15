@@ -133,6 +133,12 @@
             </form>
         </div>
     </section>
+    <?php 
+    if ($_SESSION['role'] == 4) {
+        echo "<h3 style='margin-left:250px'>Offerings</h3>";
+        include('include/manageOfferingsSection.php');
+    }
+     ?>
     <!-- Gets the footer from a central location -->
     <div id='footer'><?php include('templates/template_footer.php'); ?></div>
 </body>

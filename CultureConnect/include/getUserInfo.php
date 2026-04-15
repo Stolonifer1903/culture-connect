@@ -1,8 +1,15 @@
 <?php
     include 'config.php';
     if (isset($_SESSION['role']) || isset($_SESSION['role_id'])){
-        $user_id = $_SESSION['user_id'];
-        $role_id = $_SESSION['role_id'];
+        if ($_SESSION['role'] == 4 && isset($_GET['uId'])){
+            $user_id = $_GET['uId'];
+            $role_id = $_GET['rId'];
+            $role = $_GET['role'];
+        } else {
+            $user_id = $_SESSION['user_id'];
+            $role_id = $_SESSION['role_id'];
+            $role = $_SESSION['role'];
+        }
         //get user info from the user table
         $stmt = $connection->prepare("SELECT * FROM user WHERE userIdPk = ?");
         $stmt->bind_param("i", $user_id);
@@ -15,10 +22,10 @@
             $title = $row["userTitle"] ;
             $email = $row["userEmail"] ;
         } else {
-            echo "Error";
+            throw new Exception("Error fetching user information for user ID: $user_id - " . $stmt->error);
         }
     
-        if ($_SESSION['role'] == 1) {
+        if ($role == 1) {
             //get resident details from the resident table
             $stmt = $connection->prepare("SELECT * FROM resident WHERE residentIdPk = ?");
             $stmt->bind_param("i", $role_id);

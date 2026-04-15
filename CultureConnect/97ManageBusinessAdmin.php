@@ -43,11 +43,12 @@
                     <tr>
                     <th>ID</th>
                     <th>Business name</th>
-                    <th>Business description</th>
+                    <th width=25%>Business description</th>
                     <th>Business email</th>
                     <th>Business phone</th>
                     <th>Business link</th>
                     <th>Council ID</th>
+                    <th>Offerings</th>
                     <th>Actions</th>
                     </tr>
                 </thead>
@@ -55,7 +56,7 @@
                     <!-- TODO: UPDATE PHP -->
                     <?php
                     include 'include/config.php';
-                    $sql = "SELECT * FROM business";
+                    $sql = "SELECT b.*, COUNT(o.offeringIdPk) AS offerings FROM business b LEFT JOIN offering o ON b.businessIdPk=o.businessIdPK GROUP BY businessIdPk";
                     $result = $connection->query($sql);
                     if (!$result) {
                         throw new Exception("Invalid query: " . $connection->error);
@@ -70,6 +71,7 @@
                             <td>" . $row["businessPhone"] . "</td>
                             <td>" . $row["businessLink"] . "</td>
                             <td>" . $row["councilIdPk"] . "</td>
+                            <td>" . $row["offerings"] . "</td>
                             <td>
                                 <a class='btn btn-primary btn-sm' href='03EditBusiness.php?businessIdPk=$row[businessIdPk]'>Update</a>
                                 <a class='btn btn-danger btn-sm' href='include/deleteBusiness.php?businessIdPk=$row[businessIdPk]'>Delete</a>
