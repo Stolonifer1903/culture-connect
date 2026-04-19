@@ -56,6 +56,16 @@
                         </div>
                     </div>';
             }
+            if (isset($_GET['deleteError']) && $_GET['deleteError'] == 'hasDependencies') {
+                echo '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="deleteErrorToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ⚠ Cannot delete: This item has associated data (e.g., offerings or locations).
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
         ?>
     </div>
 
@@ -65,6 +75,7 @@
             const councilToast = document.getElementById('councilSuccessToast');
             const addLocationToast = document.getElementById('locationAddSuccessToast');
             const updateLocationToast = document.getElementById('locationUpdateSuccessToast');
+            const deleteErrorToast = document.getElementById('deleteErrorToast');
             
             if (councilToast) {
                 const toast = new bootstrap.Toast(councilToast, { delay: 4000 });
@@ -79,6 +90,19 @@
             if (updateLocationToast) {
                 const toast = new bootstrap.Toast(updateLocationToast, { delay: 4000 });
                 toast.show();
+            }
+
+            if (deleteErrorToast) {
+                const toast = new bootstrap.Toast(deleteErrorToast, { delay: 6000 });
+                toast.show();
+            }
+
+            // Clear the URL parameters after showing the toasts to prevent re-display on refresh
+            if (window.history.replaceState) {
+                const url = new URL(window.location);
+                const paramsToClear = ['councilUpdateSuccess', 'locationAddSuccess', 'locationUpdateSuccess', 'deleteError'];
+                paramsToClear.forEach(param => url.searchParams.delete(param));
+                window.history.replaceState({}, document.title, url.pathname + url.search);
             }
         });
     </script>

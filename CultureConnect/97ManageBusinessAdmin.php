@@ -19,6 +19,40 @@
         ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
+
+    <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <?php
+            if (isset($_GET['deleteError']) && $_GET['deleteError'] == 'hasDependencies') {
+                echo '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="deleteErrorToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ⚠ Cannot delete: This business has associated offerings or other data.
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+        ?>
+    </div>
+
+    <script>
+        // Show and auto-dismiss toasts
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteErrorToast = document.getElementById('deleteErrorToast');
+            if (deleteErrorToast) {
+                const toast = new bootstrap.Toast(deleteErrorToast, { delay: 6000 });
+                toast.show();
+
+                // Clear the URL parameter after showing the toast to prevent re-display on refresh
+                if (window.history.replaceState) {
+                    const url = new URL(window.location);
+                    url.searchParams.delete('deleteError');
+                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                }
+            }
+        });
+    </script>
     <!--Page heading-->
     <section class="text-left py-5" style="background-color:#ACC8A2;">
         <h1>
@@ -83,6 +117,7 @@
             </table>
         </div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
 </body>
