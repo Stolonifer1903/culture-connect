@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="css/style.css" rel="stylesheet">
+    <script src="js/formValidation.js"></script>
 </head>
 
 <body>
@@ -32,20 +33,20 @@
                     <div class="card no-hover border-0 shadow-sm p-4">
                         <div class="card-body">
                             
-                            <form name="login" method="post" action="include/login.php">
+                            <form id="loginForm" name="login" method="post" action="include/login.php" novalidate>
                                 <table class="table table-borderless" style="width: 100%;">
                                     <tr>
                                         <td class="text-start">Email Address: *</td>
-                                        <td><input type="text" name="email" class="form-control"/></td>
+                                        <td><input type="email" name="email" id="email" class="form-control"/></td>
                                     </tr>
                                     <tr>
                                         <td class="text-start">Password: *</td>
-                                        <td><input type="password" name="password" class="form-control"/></td>
+                                        <td><input type="password" name="password" id="password" class="form-control"/></td>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <td class="text-start"><input class='btn btn-custom' style="margin-top:20px" type="submit" value="Log in" name="login">
-                                        <input class='btn btn-secondary' style="margin-top:20px; margin-left:25px"action="action" type="button" value="Cancel" onclick="window.history.go(-1); return false;"></td>
+                                        <input class='btn btn-secondary' style="margin-top:20px; margin-left:25px" action="action" type="button" value="Cancel" onclick="window.history.go(-1); return false;"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
@@ -58,10 +59,8 @@
                         </div>
                         <?php
                         if (isset($_SESSION['error'])) {
-                            echo "<p color: red>" . $_SESSION['error'] . "</p>";
+                            echo '<div class="alert alert-danger mt-3" role="alert">' . htmlspecialchars($_SESSION['error']) . '</div>';
                             unset($_SESSION['error']);
-                        } else {
-                            echo "<p></p>";
                         }
                         ?>
                     </div>
@@ -71,6 +70,22 @@
     </section>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            
+            if (!FormValidation.validateEmail(email)) isValid = false;
+            if (!FormValidation.validateRequired(password, 'Password is required.')) isValid = false;
+            
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

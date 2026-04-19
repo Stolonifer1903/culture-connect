@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="css/style.css" rel="stylesheet">
     <script src ="js/toggleFieldsRegisterUser.js"></script>
+    <script src ="js/formValidation.js"></script>
 </head>
 
 <body>
@@ -52,7 +53,7 @@
     <!-- Enter registration details -->
     <section class = "text-left py-2">
         <div class = "container" id="register_user_" >
-            <form id="AddUser" name="AddUser" action="include/addUser.php" method="post" width=65%>
+            <form id="AddUser" name="AddUser" action="include/addUser.php" method="post" width=65% novalidate>
                 <table class="table">
                     <tr>
                         <td><label for="title_select">Title:</label></td>
@@ -282,6 +283,45 @@
             toggleFieldsRegisterUser('resident')
         }
         // console.log("user_type value:", document.getElementById("user_type").value);
+
+        document.getElementById('AddUser').addEventListener('submit', function(e) {
+            let isValid = true;
+            const userType = document.getElementById('user_type').value;
+            
+            // Base fields
+            const firstname = document.getElementById('firstname');
+            const lastname = document.getElementById('lastname');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            
+            if (!FormValidation.validateMinLength(firstname, 2, 'First name must be at least 2 characters.')) isValid = false;
+            if (!FormValidation.validateMinLength(lastname, 2, 'Last name must be at least 2 characters.')) isValid = false;
+            if (!FormValidation.validateEmail(email)) isValid = false;
+            if (!FormValidation.validateMinLength(password, 8, 'Password must be at least 8 characters.')) isValid = false;
+            
+            // Role specific fields
+            if (userType === '1') { // Resident
+                const location = document.getElementById('location_select');
+                if (!FormValidation.validateSelect(location, 'Please select your location.')) isValid = false;
+            } else if (userType === '2') { // Business
+                const busName = document.getElementById('bus_name');
+                const council = document.getElementById('council_select');
+                if (!FormValidation.validateRequired(busName, 'Business name is required.')) isValid = false;
+                if (!FormValidation.validateSelect(council, 'Please select a council.')) isValid = false;
+            } else if (userType === '3') { // Council
+                const council = document.getElementById('council_select');
+                if (!FormValidation.validateSelect(council, 'Please select a council.')) isValid = false;
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                // Scroll to first error
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
     </script>
     
 </body>

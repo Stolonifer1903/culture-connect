@@ -8,12 +8,17 @@
             $bus_id = $_SESSION["role_id"];
         }
 
-        $bus_name = $_POST["businessname"];
-        $bus_bio = $_POST["businessbio"] ;
-        $bus_email = $_POST["email"] ;
-        $bus_phone = $_POST["phone"] ;
-        $bus_link = $_POST["website"] ;
-        $counc_name = $_POST["council_select"];
+        $bus_name = trim($_POST["businessname"] ?? '');
+        $bus_bio = trim($_POST["businessbio"] ?? '');
+        $bus_email = trim($_POST["email"] ?? '');
+        $bus_phone = trim($_POST["phone"] ?? '');
+        $bus_link = trim($_POST["website"] ?? '');
+        $counc_name = trim($_POST["council_select"] ?? '');
+
+        if (empty($bus_name) || empty($bus_email) || empty($bus_phone) || empty($bus_link) || empty($counc_name)) {
+            header('Location: ../03EditBusiness.php?businessIdPk=' . $bus_id . '&updateError=' . urlencode('Please fill in all required fields.'), TRUE, 303);
+            exit;
+        }
 
         //get council id from the council table based on council name using prepared statement
         $stmt_council = $connection->prepare("SELECT councilIdPk FROM council WHERE councilName = ?");
