@@ -37,6 +37,18 @@
             </table>
         </div>
     </section> -->
+    <!-- Error banner (shown when redirected back from addUser.php with an error) -->
+    <?php if (!empty($_GET['error'])): ?>
+        <section class="py-2">
+            <div class="container">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Registration failed:</strong> <?php echo htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </section>
+    <?php endif; ?>
+
     <!-- Enter registration details -->
     <section class = "text-left py-2">
         <div class = "container" id="register_user_" >
