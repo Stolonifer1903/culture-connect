@@ -9,13 +9,13 @@
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if($result && $result->num_rows > 0) {
+    if($result) {
         $liked_offerings = array();
         while ($row = $result->fetch_assoc()) {
             $liked_offerings[] = $row['offeringIdPk'];
         }
     } else {
-        throw new Exception("Error - " . $stmt->error);
+        throw new Exception("Error fetching liked offerings - " . $stmt->error);
     }
     //echo $close_locations;
 ?>

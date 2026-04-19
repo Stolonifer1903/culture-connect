@@ -1,11 +1,22 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include 'config.php';
 
-$selected_locations = $_POST['locations'] ?? [];    //return selected locations or an empty array
-$selected_prices = $_POST['prices'] ?? [];          //return selected prices or an empty array
-$selected_products = $_POST['products'] ?? [];      //return selected products or an empty array
-$selected_services = $_POST['services'] ?? [];      //return selected services or an empty array
-$selected_orderby = $_POST['orderby'] ?? 'popular';
+$selected_locations = $selected_locations ?? ($_REQUEST['locations'] ?? []);
+$selected_prices = $selected_prices ?? ($_REQUEST['prices'] ?? []);
+$selected_products = $selected_products ?? ($_REQUEST['products'] ?? []);
+$selected_services = $selected_services ?? ($_REQUEST['services'] ?? []);
+$selected_orderby = $selected_orderby ?? ($_REQUEST['orderby'] ?? 'popular');
+$voted_only = $voted_only ?? ($_REQUEST['voted_only'] ?? 'false');
+
+if (!isset($liked_offerings)) {
+    if (isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+        // getLikedOfferingsInfo.php already includes getUserInfo.php to get $role_id
+        include_once 'getLikedOfferingsInfo.php';
+    }
+}
 
 include 'buildFilterQuery.php';                     //get the correct query string
 

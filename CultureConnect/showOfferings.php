@@ -14,11 +14,12 @@
     <?php
     session_start();
     include ('include/config.php');
-    $selected_locations = $_GET['locations'] ?? [];
-    $selected_prices = $_GET['prices'] ?? [];
-    $selected_services = $_GET['services'] ?? [];
-    $selected_products = $_GET['products'] ?? [];
-    $selected_orderby = $_GET['orderby'] ?? 'popular';
+    $selected_locations = $_REQUEST['locations'] ?? [];
+    $selected_prices = $_REQUEST['prices'] ?? [];
+    $selected_services = $_REQUEST['services'] ?? [];
+    $selected_products = $_REQUEST['products'] ?? [];
+    $selected_orderby = $_REQUEST['orderby'] ?? 'popular';
+    $voted_only = $_REQUEST['voted_only'] ?? 'false';
 
     include('include/buildFilterQuery.php');
     //echo "<br>Full query is: " . $filter_query;
@@ -26,7 +27,7 @@
         if ($_SESSION['role'] == 1) {
         include 'include/getUserInfo.php'; 
         include 'include/getCloseLocationInfo.php'; 
-        //
+        include 'include/getLikedOfferingsInfo.php';
         }
     } else {
         //
@@ -44,7 +45,7 @@
     <section class="py-3">
         <div class="container">
             <div class="input-group mb-2">
-                <input type="text" class="form-control" id="search_input" placeholder="Search offerings">
+                <input type="text" class="form-control" id="search_input" placeholder="Search offerings" value="<?php echo htmlspecialchars($_REQUEST['search_term'] ?? ''); ?>">
                 <button class="btn btn-light" type="button" onclick="doSearch()">Search</button>
                 <br>
             </div>
@@ -55,7 +56,7 @@
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleCloseToMe(this)" id="closeToMe">Close to me</button>
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleABitFurtherAway(this)" id="furtherAway">A bit further away</button>
                 <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleMyInterests(this)" id="myInterests">My interests</button>
-                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="togglemyVoted(this)" id="myVoted">My voted items</button>
+                <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="button" style="margin-right:5px;" onclick="toggleMyVoted(this)" id="myVoted">My voted items</button>
             </div>
             <div style="margin-top:5px; margin-right:5px;">
                 <span style="margin-left:10px; margin-right:30px">Sort:</span>
@@ -114,7 +115,7 @@
                 $price_open = !empty($selected_prices) ? 'true' : 'false';
                 $price_show = !empty($selected_prices) ? 'show' : '';
                 ?>
-                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#price_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
+                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#price_select' role='button' aria-expanded='<?php echo $price_open;?>' aria-controls='price_select'>
                     <b>Price range</b><i class="bi bi-chevron-down"></i></a>
                 <div class="row">
                     <div class="col">
@@ -149,7 +150,7 @@
                 $services_open = !empty($selected_services) ? 'true' : 'false';
                 $services_show = !empty($selected_services) ? 'show' : '';
                 ?>
-                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#services_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
+                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#services_select' role='button' aria-expanded='<?php echo $services_open;?>' aria-controls='services_select'>
                     <b>Services</b><i class="bi bi-chevron-down"></i></a>
                 <div class="row">
                     <div class="col">
@@ -183,7 +184,7 @@
                 $products_open = !empty($selected_products) ? 'true' : 'false';
                 $products_show = !empty($selected_products) ? 'show' : '';
                 ?>
-                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#products_select' role='button' aria-expanded='<?php echo $location_open;?>' aria-controls='location_select'>
+                <a class='collapse-heading text-dark text-decoration-none d-flex justify-content-between align-items-center' data-bs-toggle='collapse' href='#products_select' role='button' aria-expanded='<?php echo $products_open;?>' aria-controls='products_select'>
                     <b>Products</b><i class="bi bi-chevron-down"></i></a>
                 <div class="row">
                     <div class="col">
@@ -212,8 +213,9 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" id="orderby" name="orderby" value="popular"> <!-- order by search terms -->
-                <input type="hidden" id="search_term" name="search_term" value=""> <!-- search bar input -->
+                <input type="hidden" id="orderby" name="orderby" value="<?php echo htmlspecialchars($selected_orderby); ?>"> <!-- order by search terms -->
+                <input type="hidden" id="search_term" name="search_term" value="<?php echo htmlspecialchars($_REQUEST['search_term'] ?? ''); ?>"> <!-- search bar input -->
+                <input type="hidden" id="voted_only" name="voted_only" value="<?php echo htmlspecialchars($voted_only); ?>"> <!-- voted items only -->
             </form>
             <hr>
         </div>
