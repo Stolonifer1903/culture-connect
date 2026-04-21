@@ -7,6 +7,7 @@
     <title>Edit business</title>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css' rel='stylesheet'>
     <link href='css/style.css' rel='stylesheet'>
+    <script src='js/formValidation.js'></script>
 </head>
 
 <body>
@@ -32,6 +33,16 @@
                         </div>
                     </div>';
             }
+            if (isset($_GET['updateError'])) {
+                echo '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="updateErrorToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ⚠ ' . htmlspecialchars($_GET['updateError']) . '
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
         ?>
     </div>
 
@@ -43,6 +54,12 @@
             
             if (businessToast) {
                 const toast = new bootstrap.Toast(businessToast, { delay: 4000 });
+                toast.show();
+            }
+
+            const updateErrorToast = document.getElementById('updateErrorToast');
+            if (updateErrorToast) {
+                const toast = new bootstrap.Toast(updateErrorToast, { delay: 6000 });
                 toast.show();
             }
         });
@@ -59,7 +76,7 @@
     <section class='text-left py-3'>
         <div class='container'>
             <!-- Table containing business details -->
-            <form id='edit_bus' name='edit_bus' action='include/editBusiness.php' method='post'>
+            <form id='edit_bus' name='edit_bus' action='include/editBusiness.php' method='post' novalidate>
                 <table class='table'>
                     <!-- Business name -->
                     <tr>
@@ -141,6 +158,21 @@
      ?>
     <!-- Gets the footer from a central location -->
     <div id='footer'><?php include('templates/template_footer.php'); ?></div>
+
+    <script>
+        document.getElementById('edit_bus').addEventListener('submit', function(e) {
+            let isValid = true;
+            if (!FormValidation.validateRequired(document.getElementById('businessname'), 'Business name is required.')) isValid = false;
+            if (!FormValidation.validatePhone(document.getElementById('phone'))) isValid = false;
+            if (!FormValidation.validateEmail(document.getElementById('email'))) isValid = false;
+            if (!FormValidation.validateUrl(document.getElementById('website'))) isValid = false;
+            if (!FormValidation.validateSelect(document.getElementById('council_select'), 'Please select a council.')) isValid = false;
+            
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

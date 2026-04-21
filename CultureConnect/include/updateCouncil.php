@@ -11,9 +11,14 @@
             $id = $_SESSION["role_id"];
         }
 
-        $name = $_POST["councilname"];
-        $email = $_POST["email"] ;
-        $link = $_POST["website"] ;
+        $name = trim($_POST["councilname"] ?? '');
+        $email = trim($_POST["email"] ?? '');
+        $link = trim($_POST["website"] ?? '');
+
+        if (empty($name) || empty($email) || empty($link)) {
+            header('Location: ../03EditCouncil.php?councilIdPk=' . $id . '&updateError=' . urlencode('Please fill in all required fields.'), TRUE, 303);
+            exit;
+        }
    
         $stmt = $connection->prepare("UPDATE council SET councilName = ?, councilContact = ?, councilLink = ? WHERE councilIdPk = ?");
         $stmt->bind_param("sssi", $name, $email, $link, $id);

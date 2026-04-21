@@ -8,7 +8,7 @@
         $offerings_filter = null;
 
         //search bar conditions
-        $search_term = $_POST['search_term'] ?? null;
+        $search_term = $_REQUEST['search_term'] ?? null;
         $search_filter = null;
         if (!empty($search_term)) {
             $term = $connection->real_escape_string($search_term);
@@ -23,7 +23,7 @@
             $locations = $selected_locations;
             $locs = "";
             foreach ($locations as $location) {
-                $locs = "'" . $location . "', " . $locs;
+                $locs = "'" . $connection->real_escape_string($location) . "', " . $locs;
             }
             $location_filter = " locationName IN (" . substr($locs, 0, -2) . ")";
         }
@@ -33,7 +33,7 @@
             $prices = $selected_prices;
             $pr = "";
             foreach ($prices as $price) {
-                $pr = "'" . $price . "', " . $pr;
+                $pr = "'" . $connection->real_escape_string($price) . "', " . $pr;
             }
             $price_filter = " offeringPriceRangeDescription IN (" . substr($pr, 0, -2)  . ")";
         }
@@ -44,9 +44,20 @@
             $offerings = $selected_offerings;
             $off = "";
             foreach ($offerings as $offering) {
-                $off = "'" . $offering . "', " . $off;
+                $off = "'" . $connection->real_escape_string($offering) . "', " . $off;
             }
             $offerings_filter = " interestAreaName IN (" . substr($off, 0, -2)  . ")";
+        }
+
+        //voted items conditions
+        $voted_filter = null;
+        if (isset($voted_only) && $voted_only == 'true') {
+            if (!empty($liked_offerings)) {
+                $voted_filter = " offeringIdPk IN (" . implode("," , $liked_offerings) . ")";
+            } else {
+                // If user wants voted only but hasn't voted on anything, ensure no results
+                $voted_filter = " 1=0 ";
+            }
         }
         
         $order_by = " ORDER BY LOWER (";
@@ -69,14 +80,12 @@
                     break;
                 default:
                     $order_by .= "offeringIdPk)";
-    }
-}
+            }
+        }
 
-        $conditions = array_filter([$price_filter, $location_filter, $offerings_filter, $search_filter]);
+        $conditions = array_filter([$price_filter, $location_filter, $offerings_filter, $search_filter, $voted_filter]);
         if (!empty($conditions)) {
             $filter_query = $main_query . " WHERE " . implode(" AND ", $conditions) . " " . $order_by;
-        // } else if (!empty($liked_offerings)) {
-        //     $filter_query = $main_query . " WHERE offeringIdPk IN (" . implode("," , $liked_offerings) . ")" . $order_by;
         }else {
             $filter_query = $main_query . $order_by;
         }

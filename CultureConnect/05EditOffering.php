@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="css/style.css" rel="stylesheet">
+    <script src="js/formValidation.js"></script>
 </head>
 
 <body>
@@ -42,7 +43,7 @@
     <section class="text-left py-3">
         <div class="container">
             <!-- Table containing offering -->
-            <form id="editoffering" name="editoffering" action="include/updateOffering.php?offeringIdPk=<?php echo $of_id;?>" method="post" enctype="multipart/form-data">
+            <form id="editoffering" name="editoffering" action="include/updateOffering.php?offeringIdPk=<?php echo $of_id;?>" method="post" enctype="multipart/form-data" novalidate>
                 <table class="table">
                     <?php
                     if ($role ==4){
@@ -189,5 +190,18 @@
     </section>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
+
+    <script>
+        document.getElementById('editoffering').addEventListener('submit', function(e) {
+            let isValid = true;
+            if (!FormValidation.validateSelect(document.getElementById('location_select'), 'Please select a location.')) isValid = false;
+            if (!FormValidation.validateSelect(document.getElementById('category'), 'Please select a category.')) isValid = false;
+            if (!FormValidation.validateRequired(document.getElementById('offering_name'), 'Offering name is required.')) isValid = false;
+            
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>

@@ -5,11 +5,18 @@
         $stmt = $connection->prepare("DELETE FROM council WHERE councilIdPk = ?");
         $stmt->bind_param("i", $council_id_pk);
         
-        if ($stmt->execute()) {
-            header("Location: ../97ManageCouncilAdmin.php");
-            exit;
-        } else {
-            throw new Exception("Error deleting council ID: $council_id_pk - " . $stmt->error);
+        try {
+            if ($stmt->execute()) {
+                header("Location: ../97ManageCouncilAdmin.php");
+                exit;
+            }
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1451) {
+                header("Location: ../97ManageCouncilAdmin.php?deleteError=hasDependencies");
+                exit;
+            } else {
+                throw $e;
+            }
         }
     } else {
         throw new Exception("Error - councilIdPk not provided for deletion");

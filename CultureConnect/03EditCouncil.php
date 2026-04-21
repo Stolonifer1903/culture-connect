@@ -7,6 +7,7 @@
     <title>Edit council</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <script src="js/formValidation.js"></script>
 </head>
 
 <body>
@@ -56,6 +57,26 @@
                         </div>
                     </div>';
             }
+            if (isset($_GET['deleteError']) && $_GET['deleteError'] == 'hasDependencies') {
+                echo '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="deleteErrorToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ⚠ Cannot delete: This item has associated data (e.g., offerings or locations).
+                            </div>
+                             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+            if (isset($_GET['updateError'])) {
+                echo '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="updateErrorToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ⚠ ' . htmlspecialchars($_GET['updateError']) . '
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
         ?>
     </div>
 
@@ -65,6 +86,7 @@
             const councilToast = document.getElementById('councilSuccessToast');
             const addLocationToast = document.getElementById('locationAddSuccessToast');
             const updateLocationToast = document.getElementById('locationUpdateSuccessToast');
+            const deleteErrorToast = document.getElementById('deleteErrorToast');
             
             if (councilToast) {
                 const toast = new bootstrap.Toast(councilToast, { delay: 4000 });
@@ -80,6 +102,25 @@
                 const toast = new bootstrap.Toast(updateLocationToast, { delay: 4000 });
                 toast.show();
             }
+
+            if (deleteErrorToast) {
+                const toast = new bootstrap.Toast(deleteErrorToast, { delay: 6000 });
+                toast.show();
+            }
+
+            const updateErrorToast = document.getElementById('updateErrorToast');
+            if (updateErrorToast) {
+                const toast = new bootstrap.Toast(updateErrorToast, { delay: 6000 });
+                toast.show();
+            }
+
+            // Clear the URL parameters after showing the toasts to prevent re-display on refresh
+            if (window.history.replaceState) {
+                const url = new URL(window.location);
+                const paramsToClear = ['councilUpdateSuccess', 'locationAddSuccess', 'locationUpdateSuccess', 'deleteError', 'updateError'];
+                paramsToClear.forEach(param => url.searchParams.delete(param));
+                window.history.replaceState({}, document.title, url.pathname + url.search);
+            }
         });
     </script>
 
@@ -91,7 +132,7 @@
     <section class="text-left py-3">
         <div class="container">
             <!-- Table containing council details -->
-            <form id="edit_bus" name="edit_bus" action="include/updateCouncil.php" method="post">
+            <form id="edit_council" name="edit_bus" action="include/updateCouncil.php" method="post" novalidate>
                 <table class="table">
                     <!-- council name -->
                     <tr>
@@ -137,7 +178,7 @@
     </section>
     <section class="text-left py-3">
         <div class="container">
-            <form id="AddLoc" name="AddLoc" action="include/addLocation.php" method="post">
+            <form id="AddLoc" name="AddLoc" action="include/addLocation.php" method="post" novalidate>
                 <table class="table">
                     <tr>
                         <td>
@@ -197,9 +238,9 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="updaterModalTitle">Update Location Name</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="RenameLocation" name="RenameLocation" action="include/updateLocation.php" method="post">
+            <form id="RenameLocation" name="RenameLocation" action="include/updateLocation.php" method="post" novalidate>
             <div class="modal-body">
                     <input type="text" id="locationName" name="locationName" required size="40%">
                     <input type='hidden' id='locationIdPk' name='locationIdPk'>
@@ -220,6 +261,31 @@
             const button = event.relatedTarget;
             document.getElementById('locationIdPk').value = button.getAttribute('data-value');
             document.getElementById('locationName').value = button.getAttribute('data-value2');
+            FormValidation.clearError(document.getElementById('locationName'));
+        });
+
+        // Council form validation
+        document.getElementById('edit_council').addEventListener('submit', function(e) {
+            let isValid = true;
+            if (!FormValidation.validateRequired(document.getElementById('councilname'), 'Council name is required.')) isValid = false;
+            if (!FormValidation.validateEmail(document.getElementById('email'))) isValid = false;
+            if (!FormValidation.validateUrl(document.getElementById('website'))) isValid = false;
+            
+            if (!isValid) e.preventDefault();
+        });
+
+        // Add location form validation
+        document.getElementById('AddLoc').addEventListener('submit', function(e) {
+            if (!FormValidation.validateMinLength(document.getElementById('addLocation'), 2, 'Location name must be at least 2 characters.')) {
+                e.preventDefault();
+            }
+        });
+
+        // Rename location modal validation
+        document.getElementById('RenameLocation').addEventListener('submit', function(e) {
+            if (!FormValidation.validateMinLength(document.getElementById('locationName'), 2, 'Location name must be at least 2 characters.')) {
+                e.preventDefault();
+            }
         });
     </script>
     <!-- Gets the footer from a central location -->

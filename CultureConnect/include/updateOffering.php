@@ -12,12 +12,25 @@
         //get variables
         $location = $_POST["location_select"];
         $category = $_POST["category"];
-        $name = $_POST["offering_name"];
+        $of_id = $_POST["offeringIdPk"] ?? '';
+        $of_name = trim($_POST["offering_name"] ?? '');
         $description = $_POST["description"];
         $details = $_POST["details"];
         $cultural_benefit = $_POST["cultural_benefit"];
         $price_range = $_POST["price_range"];
-        $business = $_POST["business_select"];; //TODO: Update when session variables in place
+        $business = $_POST["business_select"];
+
+        // Server-side validation
+        if (empty($of_name) || empty($category) || empty($location)) {
+            $redirect_url = '../05EditOffering.php';
+            if (!empty($of_id)) {
+                $redirect_url .= '?offeringIdPk=' . $of_id . '&';
+            } else {
+                $redirect_url .= '?';
+            }
+            header('Location: ' . $redirect_url . 'error=' . urlencode('Please fill in all required fields (Name, Category, Location).'), TRUE, 303);
+            exit;
+        }
 
         //get location id from the location table based on the name
         $stmt = $connection->prepare("SELECT locationIdPk FROM location WHERE locationName = ?");
@@ -50,13 +63,13 @@
             $stmt = $connection->prepare("UPDATE offering SET businessIdPk = ?, offeringCategory = ?, locationIdPk = ?, offeringName = ?, 
                                         offeringDescription = ?, offeringDetails = ?, offeringCulturalBenefits = ?, offeringPriceRange = ?
                                             WHERE offeringIdPk = ?");
-            $stmt->bind_param("iiissssii", $business, $category_id, $location_id, $name, $description, $details, $cultural_benefit,$price_id, $of_id_pk);
+            $stmt->bind_param("iiissssii", $business, $category_id, $location_id, $of_name, $description, $details, $cultural_benefit,$price_id, $of_id_pk);
             
         } else { //otherwise insert a new entry into the table
             $stmt = $connection->prepare("INSERT INTO offering(businessIdPk, offeringCategory, locationIdPk, offeringName, offeringDescription, offeringDetails, 
                                         offeringCulturalBenefits, offeringPriceRange) 
                                         VALUES (?, ?, ?, ?, ?, ?, ?, ? )");
-            $stmt->bind_param("iiissssi", $business, $category_id, $location_id, $name, $description, $details, $cultural_benefit, $price_id);
+            $stmt->bind_param("iiissssi", $business, $category_id, $location_id, $of_name, $description, $details, $cultural_benefit, $price_id);
         }
         $stmt->execute();
 
