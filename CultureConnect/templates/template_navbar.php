@@ -33,7 +33,6 @@
                         echo "  <a id='home' class='nav-link d-inline' href='00Home.php'>Home</a>
                                 <a id='edit_profile' class='nav-link d-inline' href='02ManageUser.php'>Edit profile</a>
                                 <a id='edit_busines' class='nav-link d-inline' href='03EditCouncil.php'>Edit council details</a>
-                                <a id='manage_offerings'class='nav-link d-inline' href='#'>Manage offerings</a>
                                 <a id='log_out' class='nav-link d-inline' href='include/logout.php'>Log out</a>";
                     } else if ($_SESSION['role'] == 4) {
                         echo "  <a id='home' class='nav-link d-inline' href='00Home.php'>Home</a>

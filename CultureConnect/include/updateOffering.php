@@ -16,6 +16,7 @@
         $of_name = trim($_POST["offering_name"] ?? '');
         $description = $_POST["description"];
         $details = $_POST["details"];
+        $awards = $_POST["awards"];
         $cultural_benefit = $_POST["cultural_benefit"];
         $price_range = $_POST["price_range"];
         $business = $_POST["business_select"];
@@ -61,15 +62,15 @@
         if (!empty($_POST["offeringIdPk"])){ //if offering id exists update the entry that is already there
             $of_id_pk = $_POST["offeringIdPk"];
             $stmt = $connection->prepare("UPDATE offering SET businessIdPk = ?, offeringCategory = ?, locationIdPk = ?, offeringName = ?, 
-                                        offeringDescription = ?, offeringDetails = ?, offeringCulturalBenefits = ?, offeringPriceRange = ?
+                                        offeringDescription = ?, offeringDetails = ?, offeringCulturalBenefits = ?, offeringPriceRange = ?, offeringAwards = ?
                                             WHERE offeringIdPk = ?");
-            $stmt->bind_param("iiissssii", $business, $category_id, $location_id, $of_name, $description, $details, $cultural_benefit,$price_id, $of_id_pk);
+            $stmt->bind_param("iiissssisi", $business, $category_id, $location_id, $of_name, $description, $details, $cultural_benefit,$price_id, $awards, $of_id_pk );
             
         } else { //otherwise insert a new entry into the table
             $stmt = $connection->prepare("INSERT INTO offering(businessIdPk, offeringCategory, locationIdPk, offeringName, offeringDescription, offeringDetails, 
-                                        offeringCulturalBenefits, offeringPriceRange) 
-                                        VALUES (?, ?, ?, ?, ?, ?, ?, ? )");
-            $stmt->bind_param("iiissssi", $business, $category_id, $location_id, $of_name, $description, $details, $cultural_benefit, $price_id);
+                                        offeringCulturalBenefits, offeringPriceRange, offeringAwards) 
+                                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? )");
+            $stmt->bind_param("iiissssis", $business, $category_id, $location_id, $of_name, $description, $details, $cultural_benefit, $price_id, $awards);
         }
         $stmt->execute();
 
