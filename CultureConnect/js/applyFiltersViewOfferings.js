@@ -23,6 +23,9 @@
                 });
             }
         }
+
+        // Bug 5: Hide role-gated buttons immediately at script load to prevent flash
+        userVisibility();
     
     //<!--get the toggle filter state and call getFilteredOfferings.php -->
         function applyFilters(replace = false) {
@@ -105,23 +108,31 @@
                 const servicesCheckbox = document.querySelector('input[name="services[]"][value="' + interest + '"]');
                 if (servicesCheckbox) servicesCheckbox.checked = true; 
             })
-            allProducts.classList.toggle('active',false); 
-            allServices.classList.toggle('active',false); 
-            myVoted.classList.toggle('active',false);
+            allProductsButton.classList.toggle('active',false); 
+            allServicesButton.classList.toggle('active',false); 
+            myVotedButton.classList.toggle('active',false);
         }
         applyFilters();
         }
 
     //<!-- toggle my voted items button -->
         function toggleMyVoted(btn) {
-        // const checkboxes = document.querySelectorAll('input[name="products[]"], input[name="services[]"]'); //gets all the products and services checkboxes
-        // checkboxes.forEach(cb => cb.checked = false);                           //uncheck all the boxes
-        // const myVotes = <?php echo json_encode($votes); ?>; //get the user interests from the database                   
-        // const isToggled = btn.classList.contains('active');
-        // allProducts.classList.toggle('active',false); 
-        // allServices.classList.toggle('active',false);
-        // myInterests.classList.toggle('active',false);
-        // applyFilters();
+            const votedOnlyInput = document.getElementById('voted_only');
+            const isActive = btn.classList.contains('active');
+            
+            // Toggle the hidden input value
+            votedOnlyInput.value = isActive ? 'true' : 'false';
+            
+            if (isActive) {
+                // Clear 'all' buttons and checkboxes if we are filtering by voted items
+                const checkboxes = document.querySelectorAll('input[name="products[]"], input[name="services[]"]');
+                checkboxes.forEach(cb => cb.checked = false);
+                allProductsButton.classList.toggle('active', false);
+                allServicesButton.classList.toggle('active', false);
+                myInterestsButton.classList.toggle('active', false);
+            }
+            
+            applyFilters();
         }
 
     //<!-- set the order by input -->
@@ -158,6 +169,12 @@
                 const checkbox = document.querySelector('input[name="' + key + '"][value="' + value + '"]');             //find a checkbox with the key and value                          
                 if (checkbox) checkbox.checked = true;                                      //if there is a matching checkbox, check it
             }
+
+            // Bug 4: restore voted_only hidden input and button active state
+            const votedOnlyInput = document.getElementById('voted_only');
+            const votedOnlyParam = params.get('voted_only') ?? 'false';
+            votedOnlyInput.value = votedOnlyParam;
+            myVotedButton.classList.toggle('active', votedOnlyParam === 'true');
 
             //get the filtered offerings again from the url
             fetch('include/getFilteredOfferings.php', {     //gets the filtered offerings from the db without reloading the page

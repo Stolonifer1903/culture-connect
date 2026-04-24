@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"> 
     <link href="css/style.css" rel="stylesheet">
     <script src ="js/toggleFieldsManageUser.js"></script>
+    <script src ="js/formValidation.js"></script>
 </head>
 
 <body>
@@ -37,6 +38,16 @@
                             <div class="toast-body">
                                 ✓ Password changed successfully!
                             </div>
+                             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+            if (isset($_GET['passwordError'])) {
+                echo '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="passwordErrorToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ⚠ ' . htmlspecialchars($_GET['passwordError']) . '
+                            </div>
                             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
                     </div>';
@@ -59,6 +70,12 @@
                 const toast = new bootstrap.Toast(passwordToast, { delay: 4000 });
                 toast.show();
             }
+
+            const passwordErrorToast = document.getElementById('passwordErrorToast');
+            if (passwordErrorToast) {
+                const toast = new bootstrap.Toast(passwordErrorToast, { delay: 6000 });
+                toast.show();
+            }
         });
     </script>
 
@@ -67,7 +84,7 @@
     <!-- Enter registration details -->
     <section class = "text-left py-2">
         <div class = "container" id="register_user_" >
-            <form id="AddUser" name="AddUser" action="include/updateUser.php" method="post" width=65%>
+            <form id="AddUser" name="AddUser" action="include/updateUser.php" method="post" width=65% novalidate>
                 <table class="table">
                     
                     <tr>
@@ -318,10 +335,12 @@
                         </td></table>
                     </tr>
                 </table>
+                <input type="hidden" id="role" name="role" value="<?php echo $role?>">
+                <input type="hidden" id="role_id" name="role_id" value="<?php echo $role_id?>">
+                <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id?>">
             </form>
         </div>
     </section>
-
     <!-- Change Password Modal -->
     <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -330,7 +349,7 @@
                     <h5 class="modal-title" id="changePasswordLabel">Change Password</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="changePasswordForm" action="include/changePassword.php" method="post">
+                <form id="changePasswordForm" action="include/changePassword.php" method="post" novalidate>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="currentPassword" class="form-label">Current Password <span style="color: red;">*</span></label>
@@ -350,6 +369,9 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Update Password</button>
                     </div>
+                    <input type="hidden" id="role" name="role" value="<?php echo $role?>">
+                    <input type="hidden" id="role_id" name="role_id" value="<?php echo $role_id?>">
+                    <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id?>">
                 </form>
             </div>
         </div>
@@ -361,12 +383,27 @@
             // Get the user type from the session variable
             let user_type = <?php echo isset($_SESSION['role']) ? $_SESSION['role'] : 1 ?>;
             console.log("toggleFieldsManageUser called with: " + user_type);
+            const urlParams = new URLSearchParams(window.location.search);
+            let url_role = parseInt(urlParams.get('role'));
+            console.log("URL params role: " + url_role);
+
             if (user_type===2) {
                 toggleFieldsManageUser('business');
             } else if (user_type===3) {
                 toggleFieldsManageUser('council');
             } else if (user_type===4) {
+                if (url_role===1){
+                    user_type=1;
+                    toggleFieldsManageUser('resident');
+                } else if (url_role===2){
+                    user_type=2;
+                    toggleFieldsManageUser('business'); 
+                }else if (url_role===3){
+                    user_type=3;
+                    toggleFieldsManageUser('council'); 
+                } else {
                 toggleFieldsManageUser('admin');
+                }
             } else {
                 toggleFieldsManageUser('resident')
             }
@@ -380,21 +417,35 @@
                     const confirmPassword = document.getElementById('confirmPassword').value;
                     const passwordError = document.getElementById('passwordError');
                     
-                    if (newPassword !== confirmPassword) {
-                        e.preventDefault();
-                        passwordError.textContent = 'New passwords do not match!';
-                        passwordError.style.display = 'block';
-                        return false;
+                    let isValid = true;
+                    if (!FormValidation.validateRequired(document.getElementById('currentPassword'), 'Current password is required.')) isValid = false;
+                    if (!FormValidation.validateMinLength(document.getElementById('newPassword'), 8, 'New password must be at least 8 characters.')) isValid = false;
+                    
+                    if (isValid) {
+                        if (newPassword !== confirmPassword) {
+                            isValid = false;
+                            FormValidation.showError(document.getElementById('confirmPassword'), 'Passwords do not match!');
+                        }
                     }
                     
-                    if (newPassword.length === 0) {
+                    if (!isValid) {
                         e.preventDefault();
-                        passwordError.textContent = 'New password cannot be empty!';
-                        passwordError.style.display = 'block';
-                        return false;
                     }
+                });
+            }
+
+            // Profile form validation
+            const profileForm = document.getElementById('AddUser');
+            if (profileForm) {
+                profileForm.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    if (!FormValidation.validateMinLength(document.getElementById('firstname'), 2, 'First name must be at least 2 characters.')) isValid = false;
+                    if (!FormValidation.validateMinLength(document.getElementById('lastname'), 2, 'Last name must be at least 2 characters.')) isValid = false;
+                    if (!FormValidation.validateEmail(document.getElementById('email'))) isValid = false;
                     
-                    passwordError.style.display = 'none';
+                    if (!isValid) {
+                        e.preventDefault();
+                    }
                 });
             }
             

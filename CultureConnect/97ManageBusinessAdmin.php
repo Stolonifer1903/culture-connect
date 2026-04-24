@@ -19,6 +19,40 @@
         ?>
     <!-- Gets the header from a central location -->
     <div id="header"><?php include('templates/template_navbar.php'); ?></div>
+
+    <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <?php
+            if (isset($_GET['deleteError']) && $_GET['deleteError'] == 'hasDependencies') {
+                echo '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="deleteErrorToast">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ⚠ Cannot delete: This business has associated offerings or other data.
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>';
+            }
+        ?>
+    </div>
+
+    <script>
+        // Show and auto-dismiss toasts
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteErrorToast = document.getElementById('deleteErrorToast');
+            if (deleteErrorToast) {
+                const toast = new bootstrap.Toast(deleteErrorToast, { delay: 6000 });
+                toast.show();
+
+                // Clear the URL parameter after showing the toast to prevent re-display on refresh
+                if (window.history.replaceState) {
+                    const url = new URL(window.location);
+                    url.searchParams.delete('deleteError');
+                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                }
+            }
+        });
+    </script>
     <!--Page heading-->
     <section class="text-left py-5" style="background-color:#ACC8A2;">
         <h1>
@@ -43,11 +77,12 @@
                     <tr>
                     <th>ID</th>
                     <th>Business name</th>
-                    <th>Business description</th>
+                    <th width=25%>Business description</th>
                     <th>Business email</th>
                     <th>Business phone</th>
                     <th>Business link</th>
                     <th>Council ID</th>
+                    <th>Offerings</th>
                     <th>Actions</th>
                     </tr>
                 </thead>
@@ -55,7 +90,7 @@
                     <!-- TODO: UPDATE PHP -->
                     <?php
                     include 'include/config.php';
-                    $sql = "SELECT * FROM business";
+                    $sql = "SELECT b.*, COUNT(o.offeringIdPk) AS offerings FROM business b LEFT JOIN offering o ON b.businessIdPk=o.businessIdPK GROUP BY businessIdPk";
                     $result = $connection->query($sql);
                     if (!$result) {
                         throw new Exception("Invalid query: " . $connection->error);
@@ -70,6 +105,7 @@
                             <td>" . $row["businessPhone"] . "</td>
                             <td>" . $row["businessLink"] . "</td>
                             <td>" . $row["councilIdPk"] . "</td>
+                            <td>" . $row["offerings"] . "</td>
                             <td>
                                 <a class='btn btn-primary btn-sm' href='03EditBusiness.php?businessIdPk=$row[businessIdPk]'>Update</a>
                                 <a class='btn btn-danger btn-sm' href='include/deleteBusiness.php?businessIdPk=$row[businessIdPk]'>Delete</a>
@@ -81,6 +117,7 @@
             </table>
         </div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
 </body>

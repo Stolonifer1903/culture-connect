@@ -2,10 +2,11 @@
     include 'config.php';
     if (isset($_POST["update"])){
         session_start();
+
         //get variables
-        $user_type = $_SESSION["role"];
-        $user_id = $_SESSION["user_id"];
-        $role_id = $_SESSION["role_id"];
+        $user_type = $_POST["role"];
+        $user_id = $_POST["user_id"];
+        $role_id = $_POST["role_id"];
         $user_firstname = $_POST["firstname"];
         $user_lastname = $_POST["lastname"];
         $user_title = $_POST["title_select"];
@@ -17,7 +18,7 @@
         $stmt->execute();
 
         //perform additional actions based on user type
-        if ($user_type == '1') { //if the user is a resident
+        if ($user_type == 1) { //if the user is a resident
             //get resident variables
             $res_gender = $_POST["gender_select"];
             $res_yob = $_POST["yob"];
@@ -59,8 +60,11 @@
             }
         } 
 
-        if (!$stmt->error) { 
-            header('Location: ../02ManageUser.php?profileUpdateSuccess=true', TRUE, 303);
+        if (!$stmt->error) {
+            $redirect = $_SERVER['HTTP_REFERER'] ?? '../02ManageUser.php';
+            // add the success param
+            $separator = strpos($redirect, '?') !== false ? '&' : '?';
+            header('Location: ' . $redirect . $separator . 'profileUpdateSuccess=true', TRUE, 303);
             exit;
         } else {
             throw new Exception("Error updating user profile for ID: $user_id - " . $stmt->error);

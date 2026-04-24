@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit products and services</title>
+    <title>Offering details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -130,14 +130,20 @@
             </div>
         </div>
     </div>
-    <form id="of_vote" name="of_vote" action="include/voteOffering.php" method="post">
-        <input type="hidden" id="vote_type" name="vote_type" value="">
-        <input type="hidden" id="of_id" name="of_id" value=<?php echo $_GET["offeringIdPk"] ?>>
-    </form>
     <script>
-        function setVote(input){
-            document.getElementById('vote_type').value = input;
-            document.getElementById('of_vote').submit();
+        function setVote(input) {
+            const formData = new FormData();
+            formData.append('vote_type', input);
+            formData.append('of_id', <?php echo $_GET["offeringIdPk"]; ?>);
+            
+            fetch('include/voteOffering.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(r => r.text())
+            .then(() => {
+                location.reload(); // refresh to show updated vote counts
+            });
         }
     </script>
     <!-- Gets the footer from a central location -->

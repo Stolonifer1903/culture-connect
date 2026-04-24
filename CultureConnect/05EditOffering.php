@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="css/style.css" rel="stylesheet">
+    <script src="js/formValidation.js"></script>
 </head>
 
 <body>
@@ -42,7 +43,7 @@
     <section class="text-left py-3">
         <div class="container">
             <!-- Table containing offering -->
-            <form id="editoffering" name="editoffering" action="include/updateOffering.php?offeringIdPk=<?php echo $of_id;?>" method="post" enctype="multipart/form-data">
+            <form id="editoffering" name="editoffering" action="include/updateOffering.php?offeringIdPk=<?php echo $of_id;?>" method="post" enctype="multipart/form-data" novalidate>
                 <table class="table">
                     <?php
                     if ($role ==4){
@@ -72,7 +73,7 @@
                     <tr id="location">
                         <td><label for="location_select">Location:</label></td>
                         <td>
-                            <select id="location_select" name="location_select" width=50%>
+                            <select id="location_select" name="location_select" width=50%  onchange="updateCategories(this.value)">
                                 <option value="">Select location</option>
                                 <?php
                                 $sql = "SELECT locationName FROM location";
@@ -89,26 +90,30 @@
                         </td>
                     </tr>
                     <!--Offering category-->
-                    <!--Location TODO: Update list to remove unavailable options-->
                     <tr>
                         <td><label for="category">Category:</label></td>
                         <td>
                             <select id="category" name="category">
                                 <option value="">Select category</option>
                                 <?php
-                                $sql = "SELECT interestAreaName FROM interestarea";
-                                $result = $connection->query($sql);
-                                if (!$result) {
-                                    throw new Exception("Invalid query: " . $connection->error);
-                                }
+                                $offering_id = $of_id ?? 0;
+                                $stmt = $connection->prepare("SELECT interestAreaName FROM interestarea 
+                                    WHERE interestAreaIdPk NOT IN (
+                                        SELECT offeringCategory FROM offering 
+                                        WHERE locationIdPk = (SELECT locationIdPk FROM location WHERE locationName = ?)
+                                        AND offeringIdPk != ?
+                                    )");
+                                $stmt->bind_param("si", $of_loc_name, $offering_id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
                                 while ($row = $result->fetch_assoc()) {
-                                    $is_selected = ($row['interestAreaName'] == $of_int_name) ? 'selected' : '' ;
-                                    echo "<option id='" . $row['interestAreaName'] . "' value='" . $row['interestAreaName'] . "' " . $is_selected . ">" . $row['interestAreaName'] . "</option>";
+                                    $is_selected = ($row['interestAreaName'] == $of_int_name) ? 'selected' : '';
+                                    echo "<option value='" . $row['interestAreaName'] . "' " . $is_selected . ">" . $row['interestAreaName'] . "</option>";
                                 }
                                 ?>
                             </select>
-                            If a category is not shown, another business already has a product or service for offer
-                                in the location
+                            <br><small>If a category is not shown, another business already has a product or service for offer
+                                in the location</small>
                         </td>
                     </tr>
                     <!-- Offering name -->
@@ -134,6 +139,12 @@
                         <td><label for="cultural_benefit">Cultural benefit:</label></td>
                         <td><textarea id="cultural_benefit" name="cultural_benefit" rows="4" cols="68"
                                 maxlength="300"><?php echo (($of_cultural_benefits) ?  $of_cultural_benefits : "" );?></textarea></td>
+                    </tr>
+                    <!-- Cultural benefits -->
+                    <tr>
+                        <td><label for="awards">Awards:</label></td>
+                        <td><textarea id="awards" name="awards" rows="4" cols="68"
+                                maxlength="300"><?php echo (($of_awards) ?  $of_awards : "" );?></textarea></td>
                     </tr>
                     <tr>
                         <td><label for="price_range">Price range:</label></td>
@@ -183,5 +194,31 @@
     </section>
     <!-- Gets the footer from a central location -->
     <div id="footer"><?php include('templates/template_footer.php'); ?></div>
+
+    <script>
+        document.getElementById('editoffering').addEventListener('submit', function(e) {
+            let isValid = true;
+            if (!FormValidation.validateSelect(document.getElementById('location_select'), 'Please select a location.')) isValid = false;
+            if (!FormValidation.validateSelect(document.getElementById('category'), 'Please select a category.')) isValid = false;
+            if (!FormValidation.validateRequired(document.getElementById('offering_name'), 'Offering name is required.')) isValid = false;
+            
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+        function updateCategories(locationName) {
+            const currentCategory = "<?php echo $of_int_name ?? ''; ?>";
+            const offeringId = "<?php echo $of_id ?? 0; ?>";
+            
+            fetch('include/getAvailableCategories.php?location=' + encodeURIComponent(locationName) + '&offeringId=' + offeringId)
+                .then(r => r.text())
+                .then(html => {
+                    document.getElementById('category').innerHTML = html;
+                    // re-select current category if still available
+                    const option = document.querySelector('#category option[value="' + currentCategory + '"]');
+                    if (option) option.selected = true;
+                });
+        }
+    </script>
 </body>
 </html>
